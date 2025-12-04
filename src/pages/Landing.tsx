@@ -5,14 +5,14 @@ import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
 import Features from "../components/sections/Features";
 import CTA from "../components/sections/CTA";
+import LostPetsSection from "../components/sections/LostPetsSection";
 
 function Landing() {
     return (
         <>
             <Navbar />
             <Hero />
-            <Features />
-            <CTA />
+            <LostPetsSection />
             <Footer />
         </>
     );
