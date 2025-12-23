@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./page.module.css";
-import Login from "../credentials/login";
-import SignUp from "../credentials/signup";
+import Login from "../credentials/Login";
+import SignUp from "../credentials/Signup";
 
 function Auth() {
     const [mode, setMode] = useState<"login" | "signup">("login");
