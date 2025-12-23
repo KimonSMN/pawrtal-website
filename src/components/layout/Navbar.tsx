@@ -7,10 +7,12 @@ function Navbar() {
         <header className="w-full py-3 border-b-2 border-gray-300 bg-gray-100 top-0 left-0 fixed">
             <div className="px-4 flex justify-between items-center">
                 {/* Logo & Pawrtal text */}
-                <div className="flex items-center gap-3 hover:cursor-pointer">
-                    <img className="h-7" src={logo} alt="Pawrtal logo" />
-                    <div className="text-xl font-medium">Pawrtal</div>
-                </div>
+                <a href="/">
+                    <div className="flex items-center gap-3 hover:cursor-pointer">
+                        <img className="h-7" src={logo} alt="Pawrtal logo" />
+                        <div className="text-xl font-medium">Pawrtal</div>
+                    </div>
+                </a>
 
                 {/* Navigation */}
                 <nav className="flex items-center space-x-6 font-medium">
