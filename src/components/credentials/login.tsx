@@ -1,7 +1,9 @@
 import { useState } from "react";
 import styles from "./page.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+    const navigate = useNavigate();
     // User Login credentials
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -12,6 +14,7 @@ function Login() {
 
         formData.append("email", email);
         formData.append("password", password);
+        navigate("/vet/home");
     };
 
     return (

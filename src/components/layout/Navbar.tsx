@@ -4,7 +4,7 @@ import profile from "../../assets/profile.png";
 
 function Navbar() {
     return (
-        <header className="w-full py-3 border-b-2 border-gray-300 bg-gray-100 top-0 left-0 fixed">
+        <header className="w-full py-3 border-b-2 border-gray-300 bg-gray-100 top-0 left-0 fixed z-10">
             <div className="px-4 flex justify-between items-center">
                 {/* Logo & Pawrtal text */}
                 <a href="/">

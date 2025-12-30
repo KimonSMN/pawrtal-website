@@ -26,10 +26,11 @@ function SignUp() {
         // user sign up
         // New user api request to add new user
         // the vet profile component appears if user is eligible
+        navigate("/vet/home");
     };
 
     return (
-        <div className={styles.login}>
+        <div className={styles.sign_up}>
             <div className={styles.credentials}>
                 <form onSubmit={handleSubmit} className={styles.cred_form}>
                     {/* Register credentials */}

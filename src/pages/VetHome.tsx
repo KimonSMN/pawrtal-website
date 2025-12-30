@@ -1,16 +1,16 @@
 import React from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import Auth from "../components/credentials/Auth";
+import Home from "../components/vet/Home";
 
-function Vet() {
+function VetHome() {
     return (
         <>
             <Navbar />
-            <Auth />
+            <Home />
             <Footer />
         </>
     );
 }
 
-export default Vet;
+export default VetHome;
