@@ -1,6 +1,20 @@
 import React from "react";
 import styles from "./page.module.css";
 
+function Review({ person, date, review }) {
+    return (
+        <div
+            className="flex-1 bg-[#e5e5e5] m-auto p-4 min-w-auto rounded-2xl
+            flex flex-row justify-between items-center gap-4 max-w-full
+        "
+        >
+            <div className="flex-4 pr-12">{person}</div>
+            <div className="flex-1 ">{date}</div>
+            <div className="flex-1">{review}</div>
+        </div>
+    );
+}
+
 function Profile() {
     let person = "natalia Krikelli";
     let date = "12/05/2025";
@@ -125,15 +139,7 @@ function Profile() {
                     <div className="flex-1 ">Βαθμολογία</div>
                     <div className="flex-1">Ημερομηνία</div>
                 </div>
-                <div
-                    className="flex-1 bg-[#e5e5e5] m-auto p-4 min-w-auto rounded-2xl
-                    flex flex-row justify-between items-center gap-4 max-w-full
-                "
-                >
-                    <div className="flex-4 pr-12">{person}</div>
-                    <div className="flex-1 ">{date}</div>
-                    <div className="flex-1">{review}</div>
-                </div>
+                <Review person="natalia Krikelli" date="12/05/2025" review="4/5" />
             </div>
         </div>
     );
