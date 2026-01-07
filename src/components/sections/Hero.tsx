@@ -17,9 +17,11 @@ export default function Hero() {
                     Είμαι Ιδιοκτήτης
                 </button>
 
-                <button className="px-6 py-2 bg-gray-200 rounded-lg shadow hover:bg-gray-300">
-                    Είμαι Κτηνίατρος
-                </button>
+                <a href="/vet">
+                    <button className="px-6 py-2 bg-gray-200 rounded-lg shadow hover:bg-gray-300">
+                        Είμαι Κτηνίατρος
+                    </button>
+                </a>
             </div>
         </section>
     );
