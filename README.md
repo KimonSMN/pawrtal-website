@@ -59,9 +59,11 @@ Open url terminal points too using (ctrl + click).
 │   ├── components/
 │       ├── credentials/            # login, sign-up components
 │       ├── layout/                 # footer, Navbar components
+│       ├── models/                 # classes , structures
 │       ├── pets/
 │       ├── sections/
-│       └── vet/
+│       ├── vetPages/               # main home components
+│       └── vetSections/            # other components in the vet directory
 │   ├── pages/
 │       ├── Landing.tsx             # Welcome/Home page
 │       └── Vet.tsx                 # Vet Home page
