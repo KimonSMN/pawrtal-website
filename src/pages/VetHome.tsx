@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import Home from "../components/vet/Home";
+import Home from "../components/vetPages/Home";
 
 function VetHome() {
     return (

@@ -1,5 +1,7 @@
+import { useState } from "react";
+import { Info, MeetingStatus } from "../models/Info";
+
 /**
- *
  * @brief
  * Component to add old visits in the history page
  * @param person
@@ -23,7 +25,12 @@ function Visit({ person, procedure, date, health_record }) {
         >
             <div className="flex-1 pr-12">{person}</div>
             <div className="flex-1 ">{procedure}</div>
-            <div className="flex-1 ">{date}</div>
+            <div className="flex-1 ">
+                {date.toLocaleString("el-GR", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                })}
+            </div>
             <div className="flex-1">{health_record}</div>
         </div>
     );
@@ -31,7 +38,7 @@ function Visit({ person, procedure, date, health_record }) {
 
 /**
  * @brief
- * Same as the Visit function but different css for smaller screen/mobile view
+ * Component to add old visits in the history page with css for smaller-screen/mobile view
  * @param person
  * Pet owner
  * @param procedure
@@ -57,7 +64,12 @@ function VisitCard({ person, procedure, date, health_record }) {
             <div className="flex justify-between items-center">
                 <div>
                     <span className="font-semibold text-sm text-gray-500">Ημερομηνία</span>
-                    <div>{date}</div>
+                    <div>
+                        {date.toLocaleString("el-GR", {
+                            dateStyle: "short",
+                            timeStyle: "short",
+                        })}
+                    </div>
                 </div>
 
                 <div className="text-xl">{health_record}</div>
@@ -66,11 +78,33 @@ function VisitCard({ person, procedure, date, health_record }) {
     );
 }
 
-export default function History() {
-    // Name Variable for the pet owners
-    let person1 = "Μαρια Γεωργιου";
-    let person2 = "Αντώνης Ρικου";
-    let person3 = "Κώστας Κινετης";
+export default function OldAppointments() {
+    const [history, setHistoty] = useState<Info[]>([
+        new Info(
+            "Μαρια Γεωργιου",
+            "Εμβολιο",
+            new Date(15 - 11 - 2025),
+            "Γατα",
+            "125434556",
+            MeetingStatus.Completed,
+        ),
+        new Info(
+            "Αντώνης Ρίκου",
+            "Check-up",
+            new Date(13 - 11 - 2025),
+            "Γατα",
+            "192343556",
+            MeetingStatus.Completed,
+        ),
+        new Info(
+            "Κώστας Κινέτη",
+            "Εμβόλιο",
+            new Date(27 - 10 - 2025),
+            "Σκυλος",
+            "122234256",
+            MeetingStatus.Completed,
+        ),
+    ]);
     return (
         <div
             className="
@@ -95,34 +129,31 @@ export default function History() {
                     <div className="flex-1">Ημερομηνία</div>
                     <div className="flex-1">Βιβλιάριο</div>
                 </div>
-                <Visit person={person1} procedure="Εμβολιο" date="15/11/2025" health_record="↓" />
-                <Visit person={person2} procedure="check-up" date="13/11/2025" health_record="↓" />
-                <Visit person={person3} procedure="στείρωση" date="27/10/2025" health_record="↓" />
+                {history.map((info, index) => (
+                    <Visit
+                        key={index}
+                        person={info.name}
+                        procedure={info.procedure}
+                        date={info.date}
+                        health_record="↓"
+                    />
+                ))}
             </div>
             <div
                 className="
-                sm:hidden flex flex-col items-center pl-5 pr-5 pb-5 gap-4 max-h-[350px] overflow-y-auto
+                sm:hidden flex flex-col items-center pr-5 pb-5 gap-4 max-h-[350px] overflow-y-auto
                 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full
                 "
             >
-                <VisitCard
-                    person={person1}
-                    procedure="Εμβολιο"
-                    date="15/11/2025"
-                    health_record="↓"
-                />
-                <VisitCard
-                    person={person2}
-                    procedure="check-up"
-                    date="13/11/2025"
-                    health_record="↓"
-                />
-                <VisitCard
-                    person={person3}
-                    procedure="στείρωση"
-                    date="27/10/2025"
-                    health_record="↓"
-                />
+                {history.map((info, index) => (
+                    <VisitCard
+                        key={index}
+                        person={info.name}
+                        procedure={info.procedure}
+                        date={info.date}
+                        health_record="↓"
+                    />
+                ))}
             </div>
         </div>
     );

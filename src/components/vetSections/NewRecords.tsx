@@ -1,0 +1,153 @@
+import { useState } from "react";
+import styles from "./page.module.css";
+import { Record } from "../models/Info";
+
+type NewRecordsProps = {
+    records: Record[];
+    setRecords: React.Dispatch<React.SetStateAction<Record[]>>;
+};
+
+function NewRecords({ records, setRecords }: NewRecordsProps) {
+    const [formData, setFormData] = useState({
+        species: "",
+        ownerName: "",
+        condition: "",
+        petId: "",
+        age: 0,
+        gender: "",
+        ownerStatus: "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({ ...prev, [id]: value }));
+    };
+
+    const handleSubmit = () => {
+        const newRecord = new Record(
+            formData.species,
+            formData.ownerName,
+            formData.condition as any,
+            formData.petId,
+            Number(formData.age),
+            formData.gender as any,
+            formData.ownerStatus as any,
+        );
+
+        setRecords((prev) => [...prev, newRecord]);
+
+        console.log("New record added:", newRecord);
+    };
+
+    return (
+        <div className="flex-1 flex flex-col items-center">
+            <div
+                className="
+                flex-1 flex flex-col items-start p-8 gap-5 w-[calc(100%+2rem)]
+                sm:flex-row  
+                "
+            >
+                <div className="flex-1 flex flex-col items-center justify-center text-left">
+                    <label className="flex flex-col">
+                        Ειδος κατοικίδιου
+                        <input
+                            value={formData.species}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="species"
+                            type="text"
+                            placeholder="πχ. Σκυλος"
+                        />
+                    </label>
+
+                    <label className="flex flex-col">
+                        Ονοματεπωνυμο Ιδιοκτήτη
+                        <input
+                            value={formData.ownerName}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="ownerName"
+                            type="text"
+                            placeholder="Ονοματεπωνυμο"
+                        />
+                    </label>
+                    <label className="flex flex-col">
+                        Κατασταση Κατοικίδιου
+                        <select
+                            value={formData.condition}
+                            className={styles.profile_tag}
+                            onChange={handleChange}
+                            name="mode"
+                            id="condition"
+                        >
+                            <option value={""}>Select Condition --</option>
+                            <option value={"apwleia"}>Απωλεια</option>
+                            <option value={"euresi"}>Ευρεση</option>
+                            <option value={"keno"}>Κενο</option>
+                        </select>
+                    </label>
+                    <label className="flex flex-col">
+                        Αριθμός μικροτσίπ
+                        <input
+                            value={formData.petId}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="petId"
+                            type="text"
+                            placeholder="πχ. 123456789"
+                        />
+                    </label>
+                </div>
+                <div className="flex-1 flex flex-col items-center justify-center text-left">
+                    <label className="flex flex-col">
+                        Ηλικία
+                        <input
+                            value={formData.age}
+                            className={styles.profile_tag}
+                            onChange={handleChange}
+                            id="age"
+                            type="number"
+                            min="0"
+                            placeholder="πχ. 7"
+                        />
+                    </label>
+                    <label className="flex flex-col">
+                        Φύλο
+                        <select
+                            value={formData.gender}
+                            className={styles.profile_tag}
+                            onChange={handleChange}
+                            id="gender"
+                        >
+                            <option value={""}>Select Gender --</option>
+                            <option value={"female"}>Θυλικό</option>
+                            <option value={"male"}>Αρσενικό</option>
+                        </select>
+                    </label>
+                    <label className="flex flex-col">
+                        Κατασταση Ιδιοκτήτη
+                        <select
+                            value={formData.ownerStatus}
+                            className={styles.profile_tag}
+                            onChange={handleChange}
+                            name="mode"
+                            id="ownerStatus"
+                        >
+                            <option value={""}>Select Action --</option>
+                            <option value={"metavivasi"}>Μεταβίβαση</option>
+                            <option value={"uiothsia"}>Yιοθεσία</option>
+                            <option value={"anadoxh"}>αναδοχή</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+            <button
+                onClick={handleSubmit}
+                className="bg-[#f9f9f9] text-black m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
+            >
+                Καταχώρηση
+            </button>
+        </div>
+    );
+}
+export default NewRecords;
