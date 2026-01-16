@@ -8,14 +8,19 @@ type NewRecordsProps = {
 };
 
 function NewRecords({ records, setRecords }: NewRecordsProps) {
+    const vet = JSON.parse(localStorage.getItem("user")!);
+
     const [formData, setFormData] = useState({
-        species: "",
-        ownerName: "",
-        condition: "",
         petId: "",
+        species: "",
+        vetId: "",
+        ownerName: "",
+        ownerEmail: "",
+        condition: "",
         age: 0,
         gender: "",
         ownerStatus: "",
+        createdAt: new Date(),
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -23,20 +28,34 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
         setFormData((prev) => ({ ...prev, [id]: value }));
     };
 
-    const handleSubmit = () => {
-        const newRecord = new Record(
-            formData.species,
-            formData.ownerName,
-            formData.condition as any,
-            formData.petId,
-            Number(formData.age),
-            formData.gender as any,
-            formData.ownerStatus as any,
-        );
+    const handleSubmit = async () => {
+        const newRecord = {
+            petId: formData.petId,
+            species: formData.species,
+            vetId: vet.id,
+            ownerName: formData.ownerName,
+            ownerEmail: formData.ownerEmail,
+            condition: formData.condition,
+            age: Number(formData.age),
+            gender: formData.gender,
+            ownerStatus: formData.ownerStatus,
+            createdAt: formData.createdAt,
+        };
 
-        setRecords((prev) => [...prev, newRecord]);
+        const response = await fetch("http://localhost:3001/records", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newRecord),
+        });
 
-        console.log("New record added:", newRecord);
+        const savedRecord = await response.json();
+
+        // ενημέρωση UI από το backend (σωστό pattern)
+        setRecords((prev) => [...prev, savedRecord]);
+
+        console.log("New record saved:", savedRecord);
     };
 
     return (

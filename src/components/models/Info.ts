@@ -55,3 +55,21 @@ export class Record {
         public createdAt: Date = new Date(),
     ) {}
 }
+
+/* USERS */
+export class User {
+    id!: number;
+    name!: string;
+    email!: string;
+    role!: "vet" | "owner";
+    phone_number?: string;
+    address?: string;
+    city?: string;
+    afm?: number;
+    photo?: string;
+    createdAt!: string;
+
+    constructor(data: Partial<User>) {
+        Object.assign(this, data);
+    }
+}

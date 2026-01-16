@@ -1,0 +1,131 @@
+{
+    "users": [
+        {
+            "id": "8bae",
+            "name": "nata",
+            "email": "nata@nata.com",
+            "password": "1234",
+            "phone_number": "691234",
+            "age": 0,
+            "role": "vet",
+            "address": "1234 office",
+            "createdAt": "2026-01-15T15:07:26.304Z"
+        },
+        {
+            "id": "c388",
+            "name": "Ναταλία",
+            "email": "nat@email.com",
+            "password": "123",
+            "phone_number": "123456",
+            "age": 0,
+            "role": "vet",
+            "address": "123 grafeio",
+            "city": "Αθήνα ",
+            "afm": "123565",
+            "photo": "/images/guf.jpg",
+            "createdAt": "2026-01-15T20:32:01.848Z"
+        }
+    ],
+    "pets": [],
+    "appointments": [
+        {
+            "id": 301,
+            "vetId": "c389",
+            "userId": "",
+            "petId": "",
+            "petName": "Rocky",
+            "petSpecies": "dog",
+            "date": "2026-01-20",
+            "time": "11:30",
+            "reason": "check-up",
+            "status": "pending"
+        },
+        {
+            "id": 301,
+            "vetId": "c389",
+            "userId": "",
+            "petId": "",
+            "petName": "Benzie",
+            "petSpecies": "cat",
+            "date": "2026-01-20",
+            "time": "11:30",
+            "reason": "vaccination",
+            "status": "pending"
+        },
+        {
+            "id": 301,
+            "vetId": "c389",
+            "userId": "",
+            "petId": "",
+            "petName": "Loufi",
+            "petSpecies": "cat",
+            "date": "2026-01-20",
+            "time": "11:30",
+            "reason": "Vaccination",
+            "status": "pending"
+        },
+        {
+            "id": 301,
+            "vetId": "c389",
+            "userId": "",
+            "petId": "",
+            "petName": "Pluto",
+            "petSpecies": "",
+            "date": "2026-01-20",
+            "time": "11:30",
+            "reason": "Vaccination",
+            "status": "approved"
+        }
+    ],
+    "records": [
+        {
+            "id": "0765",
+            "petId": "04782639",
+            "species": "Σκύλος ",
+            "vetId": "c389",
+            "ownerName": "Ναταλια Κρικελλη",
+            "condition": "keno",
+            "age": 2,
+            "gender": "female",
+            "ownerStatus": "uiothsia",
+            "createdAt": ""
+        },
+        {
+            "id": "d2bc",
+            "petId": "38917401",
+            "species": "Γατα",
+            "vetId": "c388",
+            "ownerName": "Ναταλια Κρικελλη",
+            "condition": "keno",
+            "age": 2,
+            "gender": "female",
+            "ownerStatus": "metavivasi",
+            "createdAt": "2026-01-15T13:13:15.553Z"
+        },
+        {
+            "id": "bd1a",
+            "petId": "9842947",
+            "species": "Σκυλος",
+            "vetId": "c388",
+            "ownerName": "Ναταλια",
+            "condition": "apwleia",
+            "age": 4,
+            "gender": "male",
+            "ownerStatus": "",
+            "createdAt": "2026-01-15T13:19:29.042Z"
+        },
+        {
+            "id": "bb7d",
+            "petId": "91074834",
+            "species": "Γατα",
+            "vetId": "c388",
+            "ownerName": "ναταα",
+            "ownerEmail": "",
+            "condition": "apwleia",
+            "age": 3,
+            "gender": "male",
+            "ownerStatus": "anadoxh",
+            "createdAt": "2026-01-16T02:47:24.491Z"
+        }
+    ]
+}

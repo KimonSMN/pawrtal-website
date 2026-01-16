@@ -1,32 +1,84 @@
 import { useState } from "react";
 import styles from "./page.module.css";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthContext";
 
+/**
+ * @brief SignUp function sets users info in a formadata type
+ *
+ *  -> constructs a new user
+ *
+ *  -> adds users info to the db.json under the users list
+ *
+ *  -> sends users info for authentication
+ */
 function SignUp() {
-    // User sign up credentials
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
     const [passwordConfirm, setPasswordConfirm] = useState("");
-    const [phone_number, setPhone_number] = useState("");
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
 
-    const handleSubmit = async () => {
+    const { login } = useAuth();
+
+    // User sign up credentials
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        password: "",
+        phone_number: "",
+        role: "vet",
+        address: "",
+        city: "",
+        afm: "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({ ...prev, [id]: value }));
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
         // Check if the passwords match
-        if (password !== passwordConfirm) {
+        if (formData.password !== passwordConfirm) {
             alert("Passwords do not match");
             return;
         }
 
-        const formData = new FormData();
-
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("first_name", name);
-        formData.append("phone_number", phone_number);
+        // transform photo to string-url for storing in db
+        const photoUrl = photoFile ? `/images/${photoFile.name}` : "/images/no_pic.jpg";
 
         // user sign up
-        // New user api request to add new user
-        // the vet profile component appears if user is eligible
-        navigate("/vet/home");
+        const newUser = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            phone_number: formData.phone_number,
+            role: formData.role,
+            address: formData.address,
+            city: formData.city,
+            afm: formData.afm,
+            photo: photoUrl,
+            createdAt: new Date().toISOString(),
+        };
+
+        try {
+            // New user api request to add new user
+            const response = await fetch("http://localhost:3001/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(newUser),
+            });
+
+            const savedUser = await response.json();
+            console.log("New user saved:", savedUser);
+            //calling login to save users info -> then navigate to home page
+            login(savedUser);
+            navigate("/vet/home");
+        } catch (err) {
+            console.error("Fetch failed:", err);
+            alert("Server not reachable");
+        }
     };
 
     return (
@@ -36,25 +88,28 @@ function SignUp() {
                     {/* Register credentials */}
                     <label>Ονοματεπώνυμο</label>
                     <input
-                        type="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        id="name"
+                        type="text"
+                        value={formData.name}
+                        onChange={handleChange}
                         placeholder="Name"
                         required
                     />
                     <label>Email</label>
                     <input
+                        id="email"
                         type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={formData.email}
+                        onChange={handleChange}
                         placeholder="email@email.com"
                         required
                     />
                     <label>Κωδικός</label>
                     <input
+                        id="password"
                         type="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        value={formData.password}
+                        onChange={handleChange}
                         placeholder="••••"
                         required
                     />
@@ -68,10 +123,42 @@ function SignUp() {
                     />
                     <label>Τηλέφωνο</label>
                     <input
+                        id="phone_number"
                         type="tel"
-                        value={phone_number}
-                        onChange={(e) => setPhone_number(e.target.value)}
+                        value={formData.phone_number}
+                        onChange={handleChange}
                         placeholder="Phone Number"
+                    />
+                    <label>Διεύθυνση Γραφείου</label>
+                    <input
+                        id="address"
+                        type="text"
+                        value={formData.address}
+                        onChange={handleChange}
+                        placeholder="Address"
+                    />
+                    <label>Περιοχη</label>
+                    <input
+                        id="city"
+                        type="text"
+                        value={formData.city}
+                        onChange={handleChange}
+                        placeholder="πχ. Αθήνα"
+                    />
+                    <label>Διεύθυνση Γραφείου</label>
+                    <input
+                        id="afm"
+                        type="tel"
+                        value={formData.afm}
+                        onChange={handleChange}
+                        placeholder="Αριθμός Φορολογικού Μητρώου"
+                    />
+                    <label>Φωτογραφια Profie</label>
+                    <input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setPhotoFile(e.target.files?.[0] || null)}
                     />
                     <button className={styles.submit} type="submit">
                         Εγγραφή
