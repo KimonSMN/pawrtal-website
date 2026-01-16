@@ -1,9 +1,13 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import dog_image from "../../assets/dog_1.jpg";
 
-function PetCard() {
+function PetCard({ id }) {
+    const navigate = useNavigate();
+
     return (
         <div
+            onClick={() => navigate(`/pets/${id}`)}
             className="
                 w-full bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200 
                 flex flex-col cursor-pointer 
