@@ -14,10 +14,9 @@
 
 ### ${\color{blue}Vet's \space POV}$
 
-- [ ] Profile change info
-- [ ] Delete models
+- [x] Profile change info
 - [ ] render reviews about vet
-- [ ] Records
+- [x] Records
 - [ ] Upcoming visits in calendar view
 - [ ] confirm Password live update to inform user
 - [ ] alert messages when {new record submitted , new user signup , users data changed }
@@ -103,10 +102,6 @@ Open url terminal points too using (ctrl + click).
 │       ├──     ⋮
 │       └── profile.png
 │   ├── auth/                       # Authentication
-│       ├── down_arrow.png
-│       ├──     ⋮
-│       ├──     ⋮
-│       └── profile.png
 │   ├── components/
 │       ├── credentials/            # login, sign-up components
 │       ├── layout/                 # footer, Navbar components
