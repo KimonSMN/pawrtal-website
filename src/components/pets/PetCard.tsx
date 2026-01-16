@@ -21,11 +21,24 @@ function PetCard({ id }) {
             </div>
 
             {/* Text */}
-            <div className="p-5 flex flex-col text-start gap-1">
-                <div className="text-xl font-semibold">Max</div>
-                <div className="text-md text-gray-700">Test</div>
-                <div className="text-gray-600">Location</div>
-                <div className="text-gray-600">Εθεάθη 13/09/2024</div>
+            <div className="p-5 text-start">
+                <div className="flex items-start justify-between gap-3">
+                    <div>
+                        <div className="text-lg font-semibold tracking-tight text-zinc-900">
+                            Max
+                        </div>
+                        <div className="mt-1 text-sm text-zinc-600">Test</div>
+                    </div>
+
+                    <div className="rounded-full border border-black/10 bg-white/70 px-2.5 py-1 text-xs font-medium text-zinc-700">
+                        Σκύλος
+                    </div>
+                </div>
+
+                <div className="mt-3 space-y-1 text-sm text-zinc-600">
+                    <div>Location</div>
+                    <div>Εθεάθη 13/09/2024</div>
+                </div>
             </div>
         </div>
     );

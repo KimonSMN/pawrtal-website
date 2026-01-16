@@ -4,7 +4,7 @@ import { useState } from "react";
 import Landing from "./pages/Landing";
 import OpenPet from "./pages/OpenPet";
 import FoundPetReport from "./pages/FoundPetReport";
-import Auth from "./pages/Auth";
+import AuthPage from "./pages/AuthPage";
 
 function App() {
     const [count, setCount] = useState(0);
@@ -16,7 +16,7 @@ function App() {
                 <Route path="/pets/:id" element={<OpenPet />} />
                 <Route path="/pets/:id/found" element={<FoundPetReport />} />
 
-                <Route path="/auth" element={<Auth />} />
+                <Route path="/auth" element={<AuthPage />} />
             </Routes>
         </BrowserRouter>
     );

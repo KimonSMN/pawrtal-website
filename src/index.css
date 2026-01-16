@@ -5,7 +5,6 @@
     line-height: 1.5;
     font-weight: 400;
 
-    color-scheme: light dark;
     color: rgb(24, 24, 24);
     background-color: #ffffff;
 
@@ -13,4 +12,27 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* Chrome / Edge / Safari */
+.scrollbar-zinc::-webkit-scrollbar {
+    width: 10px;
+}
+.scrollbar-zinc::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollbar-zinc::-webkit-scrollbar-thumb {
+    background: rgba(24, 24, 27, 0.18);
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+.scrollbar-zinc:hover::-webkit-scrollbar-thumb {
+    background: rgba(24, 24, 27, 0.28);
+}
+
+/* Firefox */
+.scrollbar-zinc {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(24, 24, 27, 0.28) transparent;
 }
