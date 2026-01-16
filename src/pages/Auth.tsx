@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Role = "user" | "vet" | null;
 type Mode = "login" | "signup";
@@ -12,7 +12,7 @@ export default function Auth() {
         () => [
             {
                 role: "user" as const,
-                title: "Pet Owner",
+                title: "Ιδιοκτήτης",
                 emoji: "🧍‍♂️",
                 theme: {
                     shell: "bg-zinc-100 text-zinc-900",
@@ -27,7 +27,7 @@ export default function Auth() {
             },
             {
                 role: "vet" as const,
-                title: "Veterinarian",
+                title: "Κτηνίατρος",
                 emoji: "🩺",
                 theme: {
                     shell: "bg-slate-950 text-white",
@@ -38,7 +38,7 @@ export default function Auth() {
                 },
                 mode: vetMode,
                 setMode: setVetMode,
-                loginIdPlaceholder: "Vet ID / Email",
+                loginIdPlaceholder: "ID Κτηνιάτρου / Email",
             },
         ],
         [userMode, vetMode],
@@ -153,7 +153,7 @@ function RoleSplash({
         <div className="text-center">
             <div className="text-7xl leading-none">{emoji}</div>
             <p className={`mt-3 text-lg font-medium ${subtleClass}`}>{title}</p>
-            <p className={`mt-1 text-sm ${subtleClass}`}>Hover to continue</p>
+            <p className={`mt-1 text-sm ${subtleClass}`}>Πέρασε το ποντίκι για συνέχεια</p>
         </div>
     );
 }
@@ -187,12 +187,12 @@ function AuthCard({
         >
             <header className="mb-5">
                 <h2 className="text-2xl font-semibold tracking-tight">
-                    {title} {mode === "login" ? "Login" : "Sign Up"}
+                    {title} — {mode === "login" ? "Σύνδεση" : "Εγγραφή"}
                 </h2>
                 <p className={`mt-1 text-sm ${theme.subtle}`}>
                     {mode === "login"
-                        ? "Enter your credentials to continue."
-                        : "Fill in your details to create an account."}
+                        ? "Συμπλήρωσε τα στοιχεία σου για να συνεχίσεις."
+                        : "Συμπλήρωσε τα στοιχεία σου για να δημιουργήσεις λογαριασμό."}
                 </p>
             </header>
 
@@ -205,8 +205,8 @@ function AuthCard({
                         autoComplete="username"
                     />
                     <LabeledInput
-                        label="Password"
-                        placeholder="Password"
+                        label="Κωδικός"
+                        placeholder="Κωδικός"
                         type="password"
                         className={theme.input}
                         autoComplete="current-password"
@@ -215,8 +215,8 @@ function AuthCard({
             ) : (
                 <div className="space-y-3">
                     <LabeledInput
-                        label="Full Legal Name"
-                        placeholder="Full Legal Name"
+                        label="Ονοματεπώνυμο"
+                        placeholder="Ονοματεπώνυμο"
                         className={theme.input}
                         autoComplete="name"
                     />
@@ -228,28 +228,28 @@ function AuthCard({
                         autoComplete="email"
                     />
                     <LabeledInput
-                        label="Phone"
-                        placeholder="Phone"
+                        label="Τηλέφωνο"
+                        placeholder="Τηλέφωνο"
                         type="tel"
                         className={theme.input}
                         autoComplete="tel"
                     />
                     <LabeledInput
-                        label="City"
-                        placeholder="City"
+                        label="Πόλη"
+                        placeholder="Πόλη"
                         className={theme.input}
                         autoComplete="address-level2"
                     />
                     <LabeledInput
-                        label="Password"
-                        placeholder="Password"
+                        label="Κωδικός"
+                        placeholder="Κωδικός"
                         type="password"
                         className={theme.input}
                         autoComplete="new-password"
                     />
                     <LabeledInput
-                        label="Confirm Password"
-                        placeholder="Confirm Password"
+                        label="Επιβεβαίωση Κωδικού"
+                        placeholder="Επιβεβαίωση Κωδικού"
                         type="password"
                         className={theme.input}
                         autoComplete="new-password"
@@ -264,7 +264,7 @@ function AuthCard({
                 ].join(" ")}
                 type="button"
             >
-                {mode === "login" ? "Login" : "Create Account"}
+                {mode === "login" ? "Σύνδεση" : "Δημιουργία Λογαριασμού"}
             </button>
 
             <div className="mt-4">
@@ -307,13 +307,13 @@ function AuthSwitch({
 }) {
     return (
         <p className={`text-center text-sm ${subtleClass}`}>
-            {mode === "login" ? "No account?" : "Already have an account?"}{" "}
+            {mode === "login" ? "Δεν έχεις λογαριασμό;" : "Έχεις ήδη λογαριασμό;"}{" "}
             <button
                 type="button"
                 className="font-semibold underline underline-offset-4 transition-opacity hover:opacity-80"
                 onClick={() => setMode(mode === "login" ? "signup" : "login")}
             >
-                {mode === "login" ? "Sign up" : "Login"}
+                {mode === "login" ? "Εγγραφή" : "Σύνδεση"}
             </button>
         </p>
     );
