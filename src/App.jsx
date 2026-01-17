@@ -8,6 +8,7 @@ import "./App.css";
 import Landing from "./pages/Landing";
 import Vet from "./pages/Vet";
 import VetHome from "./pages/VetHome";
+import ClientHome from "./pages/ClientHome"
 
 function App() {
     const [count, setCount] = useState(0);
@@ -27,6 +28,7 @@ function App() {
                                 </VetRoute>
                             }
                         />
+                        <Route path="/client/home" element={<ClientHome />} />
                     </Routes>
                 </AuthProvider>
             </BrowserRouter>
