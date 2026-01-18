@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { Info, MeetingStatus } from "../models/Info";
+import { useState, useEffect } from "react";
+import { Appointments, User, MeetingStatus } from "../models/Info";
+import Decline from "../../assets/decline.png";
+import Accept from "../../assets/accept.png";
 
 /**
  * @brief
@@ -13,63 +15,78 @@ import { Info, MeetingStatus } from "../models/Info";
  * @param health_record
  * rating of the appointment
  */
-function VisitCard({ person, procedure, date, pet, pet_id }) {
+function VisitCard({ info }: { info: Appointments }) {
+    const [owner, setOwner] = useState<User | null>(null);
+    const [decision, setDecision] = useState<MeetingStatus | null>(null);
+
+    useEffect(() => {
+        if (!info.ownerId) return;
+
+        fetch(`http://localhost:3001/users/${info.ownerId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("User not found");
+                return res.json();
+            })
+            .then((data) => {
+                const userInstance = new User(data);
+                setOwner(userInstance);
+            })
+            .catch(console.error);
+    }, [info.ownerId]);
+
+    useEffect(() => {
+        if (!decision) return;
+
+        if (decision === MeetingStatus.Accepted) {
+            const confirmLogout = window.confirm(
+                "Είστε σίγουροι ότι θέλετε να αποδεχτείτε το ραντεβού;",
+            );
+            if (!confirmLogout) return;
+        } else {
+            const confirmLogout = window.confirm(
+                "Είστε σίγουροι ότι θέλετε να απορρίψετε το ραντεβού;",
+            );
+            if (!confirmLogout) return;
+        }
+
+        fetch(`http://localhost:3001/appointments/${info.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ status: decision }),
+        });
+    }, [decision, info.id]);
+
     return (
-        <div className="bg-[#f9f9f9] rounded-2xl p-4 w-auto shadow-md flex flex-col gap-4 text-nowrap">
-            <div>
+        <div className="bg-[#e1e1e1] rounded-2xl p-4 max-w-lg shadow-md flex flex-col gap-4 text-nowrap">
+            <div className="flex flex-col items-center w-full gap-1">
                 <span className="font-semibold text-sm text-gray-600 border-b-2">Ημερομηνία</span>
                 <div>
-                    {date.toLocaleString("el-GR", {
+                    {info.date.toLocaleString("el-GR", {
                         dateStyle: "short",
                         timeStyle: "short",
                     })}
                 </div>
-            </div>
-            <div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
-                <div>{person}</div>
-            </div>
-
-            <div>
+                <div>{owner?.name}</div>
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
-                <div>{procedure}</div>
+                <div>{info.reason}</div>
             </div>
-            <div className="flex flex-row justify-between items-center gap-1">
-                <span className="font-semibold text-sm text-gray-500 text-nowrap">{pet} : </span>
-                <div> ID-{pet_id}</div>
-            </div>
-            <div className="flex flex-row justify-between items-center gap-1">
-                <button className="bg-[#ffffff] p-3 m-2 rounded-2xl shadow-2xs">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="m4.5 12.75 6 6 9-13.5"
-                        />
-                    </svg>
+            <div className="flex flex-row items-center w-full gap-1">
+                <button
+                    className="flex flex-row items-center gap-1  p-2 rounded-2xl border bg-[#ffffff] hover:bg-[#eeeeee]"
+                    onClick={() => setDecision(MeetingStatus.Accepted)}
+                >
+                    <img src={Accept} alt="free" className="w-6 h-6" />
+                    Αποδοχη
                 </button>
-                <button className="bg-[#e5e5e5] p-3 m-2 rounded-2xl shadow-2xs">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-6"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M6 18 18 6M6 6l12 12"
-                        />
-                    </svg>
+                <button
+                    className="flex flex-row items-center justify-evenly gap-1 p-2 rounded-2xl border bg-[#b4b4b4]  hover:bg-[#a1a1a1]"
+                    onClick={() => setDecision(MeetingStatus.Cancelled)}
+                >
+                    <img src={Decline} alt="free" className="w-4 h-4" />
+                    Απόρριψη
                 </button>
             </div>
         </div>
@@ -77,49 +94,39 @@ function VisitCard({ person, procedure, date, pet, pet_id }) {
 }
 
 function NewAppointments() {
-    const [appointment, setAppointment] = useState<Info[]>([
-        new Info(
-            "Κυμωνας Σμυρλιανος",
-            "Εμβολιο",
-            new Date("2025-11-13T11:30"),
-            "Σκύλος",
-            "123456789",
-            MeetingStatus.New,
-        ),
-        new Info(
-            "Χρήστος Ανδρουλάκης",
-            "Στηρωση",
-            new Date("2025-11-16T09:00"),
-            "Γάτα",
-            "123456789",
-            MeetingStatus.New,
-        ),
-        new Info(
-            "Δήμητρα Παυλίδη",
-            "Check-up",
-            new Date("2025-11-16T09:00"),
-            "Σκύλος",
-            "123456789",
-            MeetingStatus.New,
-        ),
-    ]);
+    const storedUser = localStorage.getItem("user");
+    const vet = storedUser ? JSON.parse(storedUser) : null;
+    const [loading, setLoading] = useState(true);
+    const [appointments, setAppointments] = useState<Appointments[]>([]);
+
+    useEffect(() => {
+        const fetchVisits = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/appointments?vetId=${vet.id}&status=new`,
+                );
+                const data = await response.json();
+                const mapped = data.map(Appointments.fromJSON);
+                setAppointments(mapped);
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVisits();
+    }, []);
 
     return (
         <div
             className="
-            flex flex-col items-center gap-8 max-w-xl overflow-x-auto p-6
-            sm:flex-row sm:w-auto sm:mb-16 sm:max-h-[500px] sm:overflow-y-auto
+            flex flex-col items-center gap-8  overflow-x-auto p-6
+            sm:flex-row sm:w-3xl sm:mb-16 sm:max-h-[500px] sm:overflow-y-auto
         "
         >
-            {appointment.map((info, index) => (
-                <VisitCard
-                    key={index}
-                    person={info.name}
-                    procedure={info.procedure}
-                    date={info.date}
-                    pet={info.pet}
-                    pet_id={info.pet_id}
-                />
+            {appointments.map((info) => (
+                <VisitCard key={info.id} info={info} />
             ))}
         </div>
     );
