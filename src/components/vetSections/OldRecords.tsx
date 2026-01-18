@@ -9,7 +9,9 @@ function OldRecords() {
     useEffect(() => {
         const fetchRecords = async () => {
             try {
-                const response = await fetch(`http://localhost:3001/records?vetId=${vet.id}`);
+                const response = await fetch(
+                    `http://localhost:3001/records?vetId=${vet.id}&status=completed&status=cancelled`,
+                );
                 const data = await response.json();
                 setRecords(data);
             } catch (error) {

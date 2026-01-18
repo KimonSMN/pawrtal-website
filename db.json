@@ -2,18 +2,24 @@
     "users": [
         {
             "id": "8bae",
-            "name": "nata",
-            "email": "nata@nata.com",
-            "password": "1234",
-            "phone_number": "691234",
-            "age": 0,
+            "name": "Μιχάλης Αλεξάκος",
+            "email": "mihalakis@yahoo.yeah",
+            "password": "mixmix123",
+            "phone_number": "6975325561",
+            "age": 67,
             "role": "vet",
-            "address": "1234 office",
-            "createdAt": "2026-01-15T15:07:26.304Z"
+            "address": "Euelpidon 97",
+            "city": "Αθήνα",
+            "afm": "123565",
+            "photo": "/images/guf.jpg",
+            "records": [],
+            "pets": [],
+            "reviews": [],
+            "createdAt": "2026-01-15T20:32:01.848Z"
         },
         {
             "id": "c388",
-            "name": "Ναταλία",
+            "name": "Ναταλία Κρικέλλη",
             "email": "nat@email.com",
             "password": "123",
             "phone_number": "123456",
@@ -23,58 +29,117 @@
             "city": "Αθήνα ",
             "afm": "123565",
             "photo": "/images/guf.jpg",
+            "records": [],
+            "pets": [],
+            "reviews": [],
+            "createdAt": "2026-01-15T20:32:01.848Z"
+        },
+        {
+            "id": "c389",
+            "name": "Ναταλία Κρικέλλη",
+            "email": "nat@email.com",
+            "password": "123",
+            "phone_number": "123456",
+            "age": 0,
+            "role": "user",
+            "address": "",
+            "city": "",
+            "afm": "",
+            "photo": "",
+            "pets": [],
             "createdAt": "2026-01-15T20:32:01.848Z"
         }
     ],
-    "pets": [],
     "appointments": [
         {
-            "id": 301,
-            "vetId": "c389",
-            "userId": "",
-            "petId": "",
-            "petName": "Rocky",
-            "petSpecies": "dog",
-            "date": "2026-01-20",
-            "time": "11:30",
+            "id": "1",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
             "reason": "check-up",
-            "status": "pending"
-        },
-        {
-            "id": 301,
-            "vetId": "c389",
-            "userId": "",
-            "petId": "",
-            "petName": "Benzie",
-            "petSpecies": "cat",
-            "date": "2026-01-20",
-            "time": "11:30",
-            "reason": "vaccination",
-            "status": "pending"
-        },
-        {
-            "id": 301,
-            "vetId": "c389",
-            "userId": "",
-            "petId": "",
-            "petName": "Loufi",
-            "petSpecies": "cat",
-            "date": "2026-01-20",
-            "time": "11:30",
-            "reason": "Vaccination",
-            "status": "pending"
-        },
-        {
-            "id": 301,
-            "vetId": "c389",
-            "userId": "",
-            "petId": "",
-            "petName": "Pluto",
-            "petSpecies": "",
-            "date": "2026-01-20",
-            "time": "11:30",
-            "reason": "Vaccination",
+            "date": "2026-01-22T11:00:00",
             "status": "approved"
+        },
+        {
+            "id": "2",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T14:00:00",
+            "status": "new"
+        },
+        {
+            "id": "3",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-19T10:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "4",
+            "pet": "cat",
+            "petId": "38917401",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "emergency",
+            "date": "2026-01-19T11:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "5",
+            "pet": "dog",
+            "petId": "9842947",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-19T18:40:00",
+            "status": "approved"
+        },
+        {
+            "id": "6",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-22T09:00:00",
+            "status": "completed"
+        },
+        {
+            "id": "7",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T20:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "8",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-23T14:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "9",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T15:00:00",
+            "status": "completed"
         }
     ],
     "records": [
@@ -87,7 +152,7 @@
             "condition": "keno",
             "age": 2,
             "gender": "female",
-            "ownerStatus": "uiothsia",
+            "ownerStatus": "uiothesia",
             "createdAt": ""
         },
         {
@@ -126,6 +191,77 @@
             "gender": "male",
             "ownerStatus": "anadoxh",
             "createdAt": "2026-01-16T02:47:24.491Z"
+        },
+        {
+            "id": "11be",
+            "petId": "740290141",
+            "species": "gadjadlaka",
+            "vetId": "c388",
+            "ownerName": "egw",
+            "ownerEmail": "",
+            "condition": "keno",
+            "age": 6,
+            "gender": "female",
+            "ownerStatus": "uiothsia",
+            "createdAt": "2026-01-18T11:14:39.159Z"
+        }
+    ],
+    "reviews": [
+        {
+            "id": "1",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4.5,
+            "text": "",
+            "createdAt": "2026-01-12T12:47:24.491Z"
+        },
+        {
+            "id": "2",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "3",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "4",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "5",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "6",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "7",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
         }
     ]
 }
