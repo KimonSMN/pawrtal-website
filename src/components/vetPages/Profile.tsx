@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
-import { useAuth } from "../../auth/AuthContext";
+import { useAuth } from "../auth/AuthProvider";
 import { User, Reviews } from "../models/Info";
 import Dots from "../../assets/dots.png";
 import DownArrow from "../../assets/down_arrow.png";
