@@ -1,18 +1,14 @@
 import React from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import About from "../components/sections/About";
+import Auth from "../components/auth/Auth";
 
-import LostPetsSection from "../components/sections/LostPetsSection";
-
-function Landing() {
+export default function AuthPage() {
     return (
         <>
             <Navbar />
-            <LostPetsSection />
+            <Auth />
             <Footer />
         </>
     );
 }
-
-export default Landing;

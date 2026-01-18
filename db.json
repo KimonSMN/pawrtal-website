@@ -1,6 +1,29 @@
 {
     "users": [
         {
+            "id": "-1",
+            "fullName": "admin",
+            "email": "admin",
+            "password": "admin",
+            "phone_number": "69XXXXXXXX",
+            "age": 0,
+            "role": "user",
+            "address": "admin",
+            "createdAt": "2026-01-15T15:07:26.304Z"
+        },
+        {
+            "id": "1",
+            "fullName": "Kimon Smirlianos",
+            "email": "kimon@gmail.com",
+            "password": "123456",
+            "phone_number": "6939949788",
+            "age": 13,
+            "role": "user",
+            "address": "-",
+            "createdAt": "2026-01-15T15:07:26.304Z",
+            "city": "chola"
+        },
+        {
             "id": "8bae",
             "name": "Μιχάλης Αλεξάκος",
             "email": "mihalakis@yahoo.yeah",
@@ -262,6 +285,70 @@
             "rating": 5,
             "text": "",
             "createdAt": "2026-01-17T02:50:24.491Z"
+        }
+    ],
+    "pets": [
+        {
+            "id": "96252d",
+            "ownerId": "-1",
+            "name": "Pyke",
+            "species": "dog",
+            "breed": "Shiba Inu",
+            "age": 2,
+            "lastSeenDate": "2026-01-02",
+            "location": "Cholargos",
+            "description": "Κενό",
+            "photo": "/images/dog_1.jpg",
+            "createdAt": "2026-01-18T15:46:57.160Z",
+            "status": "found"
+        },
+        {
+            "id": "d8f403",
+            "ownerId": "1",
+            "name": "Max",
+            "species": "dog",
+            "breed": "Lab",
+            "age": 3,
+            "lastSeenDate": "2025-12-28",
+            "location": "Marousi",
+            "description": "φιλικός",
+            "photo": "/images/dog_2.jpg",
+            "createdAt": "2026-01-18T15:47:50.956Z",
+            "status": "found"
+        }
+    ],
+    "foundReports": [
+        {
+            "id": "70ac2d03",
+            "petId": "96252d",
+            "ownerId": "-1",
+            "reporterUserId": "1",
+            "foundLocation": "Κλειους 39",
+            "foundDate": "2026-01-17T22:00:00.000Z",
+            "reporterFirstName": "Κιμωνας",
+            "reporterLastName": "Σμυρλιανος",
+            "reporterContact": "kimon@gmail.com",
+            "extraInfo": "τον έπιασα",
+            "photoName": "IMG_2600.JPG",
+            "status": "submitted",
+            "isRead": true,
+            "createdAt": "2026-01-18T15:48:46.860Z"
+        },
+        {
+            "id": "193d7436",
+            "petId": "d8f403",
+            "ownerId": "1",
+            "reporterUserId": "1",
+            "foundLocation": "Cholargos",
+            "foundDate": "2026-01-17T22:00:00.000Z",
+            "reporterFirstName": "Kimon",
+            "reporterLastName": "Smirlianos",
+            "reporterContact": "kimon@gmail.com",
+            "extraInfo": "Myself",
+            "photoName": "IMG_2599.JPG",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-18T16:28:14.709Z"
         }
     ]
 }
