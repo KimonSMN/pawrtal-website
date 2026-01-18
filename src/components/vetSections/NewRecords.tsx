@@ -14,6 +14,7 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
     const [open, setOpen] = useState(false);
 
     const [formData, setFormData] = useState({
+        petName: "",
         petId: "",
         species: "",
         vetId: "",
@@ -22,7 +23,11 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
         condition: "",
         age: 0,
         gender: "",
+        race: "",
         ownerStatus: "",
+        hair: "",
+        hairColor: "",
+        animalSize: "",
         createdAt: new Date(),
     });
 
@@ -33,6 +38,7 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
 
     const handleSubmit = async () => {
         const newRecord = {
+            petName: formData.petName,
             petId: formData.petId,
             species: formData.species,
             vetId: vet.id,
@@ -41,7 +47,11 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
             condition: formData.condition,
             age: Number(formData.age),
             gender: formData.gender,
+            race: formData.race,
             ownerStatus: formData.ownerStatus,
+            hair: formData.hair,
+            hairColor: formData.hairColor,
+            animalSize: formData.animalSize,
             createdAt: formData.createdAt,
         };
 
@@ -58,23 +68,26 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
         // ενημέρωση UI από το backend (σωστό pattern)
         setRecords((prev) => [...prev, savedRecord]);
 
-        console.log("New record saved:", savedRecord);
+        alert("Τα στοιχεία καταχωρήθηκαν ✔");
     };
 
     return (
         <div className="flex-1 flex flex-col items-center">
             {/* Arrow */}
-            <button
-                onClick={() => setOpen((o) => !o)}
-                className="text-lg p-2 flex flex-row items-center gap-1 rounded justify-center  hover:bg-[#cccccc]"
-            >
-                Χρησιμες Πληροφοριες
-                {open ? (
-                    <img src={DownArrow} alt="free" className="w-4 h-4" />
-                ) : (
-                    <img src={RightArrow} alt="free" className="w-4 h-4" />
-                )}
-            </button>
+            <div className="w-full text-left mx-4 px-4">
+                <button
+                    onClick={() => setOpen((o) => !o)}
+                    className="text-lg p-2 flex flex-row items-center gap-1 rounded justify-center hover:bg-[#cccccc]"
+                >
+                    Χρησιμες Πληροφοριες
+                    {open ? (
+                        <img src={DownArrow} alt="free" className="w-4 h-4" />
+                    ) : (
+                        <img src={RightArrow} alt="free" className="w-4 h-4" />
+                    )}
+                </button>
+            </div>
+
             {/* Dropdown */}
             {open && (
                 <div
@@ -130,7 +143,7 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
                             name="mode"
                             id="condition"
                         >
-                            <option value={""}>Select Condition --</option>
+                            <option value={""}>Επιλογή Κατάστασης --</option>
                             <option value={"apwleia"}>Απωλεια</option>
                             <option value={"euresi"}>Ευρεση</option>
                             <option value={"keno"}>Κενο</option>
@@ -145,6 +158,32 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
                             id="petId"
                             type="text"
                             placeholder="πχ. 123456789"
+                        />
+                    </label>
+                    <label className="flex flex-col">
+                        Μικρό ζώο &lt;10kg
+                        <select
+                            value={formData.animalSize}
+                            className={styles.profile_tag}
+                            onChange={handleChange}
+                            name="mode"
+                            id="animalSize"
+                        >
+                            <option value={""}>Εμφάνιση Επιλογών --</option>
+                            <option value={"nai"}>Ναι</option>
+                            <option value={"oxi"}>Όχι</option>
+                            <option value={"keno"}>Κενο</option>
+                        </select>
+                    </label>
+                    <label className="flex flex-col">
+                        Φυλή
+                        <input
+                            value={formData.race}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="race"
+                            type="text"
+                            placeholder="πχ. Λαμπραντόρ"
                         />
                     </label>
                 </div>
@@ -162,6 +201,28 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
                         />
                     </label>
                     <label className="flex flex-col">
+                        Τρίχωμα
+                        <input
+                            value={formData.hair}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="hair"
+                            type="text"
+                            placeholder="πχ. κοντό"
+                        />
+                    </label>
+                    <label className="flex flex-col">
+                        Χρωμα Τριχώματος
+                        <input
+                            value={formData.hairColor}
+                            onChange={handleChange}
+                            className={styles.profile_tag}
+                            id="hairColor"
+                            type="text"
+                            placeholder="πχ. μαυρο"
+                        />
+                    </label>
+                    <label className="flex flex-col">
                         Φύλο
                         <select
                             value={formData.gender}
@@ -169,7 +230,7 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
                             onChange={handleChange}
                             id="gender"
                         >
-                            <option value={""}>Select Gender --</option>
+                            <option value={""}>Επιλογή Φυλου --</option>
                             <option value={"female"}>Θυλικό</option>
                             <option value={"male"}>Αρσενικό</option>
                         </select>
@@ -183,10 +244,10 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
                             name="mode"
                             id="ownerStatus"
                         >
-                            <option value={""}>Select Action --</option>
+                            <option value={""}>Επιλογή Ενέργειας --</option>
                             <option value={"metavivasi"}>Μεταβίβαση</option>
                             <option value={"uiothsia"}>Yιοθεσία</option>
-                            <option value={"anadoxh"}>αναδοχή</option>
+                            <option value={"anadoxh"}>Αναδοχή</option>
                         </select>
                     </label>
                 </div>

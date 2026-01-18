@@ -174,12 +174,14 @@ function Profile() {
             : (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
 
     return (
-        <div className="flex flex-col items-baseline justify-center lg:flex-row lg:items-center">
-            <div className="flex flex-col items-center ml-4">
-                {/* Welcome message and profile pic */}
-                <h1 className="text-[#303030] w-full mb-4 text-left text-3xl ">Καλως ήρθες</h1>
-                <div className="flex flex-row items-start mb-4 gap-6 w-full">
-                    <h2 className="text-4xl text-left  text-gray-600  ">{user?.name}, </h2>
+        <>
+            <h1 className="text-[#303030] w-full mx-12 px-12 mb-4 text-left text-3xl ">
+                Καλως ήρθες στον λογαριασμο σου.
+            </h1>
+            <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-center">
+                <div className="flex flex-col items-center  ml-4">
+                    {/* Welcome message and profile pic */}
+
                     <div className="h-fit w-fit max-w-40 mb-2 items-start">
                         <img
                             className="w-full h-full object-cover rounded-b-full"
@@ -187,217 +189,232 @@ function Profile() {
                             alt="profile-pic"
                         />
                     </div>
-                </div>
-                {/* Account data container */}
-                <h1 className="text-[#303030] w-full m-auto text-left text-3xl mb-6 ">
-                    Ο Λογαριασμός μου
-                </h1>
-                <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
-                    <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4">
-                        <div
-                            className="
+                    {/* Account data container */}
+                    <h1 className="text-[#303030] w-full m-auto text-left text-3xl mb-6 ">
+                        Στοιχεια Χρήστη
+                    </h1>
+                    <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
+                        <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4">
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
-                                Ονοματεπώνυμο
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.name ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev ? new User({ ...prev, name: e.target.value }) : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
+                                    Ονοματεπώνυμο
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.name ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({ ...prev, name: e.target.value })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
-                                Email
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.email ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev ? new User({ ...prev, email: e.target.value }) : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
+                                    Email
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.email ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({ ...prev, email: e.target.value })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30">AΦΜ</span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.afm ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev ? new User({ ...prev, afm: e.target.value }) : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30">
+                                    AΦΜ
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.afm ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({ ...prev, afm: e.target.value })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30">
-                                Τηλέφωνο
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.phone_number ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev
-                                            ? new User({ ...prev, phone_number: e.target.value })
-                                            : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30">
+                                    Τηλέφωνο
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.phone_number ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({
+                                                      ...prev,
+                                                      phone_number: e.target.value,
+                                                  })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30">
-                                Περιοχη
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.city ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev ? new User({ ...prev, city: e.target.value }) : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30">
+                                    Περιοχη
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.city ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({ ...prev, city: e.target.value })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
                             sm:gap-4 sm:justify-between sm:pl-4"
-                        >
-                            <span className="text-sm text-nowrap text-gray-500 max-w-30">
-                                Διευθυση
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="text"
-                                value={editUser?.address ?? ""}
-                                disabled={!isEditing}
-                                onChange={(e) =>
-                                    setEditUser((prev) =>
-                                        prev
-                                            ? new User({ ...prev, address: e.target.value })
-                                            : prev,
-                                    )
-                                }
-                            />
-                        </div>
-                        <div
-                            className="
+                            >
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30">
+                                    Διευθυση
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="text"
+                                    value={editUser?.address ?? ""}
+                                    disabled={!isEditing}
+                                    onChange={(e) =>
+                                        setEditUser((prev) =>
+                                            prev
+                                                ? new User({ ...prev, address: e.target.value })
+                                                : prev,
+                                        )
+                                    }
+                                />
+                            </div>
+                            <div
+                                className="
                             flex flex-row items-center justify-around text-sm gap-1p border border-[#c8c8c8a5]  
                             sm:gap-4 "
-                        >
-                            <span className="text-sm text-wrap text-gray-500 max-w-30">
-                                Ανεβασε το Βιογραφικό σου
-                            </span>
-                            <input
-                                className="border-0 p-2 rounded focus:outline-none text-left"
-                                type="file"
-                                id="file-input"
-                                multiple
-                                accept="image/*,.pdf"
-                            />
-                        </div>
-                    </div>
-                </div>
-                {/* telos container */}
-
-                <div className="m-1 flex flex-row items-baseline mb-4 gap-1 sm:gap-2 sm:m-2 sm:mb-8">
-                    <div className=" flex flex-row gap-2">
-                        {!isEditing ? (
-                            <button
-                                className="m-2 p-4 bg-[#e5e5e5] font-semibold rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
-                                onClick={() => setIsEditing(true)}
                             >
-                                Επεξεργασία Στοιχειων
-                            </button>
-                        ) : (
-                            <>
-                                <button
-                                    className="m-2 p-4 bg-[#fbfbfb] font-bold text-[#3c3c3cb6] border  border-[#cdcdcd] rounded-2xl hover:bg-[#ededed] hover:transition-transform"
-                                    onClick={handleSave}
-                                >
-                                    Αποθήκευση
-                                </button>
-                                <button
-                                    className="m-2 p-4 bg-[#aaaaaa] font-semibold text-[#ffffff] border border-[#909090b0] rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
-                                    onClick={handleCancel}
-                                >
-                                    Ακύρωση
-                                </button>
-                            </>
-                        )}
-                    </div>
-                    <button
-                        className="m-2 p-4 text-[#ffffff] font-semibold bg-[#727272] rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
-                        onClick={handleLogout}
-                    >
-                        Αποσύνδεση
-                    </button>
-                </div>
-            </div>
-            <div className="flex flex-col items-center sm:mt-25">
-                <div className="flex flex-col items-center p-8 gap-5 w-full">
-                    <div className="flex flex-col gap-2 mb-4">
-                        <div className="text-lg font-semibold">
-                            Μέση βαθμολογία: {averageRating} / 5
+                                <span className="text-sm text-wrap text-gray-500 max-w-30">
+                                    Ανεβασε το Βιογραφικό σου
+                                </span>
+                                <input
+                                    className="border-0 p-2 rounded focus:outline-none text-left"
+                                    type="file"
+                                    id="file-input"
+                                    multiple
+                                    accept="image/*,.pdf"
+                                />
+                            </div>
                         </div>
+                    </div>
+                    {/* telos container */}
 
-                        <div className="text-sm text-gray-500">({reviews.length} αξιολογήσεις)</div>
-                    </div>
-                    <h1 className=" text-[#303030] w-full m-auto mb-8 text-left text-3xl ">
-                        Οι Αξιολογήσεις μου
-                    </h1>
-                    <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-black">
-                        <div className="flex-3 ">Χρήστης</div>
-                        <div className="flex-2 ">Αστέρια</div>
-                        <div className="flex-1">Ημερομηνία</div>
-                        <div className="flex-1 pr-4 ">
-                            <img src={Dots} alt="free" className="w-6 h-6" />
+                    <div className="flex flex-row items-start mx-auto mb-4 gap-1 w-full sm:gap-1 sm:m-2 sm:mb-8">
+                        <div className=" flex flex-row min-w-[280px]">
+                            {!isEditing ? (
+                                <button
+                                    className="m-2 p-4 bg-[#e5e5e5] font-semibold rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
+                                    onClick={() => setIsEditing(true)}
+                                >
+                                    Επεξεργασία Στοιχειων
+                                </button>
+                            ) : (
+                                <>
+                                    <button
+                                        className="m-2 p-4 bg-[#fbfbfb] font-bold text-[#3c3c3cb6] border  border-[#cdcdcd] rounded-2xl hover:bg-[#ededed] hover:transition-transform"
+                                        onClick={handleSave}
+                                    >
+                                        Αποθήκευση
+                                    </button>
+                                    <button
+                                        className="m-2 p-4 bg-[#aaaaaa] font-semibold text-[#ffffff] border border-[#909090b0] rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
+                                        onClick={handleCancel}
+                                    >
+                                        Ακύρωση
+                                    </button>
+                                </>
+                            )}
                         </div>
+                        <button
+                            className="m-2 p-4 text-[#ffffff] font-semibold bg-[#727272] rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
+                            onClick={handleLogout}
+                        >
+                            Αποσύνδεση
+                        </button>
                     </div>
-                    <div className="flex flex-col pr-4 gap-4 max-h-[360px] overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
-                        {reviews.map((info) => (
-                            <Review key={info.id} info={info} />
-                        ))}
+                </div>
+                <div className="flex flex-col items-center sm:mt-10">
+                    <div className="flex flex-col items-center p-8 gap-5 w-full">
+                        <div className="flex flex-col gap-2 mb-4">
+                            <div className="text-lg font-semibold">
+                                Μέση βαθμολογία: {averageRating} / 5
+                            </div>
+
+                            <div className="text-sm text-gray-500">
+                                ({reviews.length} αξιολογήσεις)
+                            </div>
+                        </div>
+                        <h1 className=" text-[#303030] w-full m-auto mb-8 text-left text-3xl ">
+                            Αξιολογήσεις Χρήστη
+                        </h1>
+                        <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-black">
+                            <div className="flex-3 ">Χρήστης</div>
+                            <div className="flex-2 ">Αστέρια</div>
+                            <div className="flex-1">Ημερομηνία</div>
+                            <div className="flex-1 pr-4 ">
+                                <img src={Dots} alt="free" className="w-6 h-6" />
+                            </div>
+                        </div>
+                        <div className="flex flex-col pr-4 gap-4 max-h-[360px] overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
+                            {reviews.map((info) => (
+                                <Review key={info.id} info={info} />
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

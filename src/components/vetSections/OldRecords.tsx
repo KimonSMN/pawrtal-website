@@ -9,9 +9,7 @@ function OldRecords() {
     useEffect(() => {
         const fetchRecords = async () => {
             try {
-                const response = await fetch(
-                    `http://localhost:3001/records?vetId=${vet.id}&status=completed&status=cancelled`,
-                );
+                const response = await fetch(`http://localhost:3001/records?vetId=${vet.id}`);
                 const data = await response.json();
                 setRecords(data);
             } catch (error) {
@@ -27,30 +25,38 @@ function OldRecords() {
     if (loading) return <p>loading ...</p>;
 
     return (
-        <div className="mt-5 w-full">
-            <h2 className="text-lg font-bold mb-4">Καταχωρήσεις Κατοικίδι στο Σύστημα</h2>
+        <div className="mt-6 w-full">
+            <h2 className="text-xl font-semibold mb-4 text-gray-800">
+                Καταχωρήσεις Κατοικιδίων στο Σύστημα
+            </h2>
 
             {records.length === 0 && (
-                <p className="text-sm text-gray-500">Δεν υπάρχουν καταχωρήσεις</p>
+                <p className="text-sm text-gray-500 italic">Δεν υπάρχουν καταχωρήσεις</p>
             )}
 
-            {records.map((record, index) => (
-                <div key={index} className="bg-[#f9f9f9] rounded-2xl p-4 mb-3 text-sm shadow-sm">
-                    <div>
-                        <b>Κατοικίδιο:</b> {record.species}
+            <div className="flex flex-col gap-3">
+                {records.map((record, index) => (
+                    <div
+                        key={index}
+                        className="bg-white rounded-2xl p-4 shadow-sm border
+                                hover:shadow-md transition-shadow duration-200"
+                    >
+                        <div className="grid grid-cols-2 gap-y-2 text-medium text-gray-700">
+                            <div className="font-medium text-gray-500">Κατοικίδιο</div>
+                            <div>{record.species}</div>
+
+                            <div className="font-medium text-gray-500">Ιδιοκτήτης</div>
+                            <div>{record.ownerName}</div>
+
+                            <div className="font-medium text-gray-500">Microchip</div>
+                            <div className="font-mono">{record.petId}</div>
+
+                            <div className="font-medium text-gray-500">Ημ/νία</div>
+                            <div>{formatDate(record.createdAt)}</div>
+                        </div>
                     </div>
-                    <div>
-                        <b>Ιδιοκτήτης:</b> {record.ownerName}
-                    </div>
-                    <div>
-                        <b>Microchip:</b> {record.petId}
-                    </div>
-                    <div>
-                        <b>Ημ/νία:</b>
-                        {formatDate(record.createdAt)}
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 }
