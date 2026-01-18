@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 import { Record } from "../models/Info";
+import DownArrow from "../../assets/down_arrow.png";
+import RightArrow from "../../assets/right_arrow.png";
 
 type NewRecordsProps = {
     records: Record[];
@@ -9,6 +11,7 @@ type NewRecordsProps = {
 
 function NewRecords({ records, setRecords }: NewRecordsProps) {
     const vet = JSON.parse(localStorage.getItem("user")!);
+    const [open, setOpen] = useState(false);
 
     const [formData, setFormData] = useState({
         petId: "",
@@ -60,6 +63,34 @@ function NewRecords({ records, setRecords }: NewRecordsProps) {
 
     return (
         <div className="flex-1 flex flex-col items-center">
+            {/* Arrow */}
+            <button
+                onClick={() => setOpen((o) => !o)}
+                className="text-lg p-2 flex flex-row items-center gap-1 rounded justify-center  hover:bg-[#cccccc]"
+            >
+                Χρησιμες Πληροφοριες
+                {open ? (
+                    <img src={DownArrow} alt="free" className="w-4 h-4" />
+                ) : (
+                    <img src={RightArrow} alt="free" className="w-4 h-4" />
+                )}
+            </button>
+            {/* Dropdown */}
+            {open && (
+                <div
+                    className="
+                        bg-gray-100 mt-2 ml-8 p-3 rounded-xl
+                        text-sm text-gray-700 text-left
+                    "
+                >
+                    <p>
+                        Για να καταχωρηθει το κατοικιδιο στο σύστημα χρειάζεται να αποκτησει τον
+                        αναγνωριστικο αριθμό (Microchip). <br />
+                        Επιπλεον το αναγνωριστικο του Ιδιοκτήτη στην συγκεκριμενη εφαρμογη.
+                        (Βρισκεται στο προφιλ του)
+                    </p>
+                </div>
+            )}
             <div
                 className="
                 flex-1 flex flex-col items-start p-8 gap-5 w-[calc(100%+2rem)]

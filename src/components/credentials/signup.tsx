@@ -13,17 +13,23 @@ import { useAuth } from "../../auth/AuthContext";
  *  -> sends users info for authentication
  */
 function SignUp() {
-    const navigate = useNavigate();
-    const [passwordConfirm, setPasswordConfirm] = useState("");
-    const [photoFile, setPhotoFile] = useState<File | null>(null);
-
     const { login } = useAuth();
+    const navigate = useNavigate();
+    const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [photoFile, setPhotoFile] = useState<File | null>(null);
+    const passwordsMatch =
+        password.length > 0 && passwordConfirm.length > 0 && password === passwordConfirm;
+
+    const passwordsMismatch =
+        password.length > 0 && passwordConfirm.length > 0 && password !== passwordConfirm;
 
     // User sign up credentials
     const [formData, setFormData] = useState({
         name: "",
         email: "",
-        password: "",
         phone_number: "",
         role: "vet",
         address: "",
@@ -40,7 +46,7 @@ function SignUp() {
         e.preventDefault();
 
         // Check if the passwords match
-        if (formData.password !== passwordConfirm) {
+        if (!passwordsMatch) {
             alert("Passwords do not match");
             return;
         }
@@ -52,7 +58,7 @@ function SignUp() {
         const newUser = {
             name: formData.name,
             email: formData.email,
-            password: formData.password,
+            password: password,
             phone_number: formData.phone_number,
             role: formData.role,
             address: formData.address,
@@ -80,7 +86,6 @@ function SignUp() {
             alert("Server not reachable");
         }
     };
-
     return (
         <div className={styles.sign_up}>
             <div className={styles.credentials}>
@@ -92,7 +97,7 @@ function SignUp() {
                         type="text"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="Name"
+                        placeholder="Ονοματεπώνυμο"
                         required
                     />
                     <label>Email</label>
@@ -105,22 +110,51 @@ function SignUp() {
                         required
                     />
                     <label>Κωδικός</label>
-                    <input
-                        id="password"
-                        type="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        placeholder="••••"
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Κωδικός"
+                            className="w-full pr-10 p-2 border rounded focus:outline-none"
+                            required
+                        />
+
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/3 -translate-y-1/2 text-gray-500"
+                            onClick={() => setShowPassword((p) => !p)}
+                        >
+                            👁
+                        </button>
+                    </div>
                     <label>Επιβεβαίωση Κωδικού</label>
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        value={passwordConfirm}
-                        onChange={(e) => setPasswordConfirm(e.target.value)}
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            type={showConfirm ? "text" : "password"}
+                            value={passwordConfirm}
+                            onChange={(e) => setPasswordConfirm(e.target.value)}
+                            placeholder="Επιβεβαίωση κωδικού"
+                            className="w-full pr-10 p-2 border rounded focus:outline-none"
+                            required
+                        />
+
+                        <button
+                            type="button"
+                            className="absolute right-3 top-1/3 -translate-y-1/2 text-gray-500"
+                            onClick={() => setShowConfirm((p) => !p)}
+                        >
+                            👁
+                        </button>
+                    </div>
+                    {passwordsMatch && (
+                        <p className="text-green-600 text-sm mt-1">✔ Οι κωδικοί ταιριάζουν</p>
+                    )}
+
+                    {passwordsMismatch && (
+                        <p className="text-red-500 text-sm mt-1">✖ Οι κωδικοί δεν ταιριάζουν</p>
+                    )}
+
                     <label>Τηλέφωνο</label>
                     <input
                         id="phone_number"
@@ -145,7 +179,7 @@ function SignUp() {
                         onChange={handleChange}
                         placeholder="πχ. Αθήνα"
                     />
-                    <label>Διεύθυνση Γραφείου</label>
+                    <label>Αριθμός Φορολογικού Μητρώου</label>
                     <input
                         id="afm"
                         type="tel"

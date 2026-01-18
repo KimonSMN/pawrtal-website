@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Info, MeetingStatus } from "../models/Info";
+import { useState, useEffect } from "react";
+import { Appointments, User } from "../models/Info";
 
 /**
  * @brief
@@ -13,7 +13,23 @@ import { Info, MeetingStatus } from "../models/Info";
  * @param health_record
  * rating of the appointment
  */
-function Visit({ person, procedure, date, health_record }) {
+function Visit({ info }: { info: Appointments }) {
+    const [owner, setOwner] = useState<User | null>(null);
+
+    useEffect(() => {
+        if (!info.ownerId) return;
+
+        fetch(`http://localhost:3001/users/${info.ownerId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("User not found");
+                return res.json();
+            })
+            .then((data) => {
+                const userInstance = new User(data);
+                setOwner(userInstance);
+            })
+            .catch(console.error);
+    }, [info.ownerId]);
     return (
         <div
             className="
@@ -23,15 +39,15 @@ function Visit({ person, procedure, date, health_record }) {
                 grid grid-cols-[2fr_2fr_1fr_1fr] items-center gap-8
             "
         >
-            <div className="flex-1 pr-12">{person}</div>
-            <div className="flex-1 ">{procedure}</div>
+            <div className="flex-1 pr-12">{owner?.name}</div>
+            <div className="flex-1 ">{info.petId}</div>
             <div className="flex-1 ">
-                {date.toLocaleString("el-GR", {
+                {info.date.toLocaleString("el-GR", {
                     dateStyle: "short",
                     timeStyle: "short",
                 })}
             </div>
-            <div className="flex-1">{health_record}</div>
+            <div className="flex-1">"↓"</div>
         </div>
     );
 }
@@ -48,63 +64,78 @@ function Visit({ person, procedure, date, health_record }) {
  * @param health_record
  * rating of the appointment
  */
-function VisitCard({ person, procedure, date, health_record }) {
+function VisitCard({ info }: { info: Appointments }) {
+    const [owner, setOwner] = useState<User | null>(null);
+
+    useEffect(() => {
+        if (!info.ownerId) return;
+
+        fetch(`http://localhost:3001/users/${info.ownerId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("User not found");
+                return res.json();
+            })
+            .then((data) => {
+                const userInstance = new User(data);
+                setOwner(userInstance);
+            })
+            .catch(console.error);
+    }, [info.ownerId]);
+
     return (
         <div className="bg-[#f9f9f9] rounded-2xl p-4 shadow-md flex flex-col gap-4">
             <div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
-                <div>{person}</div>
+                <div>{owner?.name}</div>
             </div>
 
             <div>
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
-                <div>{procedure}</div>
+                <div>{info.reason}</div>
             </div>
 
             <div className="flex justify-between items-center">
                 <div>
                     <span className="font-semibold text-sm text-gray-500">Ημερομηνία</span>
                     <div>
-                        {date.toLocaleString("el-GR", {
+                        {info.date.toLocaleString("el-GR", {
                             dateStyle: "short",
                             timeStyle: "short",
                         })}
                     </div>
                 </div>
 
-                <div className="text-xl">{health_record}</div>
+                <div className="text-xl">"↓"</div>
             </div>
         </div>
     );
 }
 
 export default function OldAppointments() {
-    const [history, setHistoty] = useState<Info[]>([
-        new Info(
-            "Μαρια Γεωργιου",
-            "Εμβολιο",
-            new Date(15 - 11 - 2025),
-            "Γατα",
-            "125434556",
-            MeetingStatus.Completed,
-        ),
-        new Info(
-            "Αντώνης Ρίκου",
-            "Check-up",
-            new Date(13 - 11 - 2025),
-            "Γατα",
-            "192343556",
-            MeetingStatus.Completed,
-        ),
-        new Info(
-            "Κώστας Κινέτη",
-            "Εμβόλιο",
-            new Date(27 - 10 - 2025),
-            "Σκυλος",
-            "122234256",
-            MeetingStatus.Completed,
-        ),
-    ]);
+    const savedUser = localStorage.getItem("user");
+    const vet = savedUser ? JSON.parse(savedUser) : null;
+    const [loading, setLoading] = useState(true);
+    const [appointments, setAppointments] = useState<Appointments[]>([]);
+
+    useEffect(() => {
+        const fetchVisits = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/appointments?vetId=${vet.id}&status=completed&status=cancelled`,
+                );
+                const data = await response.json();
+                const mapped = data.map(Appointments.fromJSON);
+                setAppointments(mapped);
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchVisits();
+    }, []);
+
     return (
         <div
             className="
@@ -129,14 +160,8 @@ export default function OldAppointments() {
                     <div className="flex-1">Ημερομηνία</div>
                     <div className="flex-1">Βιβλιάριο</div>
                 </div>
-                {history.map((info, index) => (
-                    <Visit
-                        key={index}
-                        person={info.name}
-                        procedure={info.procedure}
-                        date={info.date}
-                        health_record="↓"
-                    />
+                {appointments.map((info) => (
+                    <Visit key={info.id} info={info} />
                 ))}
             </div>
             <div
@@ -145,14 +170,8 @@ export default function OldAppointments() {
                 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full
                 "
             >
-                {history.map((info, index) => (
-                    <VisitCard
-                        key={index}
-                        person={info.name}
-                        procedure={info.procedure}
-                        date={info.date}
-                        health_record="↓"
-                    />
+                {appointments.map((info) => (
+                    <VisitCard key={info.id} info={info} />
                 ))}
             </div>
         </div>

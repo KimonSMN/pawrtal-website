@@ -2,18 +2,71 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./page.module.css";
 import { useAuth } from "../../auth/AuthContext";
-import { User } from "../models/Info";
+import { User, Reviews } from "../models/Info";
+import Dots from "../../assets/dots.png";
+import DownArrow from "../../assets/down_arrow.png";
+import RightArrow from "../../assets/right_arrow.png";
 
-function Review({ person, date, review }) {
+function Review({ info }: { info: Reviews }) {
+    const [owner, setOwner] = useState<User | null>(null);
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (!info.ownerId) return;
+
+        fetch(`http://localhost:3001/users/${info.ownerId}`)
+            .then((res) => {
+                if (!res.ok) throw new Error("User not found");
+                return res.json();
+            })
+            .then((data) => {
+                const userInstance = new User(data);
+                setOwner(userInstance);
+            })
+            .catch(console.error);
+    }, [info.ownerId]);
     return (
-        <div
-            className="flex-1 bg-[#e5e5e5] m-auto p-4 min-w-auto rounded-2xl
-            flex flex-row justify-between items-center gap-4 max-w-full
-        "
-        >
-            <div className="flex-4 pr-12">{person}</div>
-            <div className="flex-1 ">{review}</div>
-            <div className="flex-1">{date}</div>
+        <div className="w-full">
+            {/* Main row */}
+            <div
+                className="
+                    bg-[#e5e5e5] p-4 rounded-2xl
+                    flex flex-row items-center gap-4
+                "
+            >
+                <div className="flex-1">{owner?.name}</div>
+
+                <div className="w-16 text-center font-semibold">{info.rating} / 5</div>
+
+                <div className="w-24 text-sm text-gray-600">
+                    {info.createdAt.toLocaleString("el-GR", {
+                        dateStyle: "short",
+                    })}
+                </div>
+                {/* Arrow */}
+                <button
+                    onClick={() => setOpen((o) => !o)}
+                    className="text-lg p-2 flex rounded justify-center hover:bg-[#cccccc]"
+                >
+                    {open ? (
+                        <img src={DownArrow} alt="free" className="w-4 h-4" />
+                    ) : (
+                        <img src={RightArrow} alt="free" className="w-4 h-4" />
+                    )}
+                </button>
+            </div>
+
+            {/* Dropdown */}
+            {open && (
+                <div
+                    className="
+                        bg-gray-100 mt-2 mx-auto p-3 rounded-xl
+                        text-sm text-gray-700
+                    "
+                >
+                    {info.text || "Δεν υπάρχει σχόλιο"}
+                </div>
+            )}
         </div>
     );
 }
@@ -26,6 +79,26 @@ function Profile() {
     const [user, setUser] = useState<User | null>(null);
     const [editUser, setEditUser] = useState<User | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+    const [reviews, setReviews] = useState<Reviews[]>([]);
+
+    useEffect(() => {
+        const fetchReviews = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/reviews?vetId=${userId}`);
+                const data = await response.json();
+                const mapped = data.map(Reviews.fromJSON);
+                setReviews(mapped);
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchReviews();
+    }, []);
 
     useEffect(() => {
         if (!userId) return;
@@ -80,6 +153,9 @@ function Profile() {
     };
 
     const handleCancel = () => {
+        const confirmLogout = window.confirm("Είστε σίγουροι ότι θέλετε να ακυρώσετε τις αλλαγές;");
+
+        if (!confirmLogout) return;
         setEditUser(user);
         setIsEditing(false);
     };
@@ -92,13 +168,18 @@ function Profile() {
         navigate("/");
     };
 
+    const averageRating =
+        reviews.length === 0
+            ? 0
+            : (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1);
+
     return (
-        <div className="flex flex-col items-baseline justify-center lg:flex-row ">
-            <div className="flex flex-col items-center">
-                <h1 className="text-[#303030] w-full mb-4 text-left font-semibold text-2xl">
-                    Καλως ήρθες {user?.name} ,
-                </h1>
-                <div className="flex flex-row items-baseline-last mb-4">
+        <div className="flex flex-col items-baseline justify-center lg:flex-row lg:items-center">
+            <div className="flex flex-col items-center ml-4">
+                {/* Welcome message and profile pic */}
+                <h1 className="text-[#303030] w-full mb-4 text-left text-3xl ">Καλως ήρθες</h1>
+                <div className="flex flex-row items-start mb-4 gap-6 w-full">
+                    <h2 className="text-4xl text-left  text-gray-600  ">{user?.name}, </h2>
                     <div className="h-fit w-fit max-w-40 mb-2 items-start">
                         <img
                             className="w-full h-full object-cover rounded-b-full"
@@ -106,15 +187,11 @@ function Profile() {
                             alt="profile-pic"
                         />
                     </div>
-                    <div>
-                        <h2 className="text-3xl">{user?.name}</h2>
-                        <span className="text-sm text-gray-500 mb-1">{user?.email}</span>
-                    </div>
                 </div>
-                <h1 className="text-[#303030] w-full mb-6 text-left font-medium text-2xl">
+                {/* Account data container */}
+                <h1 className="text-[#303030] w-full m-auto text-left text-3xl mb-6 ">
                     Ο Λογαριασμός μου
                 </h1>
-                {/* arxh container */}
                 <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
                     <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4">
                         <div
@@ -293,17 +370,31 @@ function Profile() {
                     </button>
                 </div>
             </div>
-            <div className="flex flex-col items-center">
-                <div className="flex flex-col items-center p-8 gap-5">
-                    <h1 className=" text-[#303030] w-full m-auto text-left font-semibold text-2xl">
-                        Οι Αξιολογησεις μου
-                    </h1>
-                    <div className="flex-1 flex flex-row justify-between items-center gap-4 max-w-full text-[#333] border-b-2 border-b-black">
-                        <div className="flex-4 pr-12">Ονομα Χρήστη</div>
-                        <div className="flex-1 ">Βαθμολογία</div>
-                        <div className="flex-1">Ημερομηνία</div>
+            <div className="flex flex-col items-center sm:mt-25">
+                <div className="flex flex-col items-center p-8 gap-5 w-full">
+                    <div className="flex flex-col gap-2 mb-4">
+                        <div className="text-lg font-semibold">
+                            Μέση βαθμολογία: {averageRating} / 5
+                        </div>
+
+                        <div className="text-sm text-gray-500">({reviews.length} αξιολογήσεις)</div>
                     </div>
-                    <Review person="natalia Krikelli" date="12/05/2025" review="4/5" />
+                    <h1 className=" text-[#303030] w-full m-auto mb-8 text-left text-3xl ">
+                        Οι Αξιολογήσεις μου
+                    </h1>
+                    <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-black">
+                        <div className="flex-3 ">Χρήστης</div>
+                        <div className="flex-2 ">Αστέρια</div>
+                        <div className="flex-1">Ημερομηνία</div>
+                        <div className="flex-1 pr-4 ">
+                            <img src={Dots} alt="free" className="w-6 h-6" />
+                        </div>
+                    </div>
+                    <div className="flex flex-col pr-4 gap-4 max-h-[360px] overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
+                        {reviews.map((info) => (
+                            <Review key={info.id} info={info} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@
 - [ ] render reviews about vet
 - [x] Records
 - [ ] Upcoming visits in calendar view
-- [ ] confirm Password live update to inform user
+- [x] confirm Password live update to inform user
 - [ ] alert messages when {new record submitted , new user signup , users data changed }
 
 ### ${\color{blue}User's \space POV}$
