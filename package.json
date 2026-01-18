@@ -1,37 +1,39 @@
 {
-  "name": "pawrtal-website",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.1.17",
-    "lucide-react": "^0.562.0",
-    "react": "^19.2.0",
-    "react-datepicker": "^9.1.0",
-    "react-dom": "^19.2.0",
-    "react-router-dom": "^7.11.0",
-    "tailwindcss": "^4.1.17"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.1",
-    "@types/react": "^19.2.5",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^5.1.1",
-    "eslint": "^9.39.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
-    "globals": "^16.5.0",
-    "prettier": "^3.7.4",
-    "tailwind-scrollbar": "^4.0.2",
-    "vite": "^7.2.4"
-  }
+    "name": "pawrtal-website",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "api": "json-server --watch db.json --port 3001",
+        "build": "vite build",
+        "lint": "eslint .",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@tailwindcss/vite": "^4.1.17",
+        "lucide-react": "^0.562.0",
+        "react": "^19.2.0",
+        "react-datepicker": "^9.1.0",
+        "react-dom": "^19.2.0",
+        "react-router-dom": "^7.11.0",
+        "tailwindcss": "^4.1.17"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.1",
+        "@types/react": "^19.2.5",
+        "@types/react-dom": "^19.2.3",
+        "@vitejs/plugin-react": "^5.1.1",
+        "eslint": "^9.39.1",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-react-hooks": "^7.0.1",
+        "eslint-plugin-react-refresh": "^0.4.24",
+        "globals": "^16.5.0",
+        "json-server": "^1.0.0-beta.3",
+        "prettier": "^3.7.4",
+        "tailwind-scrollbar": "^4.0.2",
+        "vite": "^7.2.4"
+    }
 }

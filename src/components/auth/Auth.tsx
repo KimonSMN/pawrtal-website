@@ -1,7 +1,18 @@
 import React, { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../auth/AuthProvider";
+import * as authApi from "../../lib/authApi";
 
 type Role = "user" | "vet" | null;
 type Mode = "login" | "signup";
+
+type Theme = {
+    shell: string;
+    card: string;
+    input: string;
+    button: string;
+    subtle: string;
+};
 
 export default function Auth() {
     const [hovered, setHovered] = useState<Role>(null);
@@ -38,7 +49,7 @@ export default function Auth() {
                 },
                 mode: vetMode,
                 setMode: setVetMode,
-                loginIdPlaceholder: "ID Κτηνιάτρου / Email",
+                loginIdPlaceholder: "Email",
             },
         ],
         [userMode, vetMode],
@@ -72,13 +83,7 @@ function AuthPanel(props: {
     onHover: (r: Role) => void;
     title: string;
     emoji: string;
-    theme: {
-        shell: string;
-        card: string;
-        input: string;
-        button: string;
-        subtle: string;
-    };
+    theme: Theme;
     mode: Mode;
     setMode: (m: Mode) => void;
     loginIdPlaceholder: string;
@@ -87,7 +92,6 @@ function AuthPanel(props: {
         props;
 
     const active = hovered === role;
-
     const flexClass = !hovered ? "flex-1" : active ? "flex-[1.18]" : "flex-[0.82]";
 
     return (
@@ -101,9 +105,9 @@ function AuthPanel(props: {
             onMouseEnter={() => onHover(role)}
             onMouseLeave={() => onHover(null)}
         >
-            {/* Active content */}
             <SwapFade show={active}>
                 <AuthCard
+                    role={role}
                     title={title}
                     theme={theme}
                     mode={mode}
@@ -112,7 +116,6 @@ function AuthPanel(props: {
                 />
             </SwapFade>
 
-            {/* Inactive content */}
             <SwapFade show={!active}>
                 <RoleSplash title={title} emoji={emoji} subtleClass={theme.subtle} />
             </SwapFade>
@@ -161,12 +164,14 @@ function RoleSplash({
 /* ---------------- AUTH CARD ---------------- */
 
 function AuthCard({
+    role,
     title,
     theme,
     mode,
     setMode,
     loginIdPlaceholder,
 }: {
+    role: Exclude<Role, null>;
     title: string;
     theme: {
         card: string;
@@ -178,6 +183,76 @@ function AuthCard({
     setMode: (m: Mode) => void;
     loginIdPlaceholder: string;
 }) {
+    const navigate = useNavigate();
+    const { login } = useAuth();
+
+    const [busy, setBusy] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+
+    // Login fields
+    const [identifier, setIdentifier] = useState("");
+    const [password, setPassword] = useState("");
+
+    // Signup fields
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [city, setCity] = useState("");
+    const [signupPassword, setSignupPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    async function handleSubmit() {
+        setError(null);
+
+        if (mode === "login") {
+            if (!identifier.trim() || !password) {
+                setError("Συμπλήρωσε τα στοιχεία σύνδεσης.");
+                return;
+            }
+        } else {
+            if (!fullName.trim() || !email.trim() || !phone.trim() || !city.trim()) {
+                setError("Συμπλήρωσε όλα τα πεδία.");
+                return;
+            }
+            if (!signupPassword || signupPassword.length < 6) {
+                setError("Ο κωδικός πρέπει να έχει τουλάχιστον 6 χαρακτήρες.");
+                return;
+            }
+            if (signupPassword !== confirmPassword) {
+                setError("Οι κωδικοί δεν ταιριάζουν.");
+                return;
+            }
+        }
+
+        setBusy(true);
+        try {
+            const res =
+                mode === "login"
+                    ? await authApi.login(role, identifier, password)
+                    : await authApi.signup(role, {
+                          fullName,
+                          email,
+                          phone,
+                          city,
+                          password: signupPassword,
+                      });
+
+            // Note: your AuthProvider may want more fields; add name if supported
+            login(res.token, {
+                id: res.user.id,
+                email: res.user.email,
+                role: res.user.role,
+                ...(res.user.name ? { name: res.user.name } : {}),
+            } as any);
+
+            navigate("/", { replace: true });
+        } catch (e: any) {
+            setError(e?.message ?? "Κάτι πήγε στραβά. Δοκίμασε ξανά.");
+        } finally {
+            setBusy(false);
+        }
+    }
+
     return (
         <div
             className={[
@@ -203,6 +278,9 @@ function AuthCard({
                         placeholder={loginIdPlaceholder}
                         className={theme.input}
                         autoComplete="username"
+                        value={identifier}
+                        onChange={(e) => setIdentifier(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Κωδικός"
@@ -210,6 +288,9 @@ function AuthCard({
                         type="password"
                         className={theme.input}
                         autoComplete="current-password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        disabled={busy}
                     />
                 </div>
             ) : (
@@ -219,6 +300,9 @@ function AuthCard({
                         placeholder="Ονοματεπώνυμο"
                         className={theme.input}
                         autoComplete="name"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Email"
@@ -226,6 +310,9 @@ function AuthCard({
                         type="email"
                         className={theme.input}
                         autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Τηλέφωνο"
@@ -233,12 +320,18 @@ function AuthCard({
                         type="tel"
                         className={theme.input}
                         autoComplete="tel"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Πόλη"
                         placeholder="Πόλη"
                         className={theme.input}
                         autoComplete="address-level2"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Κωδικός"
@@ -246,6 +339,9 @@ function AuthCard({
                         type="password"
                         className={theme.input}
                         autoComplete="new-password"
+                        value={signupPassword}
+                        onChange={(e) => setSignupPassword(e.target.value)}
+                        disabled={busy}
                     />
                     <LabeledInput
                         label="Επιβεβαίωση Κωδικού"
@@ -253,18 +349,33 @@ function AuthCard({
                         type="password"
                         className={theme.input}
                         autoComplete="new-password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        disabled={busy}
                     />
+                </div>
+            )}
+
+            {error && (
+                <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/10 px-3 py-2 text-sm">
+                    {error}
                 </div>
             )}
 
             <button
                 className={[
-                    "mt-5 w-full rounded-xl py-3 text-sm font-medium transition-colors",
+                    "mt-5 w-full rounded-xl py-3 text-sm font-medium transition-colors disabled:opacity-60 disabled:cursor-not-allowed",
                     theme.button,
                 ].join(" ")}
                 type="button"
+                onClick={handleSubmit}
+                disabled={busy}
             >
-                {mode === "login" ? "Σύνδεση" : "Δημιουργία Λογαριασμού"}
+                {busy
+                    ? "Παρακαλώ περίμενε..."
+                    : mode === "login"
+                      ? "Σύνδεση"
+                      : "Δημιουργία Λογαριασμού"}
             </button>
 
             <div className="mt-4">
