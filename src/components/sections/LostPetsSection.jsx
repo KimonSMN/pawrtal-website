@@ -140,7 +140,7 @@ export default function LostPetsSection() {
                 </div>
 
                 {/* Cards */}
-                <div className="min-h-0 flex-1 overflow-y-auto pb-8 pr-2 mb-24 overflow-x-hidden">
+                <div className="min-h-0 flex-1 overflow-y-auto pb-8 pr-2 mb-24 overflow-x-hidden p-3">
                     {loading ? (
                         <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                             Φόρτωση…

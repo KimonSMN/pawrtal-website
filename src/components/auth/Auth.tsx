@@ -237,15 +237,14 @@ function AuthCard({
                           password: signupPassword,
                       });
 
-            // Note: your AuthProvider may want more fields; add name if supported
             login(res.token, {
                 id: res.user.id,
                 email: res.user.email,
                 role: res.user.role,
-                ...(res.user.name ? { name: res.user.name } : {}),
+                ...(res.user.fullName ? { name: res.user.fullName } : {}),
             } as any);
 
-            navigate("/", { replace: true });
+            navigate(role === "vet" ? "/vet" : "/client/home", { replace: true });
         } catch (e: any) {
             setError(e?.message ?? "Κάτι πήγε στραβά. Δοκίμασε ξανά.");
         } finally {
