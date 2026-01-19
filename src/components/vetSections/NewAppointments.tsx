@@ -94,7 +94,7 @@ function VisitCard({ info }: { info: Appointments }) {
 }
 
 function NewAppointments() {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("pawrtal_user");
     const vet = storedUser ? JSON.parse(storedUser) : null;
     const [loading, setLoading] = useState(true);
     const [appointments, setAppointments] = useState<Appointments[]>([]);

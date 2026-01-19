@@ -112,7 +112,7 @@ function VisitCard({ info }: { info: Appointments }) {
 }
 
 export default function OldAppointments() {
-    const savedUser = localStorage.getItem("user");
+    const savedUser = localStorage.getItem("pawrtal_user");
     const vet = savedUser ? JSON.parse(savedUser) : null;
     const [loading, setLoading] = useState(true);
     const [appointments, setAppointments] = useState<Appointments[]>([]);

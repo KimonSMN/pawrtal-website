@@ -524,3 +524,453 @@
     }
   ]
 }
+    "users": [
+        {
+            "id": "1",
+            "fullName": "admin",
+            "email": "admin",
+            "password": "admin",
+            "phone_number": "690000001",
+            "age": 30,
+            "role": "user",
+            "city": "Athens",
+            "createdAt": "2026-01-19T15:00:46.597Z"
+        },
+        {
+            "id": "2",
+            "fullName": "Maria Papadopoulou",
+            "email": "maria@gmail.com",
+            "password": "1234",
+            "phone_number": "690000002",
+            "age": 28,
+            "role": "user",
+            "city": "Piraeus",
+            "createdAt": "2026-01-19T15:01:10.000Z"
+        },
+        {
+            "id": "3",
+            "fullName": "Kostas Vasilis",
+            "email": "kostas@gmail.com",
+            "password": "1234",
+            "phone_number": "690000003",
+            "age": 42,
+            "role": "vet",
+            "city": "Athens",
+            "createdAt": "2026-01-19T15:02:10.000Z"
+        },
+        {
+            "id": "4",
+            "fullName": "Sofia Markou",
+            "email": "sofia@gmail.com",
+            "password": "1234",
+            "phone_number": "690000004",
+            "age": 38,
+            "role": "vet",
+            "city": "Chalandri",
+            "createdAt": "2026-01-19T15:02:30.000Z"
+        },
+        {
+            "id": "5",
+            "fullName": "Antonis Rodakios",
+            "email": "natalia@email.com",
+            "password": "123456",
+            "phone_number": "6971363810",
+            "age": 0,
+            "role": "user",
+            "city": "Αθηνα",
+            "createdAt": "2026-01-19T17:49:45.810Z"
+        },
+        {
+            "id": "5",
+            "fullName": "Dimitra Pauilidi",
+            "email": "dimitra@email.com",
+            "password": "1234",
+            "phone_number": "6971363810",
+            "age": 0,
+            "role": "user",
+            "city": "Αθηνα",
+            "createdAt": "2026-01-19T17:49:45.810Z"
+        }
+    ],
+    "appointments": [
+        {
+            "id": "1",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "4",
+            "ownerId": "5",
+            "reason": "check-up",
+            "date": "2026-01-23T11:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "2",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "4",
+            "ownerId": "2",
+            "reason": "vaccination",
+            "date": "2026-01-23T14:00:00",
+            "status": "new"
+        },
+        {
+            "id": "3",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "4",
+            "ownerId": "2",
+            "reason": "check-up",
+            "date": "2026-01-22T10:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "4",
+            "pet": "cat",
+            "petId": "38917401",
+            "vetId": "4",
+            "ownerId": "6",
+            "reason": "emergency",
+            "date": "2026-01-19T11:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "5",
+            "pet": "dog",
+            "petId": "9842947",
+            "vetId": "4",
+            "ownerId": "2",
+            "reason": "vaccination",
+            "date": "2026-01-19T18:40:00",
+            "status": "approved"
+        },
+        {
+            "id": "6",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "4",
+            "ownerId": "2",
+            "reason": "check-up",
+            "date": "2026-01-22T09:00:00",
+            "status": "completed"
+        },
+        {
+            "id": "7",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "4",
+            "ownerId": "5",
+            "reason": "vaccination",
+            "date": "2026-01-22T20:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "8",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "4",
+            "ownerId": "2",
+            "reason": "check-up",
+            "date": "2026-01-23T14:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "9",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "4",
+            "ownerId": "6",
+            "reason": "vaccination",
+            "date": "2026-01-22T15:00:00",
+            "status": "completed"
+        }
+    ],
+    "records": [
+        {
+            "id": "0765",
+            "petName": "Φελιξ",
+            "petId": "132892",
+            "species": "Σκύλος",
+            "vetId": "4",
+            "ownerEmail": "dimitra@email.com",
+            "condition": "",
+            "age": 1,
+            "gender": "male",
+            "breed": "border collie",
+            "ownerStatus": "",
+            "hair": "κοντό",
+            "hairColor": "μαυρο",
+            "animalSize": "",
+            "createdAt": ""
+        },
+        {
+            "id": "d2bc",
+            "petName": "Μπέλα",
+            "petId": "198319",
+            "species": "Σκύλος",
+            "vetId": "4",
+            "ownerEmail": "dimitra@email.com",
+            "condition": "",
+            "age": 2,
+            "gender": "",
+            "breed": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-15T13:13:15.553Z"
+        },
+        {
+            "id": "bd1a",
+            "petName": "Τσάρλι",
+            "petId": "",
+            "species": "",
+            "vetId": "4",
+            "ownerEmail": "dimitra@email.com",
+            "condition": "",
+            "age": 0,
+            "gender": "",
+            "breed": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-15T13:19:29.042Z"
+        },
+        {
+            "id": "bb7d",
+            "petName": "Μπένζι",
+            "petId": "",
+            "species": "",
+            "vetId": "4",
+            "ownerEmail": "maria@gmail.com",
+            "condition": "",
+            "age": 7,
+            "gender": "",
+            "breed": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-16T02:47:24.491Z"
+        },
+        {
+            "id": "11be",
+            "petName": "Λούφι",
+            "petId": "",
+            "species": "",
+            "vetId": "4",
+            "ownerEmail": "maria@gmail.com",
+            "condition": "",
+            "age": 4,
+            "gender": "",
+            "breed": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-18T11:14:39.159Z"
+        },
+        {
+            "id": "68b0",
+            "petName": "Πλούτο",
+            "petId": "",
+            "species": "",
+            "vetId": "4",
+            "ownerEmail": "maria@gmail.com",
+            "condition": "",
+            "age": 1,
+            "gender": "",
+            "breed": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-19T14:57:04.007Z"
+        }
+    ],
+    "reviews": [
+        {
+            "id": "1",
+            "vetId": "3",
+            "ownerId": "2",
+            "rating": 4.5,
+            "text": "Πολύ καλή εξυπηρέτηση",
+            "createdAt": "2026-01-12T12:47:24.491Z"
+        },
+        {
+            "id": "2",
+            "vetId": "3",
+            "ownerId": "5",
+            "rating": 4,
+            "text": "Εξαιρετικη Εμπειρία",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "3",
+            "vetId": "4",
+            "ownerId": "5",
+            "rating": 5,
+            "text": "Το ιατρειο ειναι πληρως εξοπλησμενο με παιχνιδια για τα κατοικιδια. Πολυ καλη εμπειρια για το σκυλακι μου!!!",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "4",
+            "vetId": "3",
+            "ownerId": "2",
+            "rating": 4,
+            "text": "Γρηγορη Εξυπηρετηση , Λογικες τιμες.",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "5",
+            "vetId": "4",
+            "ownerId": "2",
+            "rating": 5,
+            "text": "Ομορφο ιατρειο. Εκανα στείρωση  στο κουταβακι μου (μικρόσωμο ) με 120€",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "6",
+            "vetId": "4",
+            "ownerId": "5",
+            "rating": 4.5,
+            "text": "Γρηγορη Εξυπηρετηση και το ειχα αναγκη. Ευχαριστω !!",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "7",
+            "vetId": "4",
+            "ownerId": "4",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        }
+    ],
+    "pets": [
+        {
+            "id": "p1",
+            "ownerId": "1",
+            "name": "Rex",
+            "species": "dog",
+            "breed": "German Shepherd",
+            "age": 5,
+            "lastSeenDate": "2026-01-18",
+            "location": "Athens",
+            "description": "Large dog, friendly",
+            "photo": "/images/dog_3.jpg",
+            "createdAt": "2026-01-19T15:03:00.000Z"
+        },
+        {
+            "id": "p2",
+            "ownerId": "1",
+            "name": "Luna",
+            "species": "cat",
+            "breed": "European Shorthair",
+            "age": 3,
+            "lastSeenDate": "2026-01-17",
+            "location": "Piraeus",
+            "description": "Gray cat with green eyes",
+            "photo": "/images/cat_1.jpg",
+            "createdAt": "2026-01-19T15:03:10.000Z"
+        },
+        {
+            "id": "p3",
+            "ownerId": "1",
+            "name": "Pyke",
+            "species": "dog",
+            "breed": "Shiba Inu",
+            "age": 4,
+            "lastSeenDate": "2026-01-16",
+            "location": "Cholargos",
+            "description": "Very calm",
+            "photo": "/images/dog_1.jpg",
+            "createdAt": "2026-01-19T15:03:20.000Z"
+        },
+        {
+            "id": "p4",
+            "ownerId": "2",
+            "name": "Bella",
+            "species": "cat",
+            "breed": "Persian",
+            "age": 2,
+            "lastSeenDate": "2026-01-15",
+            "location": "Glyfada",
+            "description": "White fluffy cat",
+            "photo": "/images/cat_2.jpg",
+            "createdAt": "2026-01-19T15:03:30.000Z"
+        },
+        {
+            "id": "p5",
+            "ownerId": "2",
+            "name": "Rocky",
+            "species": "dog",
+            "breed": "Boxer",
+            "age": 6,
+            "lastSeenDate": "2026-01-14",
+            "location": "Athens",
+            "description": "Brown boxer, energetic",
+            "photo": "/images/dog_2.jpg",
+            "createdAt": "2026-01-19T15:03:40.000Z"
+        },
+        {
+            "id": "p6",
+            "ownerId": "3",
+            "name": "Milo",
+            "species": "cat",
+            "breed": "Siamese",
+            "age": 1,
+            "lastSeenDate": "2026-01-13",
+            "location": "Chalandri",
+            "description": "Cream-colored kitten",
+            "photo": "/images/cat_3.jpg",
+            "createdAt": "2026-01-19T15:03:50.000Z"
+        }
+    ],
+    "foundReports": [
+        {
+            "id": "fr1",
+            "petId": "p1",
+            "ownerId": "1",
+            "reporterUserId": "2",
+            "foundLocation": "Omonia Square",
+            "foundDate": "2026-01-18T22:00:00.000Z",
+            "reporterFirstName": "Maria",
+            "reporterLastName": "Papadopoulou",
+            "reporterContact": "690000002",
+            "extraInfo": "Dog was calm and wearing a collar",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:00.000Z"
+        },
+        {
+            "id": "fr2",
+            "petId": "p2",
+            "ownerId": "1",
+            "reporterUserId": "3",
+            "foundLocation": "Port of Piraeus",
+            "foundDate": "2026-01-17T21:30:00.000Z",
+            "reporterFirstName": "Kostas",
+            "reporterLastName": "Vasilis",
+            "reporterContact": "690000003",
+            "extraInfo": "Cat hiding near containers",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:10.000Z"
+        },
+        {
+            "id": "fr3",
+            "petId": "p3",
+            "ownerId": "1",
+            "reporterUserId": "4",
+            "foundLocation": "Peristeri Park",
+            "foundDate": "2026-01-16T20:00:00.000Z",
+            "reporterFirstName": "Sofia",
+            "reporterLastName": "Markou",
+            "reporterContact": "690000004",
+            "extraInfo": "Dog was playing with other dogs",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:20.000Z"
+        }
+    ]
+}

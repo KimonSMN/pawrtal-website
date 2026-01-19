@@ -7,11 +7,12 @@ import Records from "./Records";
 import profileImg from "../../assets/account.png";
 import vetImg from "../../assets/Vets.webp";
 import healthBookImg from "../../assets/dog_1.jpg";
+import BackArrow from "../../assets/back_arrow.png";
 
 function Home() {
-    //const [mode, setMode] = useState<"profile" | "appointments" | "records">("profile");
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("pawrtal_user");
     const userName = storedUser ? JSON.parse(storedUser).name : null;
+    const [message, setMessage] = useState("appear");
     const [view, setView] = useState<"dashboard" | "profile" | "appointments" | "records">(
         "dashboard",
     );
@@ -33,7 +34,7 @@ function Home() {
         },
         {
             id: 3,
-            title: "Καταγραφές",
+            title: "Καταχωρήσεις",
             image: healthBookImg,
             action: () => {
                 setView("records");
@@ -44,12 +45,12 @@ function Home() {
     const breadcrumbMap: Record<typeof view, string> = {
         profile: "Λογαριασμός",
         appointments: "Ραντεβού",
-        records: "Καταγραφές",
+        records: "Καταχωρήσεις",
     };
 
     return (
-        <div className="flex flex-col justify-center  items-center m-auto mt-10 mb-20">
-            <div className="w-full text-left mx-10 mb-8 px-12">
+        <div className="flex flex-col justify-center  items-center m-auto mt-20 mb-25">
+            <div className="w-full text-left mx-10 mb-4 px-12">
                 <nav className="text-sm text-gray-500 flex items-center gap-2">
                     <Link to="/" className="hover:text-black hover:underline transition-all">
                         Αρχική
@@ -76,16 +77,26 @@ function Home() {
                 </nav>
             </div>
             {/* page load */}
+
+            {message === "appear" && (
+                <div className="w-full p-12 items-left">
+                    <button
+                        onClick={() => setView("dashboard")}
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"
+                    >
+                        <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
+                        Πίσω
+                    </button>
+                </div>
+            )}
             {view === "dashboard" && (
                 <>
-                    <div className="flex flex-col items-center w-full mx-10 mb-8 px-12">
-                        <h1 className="text-[#303030] w-full mb-4 text-left text-3xl ">
-                            Καλως ήρθες
-                        </h1>
-                        <div className="flex flex-row items-start mb-4 gap-6 w-full">
-                            <h2 className="text-4xl text-left  text-gray-600  ">{userName} </h2>
+                    <div className="flex flex-col items-center w-full  mb-8 text-left">
+                        <h1 className="text-[#303030] mb-4 text-3xl ">Καλως ήρθες</h1>
+                        <div className="flex flex-row items-center mb-4 gap-6 ">
+                            <h2 className="text-4xl text-gray-600">{userName}</h2>
                         </div>
-                        <h2 className="text-xl text-left  text-gray-600 w-full">
+                        <h2 className="text-xl text-gray-600 ">
                             Διαλέξτε την επόμενη ενέργεια για να συνεχίσετε
                         </h2>
                     </div>
@@ -96,7 +107,7 @@ function Home() {
                                 onClick={card.action}
                                 className="bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
                             >
-                                <div className="h-[200px] sm:h-[220px] overflow-hidden bg-gray-200 relative">
+                                <div className="h-50 sm:h-55 overflow-hidden bg-gray-200 relative">
                                     <img
                                         src={card.image}
                                         alt={card.title}
@@ -104,7 +115,7 @@ function Home() {
                                     />
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                                 </div>
-                                <div className="p-4 h-[90px] flex items-center justify-center bg-white relative z-10">
+                                <div className="p-4 flex items-center justify-center bg-white relative z-10">
                                     <h2 className="text-xl sm:text-2xl font-medium text-black text-center leading-tight">
                                         {card.title}
                                     </h2>
@@ -117,54 +128,9 @@ function Home() {
 
             {view === "profile" && <Profile />}
             {view === "appointments" && <Appointments />}
-            {view === "records" && <Records />}
+            {view === "records" && <Records onChangeMessage={setMessage} />}
         </div>
     );
 }
 
 export default Home;
-
-/*
-
-            <div className={styles.vet_bar}>
-                <div className={styles.vet_bar_toggle}>
-                    <div className={`${styles.slider} ${styles[mode]}`} />
-                    <button
-                        className={mode === "profile" ? styles.active : ""}
-                        onClick={() => setMode("profile")}
-                    >
-                        To profile μου
-                    </button>
-                    <button
-                        className={mode === "appointments" ? styles.active : ""}
-                        onClick={() => setMode("appointments")}
-                    >
-                        Τα ραντεβού μου
-                    </button>
-                    <button
-                        className={mode === "records" ? styles.active : ""}
-                        onClick={() => setMode("records")}
-                    >
-                        Καταγραφες
-                    </button>
-                </div>
-            </div>
-
-            <div
-                className="
-                flex-1 bg-transparent p-8
-            "
-            >
-                <div className="flex flex-col items-center">
-                    {/* Load component }
-                    {mode === "profile" ? (
-                        <Profile />
-                    ) : mode === "appointments" ? (
-                        <Appointments />
-                    ) : (
-                        <Records />
-                    )}
-                </div>
-            </div>
-
- */

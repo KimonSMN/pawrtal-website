@@ -59,7 +59,7 @@ function Meeting({ info }: { info: Appointments }) {
 }
 
 function Scheduled() {
-    const vet = JSON.parse(localStorage.getItem("user")!);
+    const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [appointments, setAppointments] = useState<Appointments[]>([]);
