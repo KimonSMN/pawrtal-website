@@ -191,20 +191,41 @@ function Navbar() {
                         {open && (
                             <div
                                 role="menu"
-                                className="absolute right-0 mt-2 w-72 overflow-hidden rounded-xl border border-black/10 bg-white shadow-lg"
+                                className="absolute right-0 mt-2 w-72 overflow-hidden rounded-xl border border-black/10 bg-white shadow-lg "
                             >
                                 {/* Header */}
-                                <div className="border-b border-black/10 px-4 py-3">
-                                    <div className="text-sm font-semibold text-zinc-900">
-                                        {isAuthenticated ? user?.email : "Επισκέπτης"}
-                                    </div>
-                                    <div className="text-xs text-zinc-600">
-                                        {isAuthenticated
-                                            ? user?.role === "vet"
-                                                ? "Κτηνίατρος"
-                                                : "Χρήστης"
-                                            : "Δεν έχεις συνδεθεί"}
-                                    </div>
+                                <div className="border-b border-black/10 px-4 py-3 ">
+                                    {isAuthenticated ? (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setOpen(false);
+
+                                                if (user?.role === "vet") {
+                                                    navigate("/vet");
+                                                } else {
+                                                    navigate("/client/home");
+                                                }
+                                            }}
+                                            className="w-full text-left hover:opacity-80 transition cursor-pointer"
+                                        >
+                                            <div className="text-sm font-semibold text-zinc-900">
+                                                {user?.email}
+                                            </div>
+                                            <div className="text-xs text-zinc-600">
+                                                {user?.role === "vet" ? "Κτηνίατρος" : "Χρήστης"}
+                                            </div>
+                                        </button>
+                                    ) : (
+                                        <>
+                                            <div className="text-sm font-semibold text-zinc-900">
+                                                Επισκέπτης
+                                            </div>
+                                            <div className="text-xs text-zinc-600">
+                                                Δεν έχεις συνδεθεί
+                                            </div>
+                                        </>
+                                    )}
                                 </div>
 
                                 {/* Notifications (MVP) */}

@@ -119,15 +119,15 @@ export default function LostPetsSection() {
                     </div>
                 )}
 
-                {/* Search + Filter */}
-                <div className="mb-6 flex flex-wrap items-center gap-4">
+                {/* Searchbar / Filter */}
+                <div className="pb-4 flex flex-wrap items-center gap-4">
                     <div className="min-w-[240px] flex-1">
                         <SearchBar value={query} onChange={setQuery} />
                     </div>
 
                     <div className="w-44">
                         <select
-                            className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none"
+                            className="w-full h-12 rounded-2xl border border-black/15 bg-white/85 shadow-sm backdrop-blur px-4 py-3 text-sm outline-none cursor-pointer "
                             value={species}
                             onChange={(e) => setSpecies(e.target.value)}
                         >
@@ -140,7 +140,7 @@ export default function LostPetsSection() {
                 </div>
 
                 {/* Cards */}
-                <div className="min-h-0 flex-1 overflow-y-auto pb-8 pr-2 mb-24 overflow-x-hidden">
+                <div className="min-h-0 flex-1 overflow-y-auto mb-24 overflow-x-hidden p-6 pr-2 pl-0">
                     {loading ? (
                         <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                             Φόρτωση…
