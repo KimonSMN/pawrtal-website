@@ -200,7 +200,12 @@ function Navbar() {
                                             type="button"
                                             onClick={() => {
                                                 setOpen(false);
-                                                navigate("/client/home");
+
+                                                if (user?.role === "vet") {
+                                                    navigate("/vet");
+                                                } else {
+                                                    navigate("/client/home");
+                                                }
                                             }}
                                             className="w-full text-left hover:opacity-80 transition cursor-pointer"
                                         >
