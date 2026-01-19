@@ -175,7 +175,7 @@ function Profile() {
 
     return (
         <>
-            <h1 className="text-[#303030] w-full mx-12 px-12 mb-4 text-left text-3xl ">
+            <h1 className="text-[#303030] w-full mb-8 px-4 text-center text-3xl ">
                 Καλως ήρθες στον λογαριασμο σου.
             </h1>
             <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-center">

@@ -75,7 +75,7 @@ export class Appointments {
             json.vetId,
             json.ownerId,
             json.reason,
-            new Date(json.date), // 🔑 critical
+            new Date(json.date),
             json.status,
         );
     }
@@ -88,15 +88,40 @@ export type Gender = "male" | "female";
 
 export class Record {
     constructor(
+        public petName: string,
         public species: string,
         public ownerName: string,
+        public ownerEmail: string,
         public condition: PetCondition,
         public petId: string,
         public age: number,
         public gender: Gender,
+        public race: string,
         public ownerStatus: OwnerStatus,
+        public hair: string,
+        public hairColor: string,
+        public animalSize: string,
         public createdAt: Date = new Date(),
     ) {}
+
+    static fromJSON(json: any): Record {
+        return new Record(
+            json.petName,
+            json.species,
+            json.ownerName,
+            json.ownerEmail,
+            json.condition,
+            json.petId,
+            json.age,
+            json.gender,
+            json.race,
+            json.ownerStatus,
+            json.hair,
+            json.hairColor,
+            json.animalSize,
+            new Date(json.createdAt),
+        );
+    }
 }
 
 /* REVIEW */
@@ -131,7 +156,7 @@ export class Reviews {
             json.ownerId,
             json.rating,
             json.text,
-            new Date(json.createdAt), // 🔑 critical
+            new Date(json.createdAt),
         );
     }
 }
