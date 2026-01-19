@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DatePicker from "react-datepicker";
@@ -327,15 +327,6 @@ export default function FoundPetReport() {
     if (petLoading) {
         return (
             <div className="mx-auto max-w-4xl px-4 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                    type="button"
-                >
-                    <ArrowLeft size={16} />
-                    <span>Πίσω</span>
-                </button>
-
                 <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                     Φόρτωση…
                 </div>
@@ -346,15 +337,6 @@ export default function FoundPetReport() {
     if (petError) {
         return (
             <div className="mx-auto max-w-4xl px-4 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                    type="button"
-                >
-                    <ArrowLeft size={16} />
-                    <span>Πίσω</span>
-                </button>
-
                 <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-sm text-red-700">
                     {petError}
                     <div className="mt-2 text-xs text-red-700/80">
@@ -369,15 +351,6 @@ export default function FoundPetReport() {
     if (!pet) {
         return (
             <div className="mx-auto max-w-4xl px-4 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                    type="button"
-                >
-                    <ArrowLeft size={16} />
-                    <span>Πίσω</span>
-                </button>
-
                 <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                     Δεν βρέθηκε κατοικίδιο.
                 </div>
@@ -389,16 +362,7 @@ export default function FoundPetReport() {
         <>
             <Navbar />
             <div className="mx-auto max-w-4xl px-4 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                    type="button"
-                >
-                    <ArrowLeft size={16} />
-                    <span>Πίσω</span>
-                </button>
-
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-5">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-5 pt-20">
                     {/* Pet card */}
                     <div className="md:col-span-2">
                         <div className="overflow-hidden rounded-2xl border border-black/10 bg-white shadow-sm">
@@ -457,14 +421,27 @@ export default function FoundPetReport() {
                     {/* Form card */}
                     <div className="md:col-span-3">
                         <div className="rounded-2xl border border-black/10 bg-white/85 p-6 shadow-sm backdrop-blur">
-                            <div>
-                                <h1 className="text-lg font-semibold tracking-tight text-zinc-900">
-                                    Αναφορά εύρεσης κατοικιδίου: {petTitle}
-                                </h1>
-                                <p className="mt-1 text-sm text-zinc-600">
-                                    Δώστε λεπτομέρειες σχετικά με το πού και πότε βρήκατε αυτό το
-                                    κατοικίδιο.
-                                </p>
+                            <div className="flex items-start justify-between gap-4 ">
+                                <div>
+                                    <h1 className="text-lg font-semibold tracking-tight text-zinc-900">
+                                        Αναφορά εύρεσης κατοικιδίου: {petTitle}
+                                    </h1>
+                                    <p className="mt-1 text-sm text-zinc-600">
+                                        Δώστε λεπτομέρειες σχετικά με το πού και πότε βρήκατε αυτό
+                                        το κατοικίδιο.
+                                    </p>
+                                </div>
+
+                                {/* Discard / Close */}
+                                <button
+                                    type="button"
+                                    onClick={() => navigate(-1)}
+                                    className="rounded-lg p-2 text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 transition cursor-pointer"
+                                    aria-label="Ακύρωση αναφοράς"
+                                    disabled={busy}
+                                >
+                                    <X size={18} />
+                                </button>
                             </div>
 
                             <div className="mt-6 space-y-4">
@@ -581,7 +558,7 @@ export default function FoundPetReport() {
                                 <button
                                     className={[
                                         "mt-2 w-full rounded-xl bg-black py-3 text-sm font-medium text-white",
-                                        "transition-colors hover:bg-zinc-900 disabled:opacity-60",
+                                        "transition-colors hover:bg-zinc-900 disabled:opacity-60 cursor-pointer",
                                     ].join(" ")}
                                     type="button"
                                     onClick={handleSubmit}

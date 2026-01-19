@@ -16,7 +16,7 @@ export default function SearchBar({
                 "shadow-sm backdrop-blur",
                 "transition-[box-shadow,border-color,background-color]",
                 "focus-within:ring-2 focus-within:ring-black/10 focus-within:border-black/25",
-                "hover:bg-white",
+                "hover:bg-white cursor-pointer",
                 className,
             ].join(" ")}
         >

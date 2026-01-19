@@ -1,6 +1,6 @@
 // src/pages/OpenPet.tsx
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, MapPin, Calendar, User, Mail } from "lucide-react";
+import { MapPin, Calendar, User, Mail } from "lucide-react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
 
@@ -126,14 +126,6 @@ export default function OpenPet() {
     if (loading) {
         return (
             <div className="mx-auto max-w-6xl px-6 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                >
-                    <ArrowLeft size={16} />
-                    Πίσω
-                </button>
-
                 <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                     Φόρτωση…
                 </div>
@@ -144,14 +136,6 @@ export default function OpenPet() {
     if (error) {
         return (
             <div className="mx-auto max-w-6xl px-6 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                >
-                    <ArrowLeft size={16} />
-                    Πίσω
-                </button>
-
                 <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-sm text-red-700">
                     {error}
                     <div className="mt-2 text-xs text-red-700/80">
@@ -166,14 +150,6 @@ export default function OpenPet() {
     if (!pet) {
         return (
             <div className="mx-auto max-w-6xl px-6 py-10">
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                >
-                    <ArrowLeft size={16} />
-                    Πίσω
-                </button>
-
                 <div className="rounded-2xl border border-black/10 bg-white p-6 text-sm text-zinc-600">
                     Δεν βρέθηκε κατοικίδιο.
                 </div>
@@ -195,15 +171,8 @@ export default function OpenPet() {
     return (
         <>
             <Navbar />
-            <div className="mx-auto max-w-6xl px-6 py-10">
+            <div className="mx-auto max-w-6xl px-6 py-10 pt-30">
                 {/* Back */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-6 inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900"
-                >
-                    <ArrowLeft size={16} />
-                    Πίσω
-                </button>
 
                 <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
                     <div className="overflow-hidden rounded-2xl bg-zinc-200 h-[450px]">
@@ -280,7 +249,7 @@ export default function OpenPet() {
 
                         <button
                             onClick={() => navigate(`/pets/${id}/found`)}
-                            className="mt-4 w-full rounded-lg bg-zinc-800 py-3 text-sm font-medium text-white hover:bg-zinc-700 transition"
+                            className="mt-4 w-full rounded-lg bg-zinc-800 py-3 text-sm font-medium text-white hover:bg-zinc-700 transition cursor-pointer"
                         >
                             Βρήκα αυτό το κατοικίδιο
                         </button>
