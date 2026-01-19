@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import HealthBook from "./HealthBook";
-import ClientAppointments, { AppointmentStep } from "./ClientAppointments"; // <-- Import
+import ClientAppointments, { AppointmentStep } from "./ClientAppointments";
 import Declarations, { DeclarationStep } from "./Declarations";
 
 // Imports εικόνων
@@ -12,8 +12,63 @@ import vetImg from "../../assets/Vets.webp";
 export default function ClientHomeComponent() {
   const [view, setView] = useState<"dashboard" | "healthbook" | "appointments" | "declarations">("dashboard");
   const [declarationStep, setDeclarationStep] = useState<DeclarationStep>("list");
-  // ΝΕΟ: State για τα ραντεβού
   const [appointmentStep, setAppointmentStep] = useState<AppointmentStep>("search");
+
+  // State για τα προσωποποιημένα δεδομένα
+  const [userName, setUserName] = useState("Χρήστη");
+  const [petMessage, setPetMessage] = useState("τα κατοικίδιά σου");
+
+  // --- FETCH DATA ---
+  useEffect(() => {
+    const loadUserData = async () => {
+        // --- ΑΛΛΑΓΗ 1: Διάβασμα από το σωστό κλειδί ---
+        const storedUser = localStorage.getItem("pawrtal_user"); // <-- ΣΗΜΑΝΤΙΚΗ ΑΛΛΑΓΗ
+        if (!storedUser) {
+            console.log("No user found in pawrtal_user storage");
+            return;
+        }
+
+        const currentUser = JSON.parse(storedUser);
+        console.log("Logged in user (Home):", currentUser);
+
+        // --- ΑΛΛΑΓΗ 2: Χρήση του πεδίου 'name' ---
+        // Το AuthProvider σώζει: { id, email, role, name }
+        let firstName = currentUser.name ? currentUser.name.split(" ")[0] : "Χρήστη";
+        
+        // Κλητική πτώση
+        if (firstName.endsWith("ς") || firstName.endsWith("s")) {
+            firstName = firstName.slice(0, -1);
+        }
+        setUserName(firstName);
+
+        // 3. Ρύθμιση Μηνύματος Κατοικιδίων
+        try {
+            const res = await fetch(`http://localhost:3001/pets?ownerId=${currentUser.id}`);
+            const pets = await res.json();
+            
+            if (pets.length > 0) {
+                const petStrings = pets.map((p: any) => {
+                    const article = (p.gender === "female" || p.species === "cat") ? "την" : "τον";
+                    return `${article} ${p.name}`;
+                });
+
+                if (petStrings.length === 1) {
+                    setPetMessage(petStrings[0]);
+                } else {
+                    const lastPet = petStrings.pop();
+                    setPetMessage(`${petStrings.join(", ")} και ${lastPet}`);
+                }
+            } else {
+                setPetMessage("τα κατοικίδιά σου");
+            }
+        } catch (error) {
+            console.error("Error fetching pets:", error);
+            setPetMessage("τα κατοικίδιά σου");
+        }
+    };
+
+    loadUserData();
+  }, []);
 
   const cards = [
     {
@@ -37,25 +92,20 @@ export default function ClientHomeComponent() {
       image: vetImg,
       action: () => {
           setView("appointments");
-          setAppointmentStep("search"); // Reset στην αρχή
+          setAppointmentStep("search");
       },
     },
   ];
 
   const handleBack = () => {
-      // Logic για επιστροφή στις Δηλώσεις
       if (view === "declarations" && declarationStep !== "list") {
           setDeclarationStep("list");
           return;
       }
-      // Logic για επιστροφή στα Ραντεβού
       if (view === "appointments" && appointmentStep !== "search") {
-          // Αν είμαστε σε βαθύτερο βήμα (π.χ. προφίλ ή φόρμα), γυρνάμε στο search/list
-          // Μπορούμε να το κάνουμε πιο έξυπνο (π.χ. από booking -> profile), αλλά για τώρα:
           setAppointmentStep("search"); 
           return;
       }
-      
       setView("dashboard");
   };
 
@@ -90,7 +140,6 @@ export default function ClientHomeComponent() {
                         )}
                     </>
                 ) : view === "appointments" ? (
-                    // Logic για τα Breadcrumbs των Ραντεβού
                     <>
                          <button 
                             onClick={() => setAppointmentStep("search")}
@@ -152,10 +201,10 @@ export default function ClientHomeComponent() {
         
         <div className="text-center mb-6">
           <h1 className="text-3xl sm:text-4xl font-medium text-black mb-2">
-            Καλως ήρθες, Κίμωνα!
+            Καλώς ήρθες, {userName}!
           </h1>
           <p className="text-lg text-[#616161] font-light max-w-3xl mx-auto">
-            Φρόντισε τον Φέλιξ, τον Πέρρη και την Κάτια με λίγα μόνο κλικ.
+            Φρόντισε {petMessage} με λίγα μόνο κλικ.
           </p>
         </div>
 
