@@ -1,372 +1,409 @@
 {
-  "users": [
-    {
-      "id": "-1",
-      "fullName": "admin",
-      "email": "admin",
-      "password": "admin",
-      "phone_number": "69XXXXXXXX",
-      "age": 0,
-      "role": "user",
-      "address": "admin",
-      "createdAt": "2026-01-15T15:07:26.304Z"
-    },
-    {
-      "id": "1",
-      "fullName": "Kimon Smirlianos",
-      "email": "kimon@gmail.com",
-      "password": "123456",
-      "phone_number": "6939949788",
-      "age": 13,
-      "role": "user",
-      "address": "-",
-      "createdAt": "2026-01-15T15:07:26.304Z",
-      "city": "chola"
-    },
-    {
-      "id": "8bae",
-      "name": "Μιχάλης Αλεξάκος",
-      "email": "mihalakis@yahoo.yeah",
-      "password": "mixmix123",
-      "phone_number": "6975325561",
-      "age": 67,
-      "role": "vet",
-      "address": "Euelpidon 97",
-      "city": "Αθήνα",
-      "afm": "123565",
-      "photo": "/images/guf.jpg",
-      "records": [],
-      "pets": [],
-      "reviews": [],
-      "createdAt": "2026-01-15T20:32:01.848Z"
-    },
-    {
-      "id": "c388",
-      "name": "Ναταλία Κρικέλλη",
-      "email": "nat@email.com",
-      "password": "123",
-      "phone_number": "123456",
-      "age": 0,
-      "role": "vet",
-      "address": "123 grafeio",
-      "city": "Αθήνα ",
-      "afm": "123565",
-      "photo": "/images/guf.jpg",
-      "records": [],
-      "pets": [],
-      "reviews": [],
-      "createdAt": "2026-01-15T20:32:01.848Z"
-    },
-    {
-      "id": "c389",
-      "name": "Ναταλία Κρικέλλη",
-      "email": "nat@email.com",
-      "password": "123",
-      "phone_number": "123456",
-      "age": 0,
-      "role": "user",
-      "address": "",
-      "city": "",
-      "afm": "",
-      "photo": "",
-      "pets": [],
-      "createdAt": "2026-01-15T20:32:01.848Z"
-    }
-  ],
-  "appointments": [
-    {
-      "id": "1",
-      "pet": "cat",
-      "petId": "91074834",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "check-up",
-      "date": "2026-01-22T11:00:00",
-      "status": "approved"
-    },
-    {
-      "id": "2",
-      "pet": "dog",
-      "petId": "04782639",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "vaccination",
-      "date": "2026-01-22T14:00:00",
-      "status": "new"
-    },
-    {
-      "id": "3",
-      "pet": "dog",
-      "petId": "04782639",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "check-up",
-      "date": "2026-01-19T10:00:00",
-      "status": "approved"
-    },
-    {
-      "id": "4",
-      "pet": "cat",
-      "petId": "38917401",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "emergency",
-      "date": "2026-01-19T11:00:00",
-      "status": "approved"
-    },
-    {
-      "id": "5",
-      "pet": "dog",
-      "petId": "9842947",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "vaccination",
-      "date": "2026-01-19T18:40:00",
-      "status": "approved"
-    },
-    {
-      "id": "6",
-      "pet": "cat",
-      "petId": "91074834",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "check-up",
-      "date": "2026-01-22T09:00:00",
-      "status": "completed"
-    },
-    {
-      "id": "7",
-      "pet": "dog",
-      "petId": "04782639",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "vaccination",
-      "date": "2026-01-22T20:00:00",
-      "status": "canceled"
-    },
-    {
-      "id": "8",
-      "pet": "cat",
-      "petId": "91074834",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "check-up",
-      "date": "2026-01-23T14:00:00",
-      "status": "canceled"
-    },
-    {
-      "id": "9",
-      "pet": "dog",
-      "petId": "04782639",
-      "vetId": "c388",
-      "ownerId": "c389",
-      "reason": "vaccination",
-      "date": "2026-01-22T15:00:00",
-      "status": "completed"
-    }
-  ],
-  "records": [
-    {
-      "id": "0765",
-      "petId": "04782639",
-      "species": "Σκύλος ",
-      "vetId": "c389",
-      "ownerName": "Ναταλια Κρικελλη",
-      "condition": "keno",
-      "age": 2,
-      "gender": "female",
-      "ownerStatus": "uiothesia",
-      "createdAt": ""
-    },
-    {
-      "id": "d2bc",
-      "petId": "38917401",
-      "species": "Γατα",
-      "vetId": "c388",
-      "ownerName": "Ναταλια Κρικελλη",
-      "condition": "keno",
-      "age": 2,
-      "gender": "female",
-      "ownerStatus": "metavivasi",
-      "createdAt": "2026-01-15T13:13:15.553Z"
-    },
-    {
-      "id": "bd1a",
-      "petId": "9842947",
-      "species": "Σκυλος",
-      "vetId": "c388",
-      "ownerName": "Ναταλια",
-      "condition": "apwleia",
-      "age": 4,
-      "gender": "male",
-      "ownerStatus": "",
-      "createdAt": "2026-01-15T13:19:29.042Z"
-    },
-    {
-      "id": "bb7d",
-      "petId": "91074834",
-      "species": "Γατα",
-      "vetId": "c388",
-      "ownerName": "ναταα",
-      "ownerEmail": "",
-      "condition": "apwleia",
-      "age": 3,
-      "gender": "male",
-      "ownerStatus": "anadoxh",
-      "createdAt": "2026-01-16T02:47:24.491Z"
-    },
-    {
-      "id": "11be",
-      "petId": "740290141",
-      "species": "gadjadlaka",
-      "vetId": "c388",
-      "ownerName": "egw",
-      "ownerEmail": "",
-      "condition": "keno",
-      "age": 6,
-      "gender": "female",
-      "ownerStatus": "uiothsia",
-      "createdAt": "2026-01-18T11:14:39.159Z"
-    },
-    {
-      "id": "68b0",
-      "petName": "",
-      "petId": "",
-      "species": "",
-      "vetId": "c388",
-      "ownerName": "",
-      "ownerEmail": "",
-      "condition": "",
-      "age": 0,
-      "gender": "",
-      "race": "",
-      "ownerStatus": "",
-      "hair": "",
-      "hairColor": "",
-      "animalSize": "",
-      "createdAt": "2026-01-19T14:57:04.007Z"
-    }
-  ],
-  "reviews": [
-    {
-      "id": "1",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 4.5,
-      "text": "",
-      "createdAt": "2026-01-12T12:47:24.491Z"
-    },
-    {
-      "id": "2",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 4,
-      "text": "",
-      "createdAt": "2026-01-16T02:50:24.491Z"
-    },
-    {
-      "id": "3",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 5,
-      "text": "",
-      "createdAt": "2026-01-17T02:50:24.491Z"
-    },
-    {
-      "id": "4",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 4,
-      "text": "",
-      "createdAt": "2026-01-16T02:50:24.491Z"
-    },
-    {
-      "id": "5",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 5,
-      "text": "",
-      "createdAt": "2026-01-17T02:50:24.491Z"
-    },
-    {
-      "id": "6",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 4,
-      "text": "",
-      "createdAt": "2026-01-16T02:50:24.491Z"
-    },
-    {
-      "id": "7",
-      "vetId": "c388",
-      "ownerId": "8bae",
-      "rating": 5,
-      "text": "",
-      "createdAt": "2026-01-17T02:50:24.491Z"
-    }
-  ],
-  "pets": [
-    {
-      "id": "96252d",
-      "ownerId": "-1",
-      "name": "Pyke",
-      "species": "dog",
-      "breed": "Shiba Inu",
-      "age": 2,
-      "lastSeenDate": "2026-01-02",
-      "location": "Cholargos",
-      "description": "Κενό",
-      "photo": "/images/dog_1.jpg",
-      "createdAt": "2026-01-18T15:46:57.160Z",
-      "status": "found"
-    },
-    {
-      "id": "d8f403",
-      "ownerId": "1",
-      "name": "Max",
-      "species": "dog",
-      "breed": "Lab",
-      "age": 3,
-      "lastSeenDate": "2025-12-28",
-      "location": "Marousi",
-      "description": "φιλικός",
-      "photo": "/images/dog_2.jpg",
-      "createdAt": "2026-01-18T15:47:50.956Z",
-      "status": "found"
-    }
-  ],
-  "foundReports": [
-    {
-      "id": "70ac2d03",
-      "petId": "96252d",
-      "ownerId": "-1",
-      "reporterUserId": "1",
-      "foundLocation": "Κλειους 39",
-      "foundDate": "2026-01-17T22:00:00.000Z",
-      "reporterFirstName": "Κιμωνας",
-      "reporterLastName": "Σμυρλιανος",
-      "reporterContact": "kimon@gmail.com",
-      "extraInfo": "τον έπιασα",
-      "photoName": "IMG_2600.JPG",
-      "status": "submitted",
-      "isRead": true,
-      "createdAt": "2026-01-18T15:48:46.860Z"
-    },
-    {
-      "id": "193d7436",
-      "petId": "d8f403",
-      "ownerId": "1",
-      "reporterUserId": "1",
-      "foundLocation": "Cholargos",
-      "foundDate": "2026-01-17T22:00:00.000Z",
-      "reporterFirstName": "Kimon",
-      "reporterLastName": "Smirlianos",
-      "reporterContact": "kimon@gmail.com",
-      "extraInfo": "Myself",
-      "photoName": "IMG_2599.JPG",
-      "status": "submitted",
-      "isRead": false,
-      "createdAt": "2026-01-18T16:28:14.709Z"
-    }
-  ]
+    "users": [
+        {
+            "id": "1",
+            "fullName": "admin",
+            "email": "admin",
+            "password": "admin",
+            "phone_number": "690000001",
+            "age": 30,
+            "role": "user",
+            "city": "Athens",
+            "createdAt": "2026-01-19T15:00:46.597Z"
+        },
+        {
+            "id": "2",
+            "fullName": "Maria Papadopoulou",
+            "email": "maria@mail.com",
+            "password": "1234",
+            "phone_number": "690000002",
+            "age": 28,
+            "role": "user",
+            "city": "Piraeus",
+            "createdAt": "2026-01-19T15:01:10.000Z"
+        },
+
+        {
+            "id": "3",
+            "fullName": "Kostas Vasilis",
+            "email": "kostas@gmail.com",
+            "password": "1234",
+            "phone_number": "690000003",
+            "age": 42,
+            "role": "vet",
+            "city": "Athens",
+            "createdAt": "2026-01-19T15:02:10.000Z"
+        },
+        {
+            "id": "4",
+            "fullName": "Sofia Markou",
+            "email": "sofia@gmail.com",
+            "password": "1234",
+            "phone_number": "690000004",
+            "age": 38,
+            "role": "vet",
+            "city": "Chalandri",
+            "createdAt": "2026-01-19T15:02:30.000Z"
+        }
+    ],
+    "appointments": [
+        {
+            "id": "1",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-22T11:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "2",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T14:00:00",
+            "status": "new"
+        },
+        {
+            "id": "3",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-19T10:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "4",
+            "pet": "cat",
+            "petId": "38917401",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "emergency",
+            "date": "2026-01-19T11:00:00",
+            "status": "approved"
+        },
+        {
+            "id": "5",
+            "pet": "dog",
+            "petId": "9842947",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-19T18:40:00",
+            "status": "approved"
+        },
+        {
+            "id": "6",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-22T09:00:00",
+            "status": "completed"
+        },
+        {
+            "id": "7",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T20:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "8",
+            "pet": "cat",
+            "petId": "91074834",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "check-up",
+            "date": "2026-01-23T14:00:00",
+            "status": "canceled"
+        },
+        {
+            "id": "9",
+            "pet": "dog",
+            "petId": "04782639",
+            "vetId": "c388",
+            "ownerId": "c389",
+            "reason": "vaccination",
+            "date": "2026-01-22T15:00:00",
+            "status": "completed"
+        }
+    ],
+    "records": [
+        {
+            "id": "0765",
+            "petId": "04782639",
+            "species": "Σκύλος ",
+            "vetId": "c389",
+            "ownerName": "Ναταλια Κρικελλη",
+            "condition": "keno",
+            "age": 2,
+            "gender": "female",
+            "ownerStatus": "uiothesia",
+            "createdAt": ""
+        },
+        {
+            "id": "d2bc",
+            "petId": "38917401",
+            "species": "Γατα",
+            "vetId": "c388",
+            "ownerName": "Ναταλια Κρικελλη",
+            "condition": "keno",
+            "age": 2,
+            "gender": "female",
+            "ownerStatus": "metavivasi",
+            "createdAt": "2026-01-15T13:13:15.553Z"
+        },
+        {
+            "id": "bd1a",
+            "petId": "9842947",
+            "species": "Σκυλος",
+            "vetId": "c388",
+            "ownerName": "Ναταλια",
+            "condition": "apwleia",
+            "age": 4,
+            "gender": "male",
+            "ownerStatus": "",
+            "createdAt": "2026-01-15T13:19:29.042Z"
+        },
+        {
+            "id": "bb7d",
+            "petId": "91074834",
+            "species": "Γατα",
+            "vetId": "c388",
+            "ownerName": "ναταα",
+            "ownerEmail": "",
+            "condition": "apwleia",
+            "age": 3,
+            "gender": "male",
+            "ownerStatus": "anadoxh",
+            "createdAt": "2026-01-16T02:47:24.491Z"
+        },
+        {
+            "id": "11be",
+            "petId": "740290141",
+            "species": "gadjadlaka",
+            "vetId": "c388",
+            "ownerName": "egw",
+            "ownerEmail": "",
+            "condition": "keno",
+            "age": 6,
+            "gender": "female",
+            "ownerStatus": "uiothsia",
+            "createdAt": "2026-01-18T11:14:39.159Z"
+        },
+        {
+            "id": "68b0",
+            "petName": "",
+            "petId": "",
+            "species": "",
+            "vetId": "c388",
+            "ownerName": "",
+            "ownerEmail": "",
+            "condition": "",
+            "age": 0,
+            "gender": "",
+            "race": "",
+            "ownerStatus": "",
+            "hair": "",
+            "hairColor": "",
+            "animalSize": "",
+            "createdAt": "2026-01-19T14:57:04.007Z"
+        }
+    ],
+    "reviews": [
+        {
+            "id": "1",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4.5,
+            "text": "",
+            "createdAt": "2026-01-12T12:47:24.491Z"
+        },
+        {
+            "id": "2",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "3",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "4",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "5",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        },
+        {
+            "id": "6",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 4,
+            "text": "",
+            "createdAt": "2026-01-16T02:50:24.491Z"
+        },
+        {
+            "id": "7",
+            "vetId": "c388",
+            "ownerId": "8bae",
+            "rating": 5,
+            "text": "",
+            "createdAt": "2026-01-17T02:50:24.491Z"
+        }
+    ],
+    "pets": [
+        {
+            "id": "p1",
+            "ownerId": "1",
+            "name": "Rex",
+            "species": "dog",
+            "breed": "German Shepherd",
+            "age": 5,
+            "lastSeenDate": "2026-01-18",
+            "location": "Athens",
+            "description": "Large dog, friendly",
+            "photo": "/images/dog_3.jpg",
+            "createdAt": "2026-01-19T15:03:00.000Z"
+        },
+        {
+            "id": "p2",
+            "ownerId": "1",
+            "name": "Luna",
+            "species": "cat",
+            "breed": "European Shorthair",
+            "age": 3,
+            "lastSeenDate": "2026-01-17",
+            "location": "Piraeus",
+            "description": "Gray cat with green eyes",
+            "photo": "/images/cat_1.jpg",
+            "createdAt": "2026-01-19T15:03:10.000Z"
+        },
+        {
+            "id": "p3",
+            "ownerId": "1",
+            "name": "Pyke",
+            "species": "dog",
+            "breed": "Shiba Inu",
+            "age": 4,
+            "lastSeenDate": "2026-01-16",
+            "location": "Cholargos",
+            "description": "Very calm",
+            "photo": "/images/dog_1.jpg",
+            "createdAt": "2026-01-19T15:03:20.000Z"
+        },
+        {
+            "id": "p4",
+            "ownerId": "2",
+            "name": "Bella",
+            "species": "cat",
+            "breed": "Persian",
+            "age": 2,
+            "lastSeenDate": "2026-01-15",
+            "location": "Glyfada",
+            "description": "White fluffy cat",
+            "photo": "/images/cat_2.jpg",
+            "createdAt": "2026-01-19T15:03:30.000Z"
+        },
+        {
+            "id": "p5",
+            "ownerId": "2",
+            "name": "Rocky",
+            "species": "dog",
+            "breed": "Boxer",
+            "age": 6,
+            "lastSeenDate": "2026-01-14",
+            "location": "Athens",
+            "description": "Brown boxer, energetic",
+            "photo": "/images/dog_2.jpg",
+            "createdAt": "2026-01-19T15:03:40.000Z"
+        },
+        {
+            "id": "p6",
+            "ownerId": "3",
+            "name": "Milo",
+            "species": "cat",
+            "breed": "Siamese",
+            "age": 1,
+            "lastSeenDate": "2026-01-13",
+            "location": "Chalandri",
+            "description": "Cream-colored kitten",
+            "photo": "/images/cat_3.jpg",
+            "createdAt": "2026-01-19T15:03:50.000Z"
+        }
+    ],
+
+    "foundReports": [
+        {
+            "id": "fr1",
+            "petId": "p1",
+            "ownerId": "1",
+            "reporterUserId": "2",
+            "foundLocation": "Omonia Square",
+            "foundDate": "2026-01-18T22:00:00.000Z",
+            "reporterFirstName": "Maria",
+            "reporterLastName": "Papadopoulou",
+            "reporterContact": "690000002",
+            "extraInfo": "Dog was calm and wearing a collar",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:00.000Z"
+        },
+        {
+            "id": "fr2",
+            "petId": "p2",
+            "ownerId": "1",
+            "reporterUserId": "3",
+            "foundLocation": "Port of Piraeus",
+            "foundDate": "2026-01-17T21:30:00.000Z",
+            "reporterFirstName": "Kostas",
+            "reporterLastName": "Vasilis",
+            "reporterContact": "690000003",
+            "extraInfo": "Cat hiding near containers",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:10.000Z"
+        },
+        {
+            "id": "fr3",
+            "petId": "p3",
+            "ownerId": "1",
+            "reporterUserId": "4",
+            "foundLocation": "Peristeri Park",
+            "foundDate": "2026-01-16T20:00:00.000Z",
+            "reporterFirstName": "Sofia",
+            "reporterLastName": "Markou",
+            "reporterContact": "690000004",
+            "extraInfo": "Dog was playing with other dogs",
+            "status": "submitted",
+            "isRead": false,
+            "createdAt": "2026-01-19T15:04:20.000Z"
+        }
+    ]
 }
