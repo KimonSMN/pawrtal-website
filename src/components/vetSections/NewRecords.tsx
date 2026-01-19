@@ -5,7 +5,7 @@ import DownArrow from "../../assets/down_arrow.png";
 import RightArrow from "../../assets/right_arrow.png";
 
 function NewRecords() {
-    const vet = JSON.parse(localStorage.getItem("user")!);
+    const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const [open, setOpen] = useState(false);
 
     // record stage
@@ -22,7 +22,7 @@ function NewRecords() {
         condition: "",
         age: 0,
         gender: "",
-        race: "",
+        breed: "",
         ownerStatus: "",
         hair: "",
         hairColor: "",
@@ -46,7 +46,7 @@ function NewRecords() {
             condition: formData.condition,
             age: Number(formData.age),
             gender: formData.gender,
-            race: formData.race,
+            breed: formData.breed,
             ownerStatus: formData.ownerStatus,
             hair: formData.hair,
             hairColor: formData.hairColor,
@@ -221,10 +221,10 @@ function NewRecords() {
                             <label className="flex flex-col">
                                 Φυλή
                                 <input
-                                    value={formData.race}
+                                    value={formData.breed}
                                     onChange={handleChange}
                                     className={styles.profile_tag}
-                                    id="race"
+                                    id="breed"
                                     type="text"
                                     placeholder="πχ. Λαμπραντόρ"
                                     disabled={mode === "preview"}

@@ -6,7 +6,7 @@ import BackArrow from "../../assets/back_arrow.png";
 import NewPet from "../../assets/new_pet.png";
 import Pet_history from "../../assets/pet_history.png";
 
-function Records() {
+function Records({ onChangeMessage }) {
     const [view, setView] = useState<"dashboard" | "new_record" | "old_records">("dashboard");
 
     const cards = [
@@ -16,6 +16,7 @@ function Records() {
             image: NewPet,
             action: () => {
                 setView("new_record");
+                onChangeMessage("disapear");
             },
         },
         {
@@ -24,6 +25,7 @@ function Records() {
             image: Pet_history,
             action: () => {
                 setView("old_records");
+                onChangeMessage("disapear");
             },
         },
     ];
@@ -35,7 +37,10 @@ function Records() {
             {view !== "dashboard" && (
                 <div className="w-full p-12 items-left">
                     <button
-                        onClick={() => setView("dashboard")}
+                        onClick={() => {
+                            setView("dashboard");
+                            onChangeMessage("appear");
+                        }}
                         className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
@@ -87,41 +92,3 @@ function Records() {
 }
 
 export default Records;
-
-/**
- * 
-            <div className="flex flex-col items-center justify-center gap-4 bg-[#e5e5e5] rounded-2xl p-4 mb-12 w-full font-normal sm:w-xl sm:font-medium">
-                <div className={styles.vet_bar}>
-                    <div className={styles.vet_bar_toggle}>
-                        <div className={`${styles.records_slider} ${styles[mode]}`} />
-                        <button
-                            className={mode === "new_records" ? styles.active : ""}
-                            onClick={() => setMode("new_records")}
-                        >
-                            Νεα καταχώρηση
-                        </button>
-                        <button
-                            className={mode === "history" ? styles.active : ""}
-                            onClick={() => setMode("history")}
-                        >
-                            Ιστορικό
-                        </button>
-                    </div>
-                </div>
-
-                <div
-                    className="
-                flex-1 bg-transparent p-4
-            "
-                >
-                    <div className="flex flex-col items-center">
-                        {/* Load component }
-                        {mode === "new_records" ? (
-                            <NewRecords records={records} setRecords={setRecords} />
-                        ) : (
-                            <OldRecords records={records} />
-                        )}
-                    </div>
-                </div>
-            </div>
- */

@@ -6,7 +6,7 @@
 /* USERS */
 export class User {
     id!: string;
-    name!: string;
+    fullName!: string;
     email!: string;
     role!: "vet" | "owner";
     phone_number?: string;
@@ -96,7 +96,7 @@ export class Record {
         public petId: string,
         public age: number,
         public gender: Gender,
-        public race: string,
+        public breed: string,
         public ownerStatus: OwnerStatus,
         public hair: string,
         public hairColor: string,
@@ -114,7 +114,7 @@ export class Record {
             json.petId,
             json.age,
             json.gender,
-            json.race,
+            json.breed,
             json.ownerStatus,
             json.hair,
             json.hairColor,

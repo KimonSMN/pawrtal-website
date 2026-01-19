@@ -34,7 +34,7 @@ function Review({ info }: { info: Reviews }) {
                     flex flex-row items-center gap-4
                 "
             >
-                <div className="flex-1">{owner?.name}</div>
+                <div className="flex-1">{owner?.fullName}</div>
 
                 <div className="w-16 text-center font-semibold">{info.rating} / 5</div>
 
@@ -74,7 +74,7 @@ function Review({ info }: { info: Reviews }) {
 function Profile() {
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("pawrtal_user");
     const userId = storedUser ? JSON.parse(storedUser).id : null;
     const [user, setUser] = useState<User | null>(null);
     const [editUser, setEditUser] = useState<User | null>(null);
@@ -126,8 +126,7 @@ function Profile() {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    name: editUser.name,
-                    email: editUser.email,
+                    fullname: editUser.fullName,
                     phone_number: editUser.phone_number,
                     address: editUser.address,
                     city: editUser.city,
@@ -144,7 +143,7 @@ function Profile() {
             setIsEditing(false);
 
             // 🔥 update localStorage
-            localStorage.setItem("user", JSON.stringify(updated));
+            localStorage.setItem("pawrtal_user", JSON.stringify(updated));
 
             alert("Τα στοιχεία ενημερώθηκαν ✔");
         } catch (err) {
@@ -206,34 +205,12 @@ function Profile() {
                                 <input
                                     className="border-0 p-2 rounded focus:outline-none text-left"
                                     type="text"
-                                    value={editUser?.name ?? ""}
+                                    value={editUser?.fullName ?? ""}
                                     disabled={!isEditing}
                                     onChange={(e) =>
                                         setEditUser((prev) =>
                                             prev
-                                                ? new User({ ...prev, name: e.target.value })
-                                                : prev,
-                                        )
-                                    }
-                                />
-                            </div>
-                            <div
-                                className="
-                            flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
-                            >
-                                <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
-                                    Email
-                                </span>
-                                <input
-                                    className="border-0 p-2 rounded focus:outline-none text-left"
-                                    type="text"
-                                    value={editUser?.email ?? ""}
-                                    disabled={!isEditing}
-                                    onChange={(e) =>
-                                        setEditUser((prev) =>
-                                            prev
-                                                ? new User({ ...prev, email: e.target.value })
+                                                ? new User({ ...prev, fullName: e.target.value })
                                                 : prev,
                                         )
                                     }
@@ -330,22 +307,6 @@ function Profile() {
                                     }
                                 />
                             </div>
-                            <div
-                                className="
-                            flex flex-row items-center justify-around text-sm gap-1p border border-[#c8c8c8a5]  
-                            sm:gap-4 "
-                            >
-                                <span className="text-sm text-wrap text-gray-500 max-w-30">
-                                    Ανεβασε το Βιογραφικό σου
-                                </span>
-                                <input
-                                    className="border-0 p-2 rounded focus:outline-none text-left"
-                                    type="file"
-                                    id="file-input"
-                                    multiple
-                                    accept="image/*,.pdf"
-                                />
-                            </div>
                         </div>
                     </div>
                     {/* telos container */}
@@ -386,15 +347,17 @@ function Profile() {
                 </div>
                 <div className="flex flex-col items-center sm:mt-10">
                     <div className="flex flex-col items-center p-8 gap-5 w-full">
-                        <div className="flex flex-col gap-2 mb-4">
-                            <div className="text-lg font-semibold">
-                                Μέση βαθμολογία: {averageRating} / 5
-                            </div>
+                        {averageRating !== 0 && (
+                            <div className="flex flex-col gap-2 mb-4">
+                                <div className="text-lg font-semibold">
+                                    Μέση βαθμολογία: {averageRating} / 5
+                                </div>
 
-                            <div className="text-sm text-gray-500">
-                                ({reviews.length} αξιολογήσεις)
+                                <div className="text-sm text-gray-500">
+                                    ({reviews.length} αξιολογήσεις)
+                                </div>
                             </div>
-                        </div>
+                        )}
                         <h1 className=" text-[#303030] w-full m-auto mb-8 text-left text-3xl ">
                             Αξιολογήσεις Χρήστη
                         </h1>
@@ -406,7 +369,7 @@ function Profile() {
                                 <img src={Dots} alt="free" className="w-6 h-6" />
                             </div>
                         </div>
-                        <div className="flex flex-col pr-4 gap-4 max-h-[360px] overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
+                        <div className="flex flex-col pr-4 gap-4 max-h-90 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
                             {reviews.map((info) => (
                                 <Review key={info.id} info={info} />
                             ))}

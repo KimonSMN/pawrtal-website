@@ -55,7 +55,7 @@ function RecordPreview({ record, onBack }: { record: Record; onBack: () => void 
                     <b>Χρώμα:</b> {record.hairColor}
                 </p>
                 <p>
-                    <b>Φυλή:</b> {record.race}
+                    <b>Φυλή:</b> {record.breed}
                 </p>
                 <p>
                     <b>Ηλιακία:</b> {record.age}
@@ -78,7 +78,7 @@ function RecordPreview({ record, onBack }: { record: Record; onBack: () => void 
 function OldRecords() {
     const [records, setRecords] = useState<Record[]>([]);
     const [loading, setLoading] = useState(true);
-    const vet = JSON.parse(localStorage.getItem("user")!);
+    const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const formatDate = (date: string) => new Date(date).toLocaleDateString("el-GR");
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
     const [speciesFilter, setSpeciesFilter] = useState<"all" | "Σκύλος" | "Γάτα">("all");

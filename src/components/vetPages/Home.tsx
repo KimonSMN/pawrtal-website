@@ -7,10 +7,12 @@ import Records from "./Records";
 import profileImg from "../../assets/account.png";
 import vetImg from "../../assets/Vets.webp";
 import healthBookImg from "../../assets/dog_1.jpg";
+import BackArrow from "../../assets/back_arrow.png";
 
 function Home() {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("pawrtal_user");
     const userName = storedUser ? JSON.parse(storedUser).name : null;
+    const [message, setMessage] = useState("appear");
     const [view, setView] = useState<"dashboard" | "profile" | "appointments" | "records">(
         "dashboard",
     );
@@ -75,6 +77,18 @@ function Home() {
                 </nav>
             </div>
             {/* page load */}
+
+            {message === "appear" && (
+                <div className="w-full p-12 items-left">
+                    <button
+                        onClick={() => setView("dashboard")}
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"
+                    >
+                        <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
+                        Πίσω
+                    </button>
+                </div>
+            )}
             {view === "dashboard" && (
                 <>
                     <div className="flex flex-col items-center w-full  mb-8 text-left">
@@ -114,7 +128,7 @@ function Home() {
 
             {view === "profile" && <Profile />}
             {view === "appointments" && <Appointments />}
-            {view === "records" && <Records />}
+            {view === "records" && <Records onChangeMessage={setMessage} />}
         </div>
     );
 }
