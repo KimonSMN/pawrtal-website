@@ -149,12 +149,12 @@ function Navbar() {
 
                 {/* Navigation */}
                 <nav className="flex items-center space-x-6 font-medium">
-                    <a href="#information" className="hover:text-gray-500 cursor-pointer">
+                    {/* <a href="#information" className="hover:text-gray-500 cursor-pointer">
                         Πληροφορίες
                     </a>
                     <a href="#contact" className="hover:text-gray-500 cursor-pointer">
                         Επικοινωνία
-                    </a>
+                    </a> */}
 
                     {/* Profile dropdown */}
                     <div className="relative" ref={menuRef}>
