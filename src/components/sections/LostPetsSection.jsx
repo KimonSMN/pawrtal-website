@@ -84,12 +84,23 @@ export default function LostPetsSection() {
                 {!isAuthenticated && (
                     <div className="mb-8 rounded-2xl border border-black/10 bg-white/85 p-5 shadow-sm backdrop-blur">
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                                <div className="font-semibold text-zinc-900">
-                                    Θες να σχολιάσεις ή να δημοσιεύσεις αγγελία;
+                            <div className="min-w-0">
+                                <div className="text-base sm:text-lg font-semibold tracking-tight text-zinc-900">
+                                    Θες να βοηθήσεις να γυρίσει ένα κατοικίδιο στο σπίτι του;
                                 </div>
-                                <div className="text-sm text-zinc-600">
-                                    Συνδέσου ή δημιούργησε λογαριασμό.
+
+                                <div className="mt-2 text-sm leading-relaxed text-zinc-600">
+                                    Συνδέσου ή δημιούργησε λογαριασμό για να δημοσιεύεις αγγελίες,
+                                    να σχολιάζεις όταν έχεις πληροφορίες και να δηλώνεις απολεσθέντα
+                                    κατοικίδια.
+                                    <br />
+                                    <span className="mt-2 inline-block">
+                                        <span className="font-semibold text-zinc-900">
+                                            Είσαι κτηνίατρος;
+                                        </span>{" "}
+                                        Δημιούργησε λογαριασμό για να επικοινωνείς με ιδιοκτήτες, να
+                                        διαχειρίζεσαι ραντεβού και να βοηθάς σε περιστατικά.
+                                    </span>
                                 </div>
                             </div>
 
