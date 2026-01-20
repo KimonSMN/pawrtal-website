@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Appointments, User } from "../models/Info";
+import { Appointments, User, PROCEDURE_OPTIONS } from "../models/Info";
 
 /**
  * @brief
@@ -39,8 +39,8 @@ function Visit({ info }: { info: Appointments }) {
                 grid grid-cols-[2fr_2fr_1fr_1fr] items-center gap-8
             "
         >
-            <div className="flex-1 pr-12">{owner?.name}</div>
-            <div className="flex-1 ">{info.petId}</div>
+            <div className="flex-1 pr-12">{owner?.fullName}</div>
+            <div className="flex-1 ">{PROCEDURE_OPTIONS[info.reason] ?? info.reason}</div>
             <div className="flex-1 ">
                 {info.date.toLocaleString("el-GR", {
                     dateStyle: "short",
@@ -86,12 +86,12 @@ function VisitCard({ info }: { info: Appointments }) {
         <div className="bg-[#f9f9f9] rounded-2xl p-4 shadow-md flex flex-col gap-4">
             <div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
-                <div>{owner?.name}</div>
+                <div>{owner?.fullName}</div>
             </div>
 
             <div>
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
-                <div>{info.reason}</div>
+                <div>{PROCEDURE_OPTIONS[info.reason] ?? info.reason}</div>
             </div>
 
             <div className="flex justify-between items-center">
@@ -136,6 +136,8 @@ export default function OldAppointments() {
         fetchVisits();
     }, []);
 
+    if (loading) return <p>loading ...</p>;
+
     return (
         <div
             className="
@@ -144,7 +146,7 @@ export default function OldAppointments() {
         "
         >
             <div
-                className=" flex w-full flex-1 flex-col items-center p-8 gap-5 max-h-[500px] overflow-y-auto
+                className=" flex w-full flex-1 flex-col items-center p-8 gap-5 max-h-125 overflow-y-auto
                 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full
                 hidden sm:grid 
             "
@@ -166,7 +168,7 @@ export default function OldAppointments() {
             </div>
             <div
                 className="
-                sm:hidden flex flex-col items-center pr-5 pb-5 gap-4 max-h-[350px] overflow-y-auto
+                sm:hidden flex flex-col items-center pr-5 pb-5 gap-4 max-h-88 overflow-y-auto
                 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full
                 "
             >

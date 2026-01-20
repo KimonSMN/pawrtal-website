@@ -1,14 +1,35 @@
 import { useState, useEffect } from "react";
-import { Record } from "../models/Info";
+import { User, Pets, Record } from "../models/Info";
 
 function Input({ info, onPreview }: { info: Record; onPreview: (record: Record) => void }) {
+    const [pet, setPet] = useState<Pets | null>(null);
+
+    useEffect(() => {
+        const fetchPet = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/records?microchip=${info.microchip}`,
+                );
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    setPet(Pets.fromJSON(data[0]));
+                }
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        };
+
+        fetchPet();
+    }, [info.microchip]);
+
     return (
         <div className="w-full">
             {/* Main row */}
             <div className="flex flex-row justify-between items-center gap-2 w-full text-[#333] border-b-2 border-b-gray-300">
-                <div className="flex-2">{info.species}</div>
+                <div className="flex-2">{pet?.species}</div>
                 <div className="flex-2">{info.ownerName}</div>
-                <div className="flex-2">{info.petId}</div>
+                <div className="flex-2">{info.microchip}</div>
                 <div className="flex-1">
                     {info.createdAt.toLocaleString("el-GR", {
                         dateStyle: "short",
@@ -28,40 +49,81 @@ function Input({ info, onPreview }: { info: Record; onPreview: (record: Record) 
 }
 
 function RecordPreview({ record, onBack }: { record: Record; onBack: () => void }) {
+    const [owner, setOwner] = useState<User | null>(null);
+    const [pet, setPet] = useState<Pets | null>(null);
+
+    useEffect(() => {
+        const fetchPet = async () => {
+            try {
+                const response = await fetch(
+                    `http://localhost:3001/records?microchip=${record.microchip}`,
+                );
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    setPet(Pets.fromJSON(data[0]));
+                }
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        };
+
+        fetchPet();
+    }, [record.microchip]);
+
+    useEffect(() => {
+        if (!pet) return;
+
+        const fetchOwner = async () => {
+            try {
+                const response = await fetch(`http://localhost:3001/users?id=${pet.ownerId}`);
+                const data = await response.json();
+
+                if (data.length > 0) {
+                    setOwner(User.fromJSON(data[0]));
+                }
+            } catch (error) {
+                console.error("Fetch failed:", error);
+            }
+        };
+
+        fetchOwner();
+    }, [pet]);
+
     return (
         <div className="bg-[#f9f9f9] rounded-2xl p-6 shadow-lg w-full max-w-xl mx-auto">
             <h2 className="text-2xl font-semibold mb-4">Στοιχεία Κατοικιδίου</h2>
 
             <div className="space-y-3 text-sm text-gray-700">
                 <p>
-                    <b>Ονομα:</b> {record.petName}
+                    <b>Ονομα:</b> {pet.name}
                 </p>
                 <p>
-                    <b>Είδος:</b> {record.species}
+                    <b>Είδος:</b> {pet.species}
                 </p>
                 <p>
-                    <b>Ιδιοκτήτης:</b> {record.ownerName}
+                    <b>Ιδιοκτήτης:</b> {owner?.fullName}
                 </p>
                 <p>
-                    <b>Microchip:</b> {record.petId}
+                    <b>Microchip:</b> {pet.microchip}
                 </p>
                 <p>
-                    <b>Φύλο:</b> {record.gender}
+                    <b>Φύλο:</b> {pet.gender}
                 </p>
                 <p>
-                    <b>Τρίχωμα:</b> {record.hair}
+                    <b>Τρίχωμα:</b> {pet.coat}
                 </p>
                 <p>
-                    <b>Χρώμα:</b> {record.hairColor}
+                    <b>Χρώμα:</b> {pet.color}
                 </p>
                 <p>
-                    <b>Φυλή:</b> {record.breed}
+                    <b>Φυλή:</b> {pet.breed}
                 </p>
                 <p>
-                    <b>Ηλιακία:</b> {record.age}
+                    <b>Ηλιακία:</b> {pet.age}
                 </p>
                 <p>
-                    <b>Ημερομηνία:</b> {record.createdAt.toLocaleDateString("el-GR")}
+                    <b>Ημερομηνία:</b> {pet.createdAt.toLocaleDateString("el-GR")}
                 </p>
             </div>
 
@@ -81,7 +143,24 @@ function OldRecords() {
     const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const formatDate = (date: string) => new Date(date).toLocaleDateString("el-GR");
     const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
-    const [speciesFilter, setSpeciesFilter] = useState<"all" | "Σκύλος" | "Γάτα">("all");
+    type Reason =
+        | "all"
+        | "checkup"
+        | "vaccination"
+        | "deworming"
+        | "microchip"
+        | "neutering"
+        | "blood_tests"
+        | "urine_tests"
+        | "imaging"
+        | "sick"
+        | "injury"
+        | "chronic_condition"
+        | "pregnancy"
+        | "emergency"
+        | "other";
+    const [reasonFilter, setReasonFilter] = useState<Reason>("all");
+
     const [searchMicrochip, setSearchMicrochip] = useState("");
     const [selectedRecord, setSelectedRecord] = useState<Record | null>(null);
 
@@ -104,10 +183,10 @@ function OldRecords() {
 
     const filteredRecords = records
         .filter((record) => {
-            if (speciesFilter === "all") return true;
-            return record.species === speciesFilter;
+            if (reasonFilter === "all") return true;
+            return record.reason === reasonFilter;
         })
-        .filter((record) => record.petId.toLowerCase().includes(searchMicrochip.toLowerCase()))
+        .filter((record) => record.microchip.toLowerCase().includes(searchMicrochip.toLowerCase()))
         .sort((a, b) => {
             const dateA = new Date(a.createdAt).getTime();
             const dateB = new Date(b.createdAt).getTime();
@@ -123,21 +202,44 @@ function OldRecords() {
             ) : (
                 <>
                     {records.length === 0 && (
-                        <p className="text-sm text-gray-500 italic">Δεν υπάρχουν καταχωρήσεις</p>
+                        <p className="text-sm text-gray-500 italic">
+                            Δεν υπάρχουν καταγραφες περιστατικών
+                        </p>
                     )}
                     <div className="flex flex-col items-center  bg-[#f9f9f9]  rounded-xl p-8 gap-5 max-w-sm mx-auto sm:max-w-xl  ">
                         <h1 className=" text-[#303030] m-auto text-3xl ">Ιστορικό</h1>
 
                         <div className="flex flex-wrap gap-4 items-center mb-6 w-full">
-                            {/* Species filter */}
+                            {/* Reason filter */}
                             <select
-                                value={speciesFilter}
-                                onChange={(e) => setSpeciesFilter(e.target.value as any)}
+                                value={reasonFilter}
+                                onChange={(e) => setReasonFilter(e.target.value as any)}
                                 className="border rounded-lg px-3 py-2 text-sm"
                             >
                                 <option value="all">Όλα</option>
-                                <option value="Σκύλος">Σκύλος</option>
-                                <option value="Γάτα">Γάτα</option>
+
+                                <optgroup label="Προληπτικός έλεγχος">
+                                    <option value="checkup">Γενικός έλεγχος</option>
+                                    <option value="vaccination">Εμβολιασμός</option>
+                                    <option value="deworming">Αποπαρασίτωση</option>
+                                    <option value="microchip">Τοποθέτηση microchip</option>
+                                    <option value="neutering">Στείρωση</option>
+                                </optgroup>
+
+                                <optgroup label="Εξετάσεις">
+                                    <option value="blood_tests">Αιματολογικές εξετάσεις</option>
+                                    <option value="urine_tests">Εξετάσεις ούρων</option>
+                                    <option value="imaging">Ακτινογραφία / Υπέρηχος</option>
+                                </optgroup>
+
+                                <optgroup label="Άλλο">
+                                    <option value="sick">Ασθένεια / Συμπτώματα ίωσης</option>
+                                    <option value="injury">Τραυματισμός</option>
+                                    <option value="chronic_condition">Χρόνια πάθηση</option>
+                                    <option value="pregnancy">Κύηση</option>
+                                    <option value="emergency">Έκτακτο</option>
+                                    <option value="other">Άλλος λόγος</option>
+                                </optgroup>
                             </select>
 
                             {/* Sort */}

@@ -1,13 +1,17 @@
 import { useState } from "react";
 import NewRecords from "../vetSections/NewRecords";
 import OldRecords from "../vetSections/OldRecords";
+import AddPet from "../vetSections/AddPet";
 
 import BackArrow from "../../assets/back_arrow.png";
 import NewPet from "../../assets/new_pet.png";
+import Clinic from "../../assets/clinic.png";
 import Pet_history from "../../assets/pet_history.png";
 
 function Records({ onChangeMessage }) {
-    const [view, setView] = useState<"dashboard" | "new_record" | "old_records">("dashboard");
+    const [view, setView] = useState<"dashboard" | "add_pet" | "new_record" | "old_records">(
+        "dashboard",
+    );
 
     const cards = [
         {
@@ -15,12 +19,21 @@ function Records({ onChangeMessage }) {
             title: "Νεα Kαταχωρηση",
             image: NewPet,
             action: () => {
-                setView("new_record");
+                setView("add_pet");
                 onChangeMessage("disapear");
             },
         },
         {
             id: 2,
+            title: "Καταγραφή Επίσκεψης",
+            image: Clinic,
+            action: () => {
+                setView("new_record");
+                onChangeMessage("disapear");
+            },
+        },
+        {
+            id: 3,
             title: "Ιστορικό",
             image: Pet_history,
             action: () => {
@@ -85,6 +98,7 @@ function Records({ onChangeMessage }) {
                 </>
             )}
 
+            {view === "add_pet" && <AddPet />}
             {view === "new_record" && <NewRecords />}
             {view === "old_records" && <OldRecords />}
         </>

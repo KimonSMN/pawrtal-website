@@ -41,7 +41,9 @@ export class Appointments {
     id: string;
     pet: string;
     petId: string;
+    petName: string;
     vetId: string;
+    vetName: string;
     ownerId: string;
     reason: string;
     date: Date;
@@ -51,7 +53,9 @@ export class Appointments {
         id: string,
         pet: string,
         petId: string,
+        petName: string,
         vetId: string,
+        vetName: string,
         ownerId: string,
         reason: string,
         date: Date,
@@ -60,7 +64,9 @@ export class Appointments {
         this.id = id;
         this.pet = pet;
         this.petId = petId;
+        this.petName = petName;
         this.vetId = vetId;
+        this.vetName = vetName;
         this.ownerId = ownerId;
         this.reason = reason;
         this.date = date;
@@ -72,7 +78,9 @@ export class Appointments {
             json.id,
             json.pet,
             json.petId,
+            json.petName,
             json.vetId,
+            json.vetName,
             json.ownerId,
             json.reason,
             new Date(json.date),
@@ -80,45 +88,88 @@ export class Appointments {
         );
     }
 }
-
-/* RECORDS */
+/* PETS */
 export type PetCondition = "apwleia" | "euresi" | "keno";
-export type OwnerStatus = "metavivasi" | "uiothesia" | "anadoxh";
 export type Gender = "male" | "female";
+
+export class Pets {
+    constructor(
+        public name: string,
+        public ownerId: string,
+        public vetId: string,
+        public species: string,
+        public breed: string,
+        public age: number,
+        public gender: Gender,
+        public microchip: string,
+        public color: string,
+        public coat: string,
+        public birthDate: Date,
+        public lastSeenDate: string,
+        public location: string,
+        public description: string,
+        public createdAt: Date = new Date(),
+    ) {}
+
+    static fromJSON(json: any): Pets {
+        return new Pets(
+            json.name,
+            json.ownerId,
+            json.vetId,
+            json.species,
+            json.breed,
+            json.age,
+            json.gender,
+            json.microchip,
+            json.color,
+            json.coat,
+            json.birthDate,
+            json.lastSeenDate,
+            json.location,
+            json.description,
+            new Date(json.createdAt),
+        );
+    }
+}
+/* RECORDS */
+export const PROCEDURE_OPTIONS = {
+    checkup: "Γενικός έλεγχος",
+    vaccination: "Εμβολιασμός",
+    deworming: "Αποπαρασίτωση",
+    microchip: "Τοποθέτηση microchip",
+    neutering: "Στείρωση",
+    blood_tests: "Αιματολογικές εξετάσεις",
+    urine_tests: "Εξετάσεις ούρων",
+    imaging: "Ακτινογραφία / Υπέρηχος",
+    sick: "Ασθένεια / Συμπτώματα ίωσης",
+    injury: "Τραυματισμός",
+    chronic_condition: "Χρόνια πάθηση",
+    pregnancy: "Κύηση",
+    emergency: "Έκτακτο",
+    other: "Άλλος λόγος",
+};
+
+export type OwnerStatus = "metavivasi" | "uiothesia" | "anadoxh";
 
 export class Record {
     constructor(
+        public vetId: string,
         public petName: string,
-        public species: string,
+        public microchip: string,
         public ownerName: string,
-        public ownerEmail: string,
-        public condition: PetCondition,
-        public petId: string,
-        public age: number,
-        public gender: Gender,
-        public breed: string,
+        public reason: string,
         public ownerStatus: OwnerStatus,
-        public hair: string,
-        public hairColor: string,
-        public animalSize: string,
         public createdAt: Date = new Date(),
     ) {}
 
     static fromJSON(json: any): Record {
         return new Record(
+            json.vetId,
             json.petName,
-            json.species,
+            json.microchip,
             json.ownerName,
-            json.ownerEmail,
-            json.condition,
-            json.petId,
-            json.age,
-            json.gender,
-            json.breed,
+            json.reason,
             json.ownerStatus,
-            json.hair,
-            json.hairColor,
-            json.animalSize,
             new Date(json.createdAt),
         );
     }

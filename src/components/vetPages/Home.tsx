@@ -78,8 +78,8 @@ function Home() {
             </div>
             {/* page load */}
 
-            {message === "appear" && (
-                <div className="w-full p-12 items-left">
+            {message === "appear" && view !== "dashboard" && (
+                <div className="w-full pl-12 p-4 items-left">
                     <button
                         onClick={() => setView("dashboard")}
                         className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"

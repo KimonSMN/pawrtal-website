@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Appointments, User, MeetingStatus } from "../models/Info";
+import { Appointments, User, MeetingStatus, PROCEDURE_OPTIONS } from "../models/Info";
 import Decline from "../../assets/decline.png";
 import Accept from "../../assets/accept.png";
 
@@ -69,24 +69,27 @@ function VisitCard({ info }: { info: Appointments }) {
                     })}
                 </div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
-                <div>{owner?.name}</div>
+                <div>{owner?.fullName}</div>
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
-                <div>{info.reason}</div>
+                <div>{PROCEDURE_OPTIONS[info.reason] ?? info.reason}</div>
             </div>
-            <div className="flex flex-row items-center w-full gap-1">
+            <div className="flex flex-row items-center w-full gap-2">
                 <button
-                    className="flex flex-row items-center gap-1  p-2 rounded-2xl border bg-[#ffffff] hover:bg-[#eeeeee]"
+                    className="flex items-center gap-2 px-4 py-2 rounded-2xl border 
+                   bg-white hover:bg-[#eeeeee] whitespace-nowrap min-w-30"
                     onClick={() => setDecision(MeetingStatus.Accepted)}
                 >
-                    <img src={Accept} alt="free" className="w-6 h-6" />
-                    Αποδοχη
+                    <img src={Accept} alt="accept" className="w-6 h-6" />
+                    <span>Αποδοχή</span>
                 </button>
+
                 <button
-                    className="flex flex-row items-center justify-evenly gap-1 p-2 rounded-2xl border bg-[#b4b4b4]  hover:bg-[#a1a1a1]"
+                    className="flex items-center gap-2 px-4 py-2 rounded-2xl border 
+                   bg-[#b4b4b4] hover:bg-[#a1a1a1] whitespace-nowrap min-w-30"
                     onClick={() => setDecision(MeetingStatus.Cancelled)}
                 >
-                    <img src={Decline} alt="free" className="w-4 h-4" />
-                    Απόρριψη
+                    <img src={Decline} alt="decline" className="w-4 h-4" />
+                    <span>Απόρριψη</span>
                 </button>
             </div>
         </div>
@@ -117,12 +120,12 @@ function NewAppointments() {
 
         fetchVisits();
     }, []);
-
+    if (loading) return <p>loading...</p>;
     return (
         <div
             className="
             flex flex-col items-center gap-8  overflow-x-auto p-6
-            sm:flex-row sm:w-3xl sm:mb-16 sm:max-h-[500px] sm:overflow-y-auto
+            sm:flex-row sm:w-3xl sm:mb-16 sm:max-h-125 sm:overflow-y-auto
         "
         >
             {appointments.map((info) => (

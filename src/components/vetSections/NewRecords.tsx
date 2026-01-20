@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import styles from "./page.module.css";
 import { Record } from "../models/Info";
+import styles from "./page.module.css";
 import DownArrow from "../../assets/down_arrow.png";
 import RightArrow from "../../assets/right_arrow.png";
 
@@ -13,20 +13,12 @@ function NewRecords() {
     const [mode, setMode] = useState<Mode>("edit");
 
     const [formData, setFormData] = useState({
-        petName: "",
-        petId: "",
-        species: "",
         vetId: "",
+        petName: "",
+        microchip: "",
         ownerName: "",
-        ownerEmail: "",
-        condition: "",
-        age: 0,
-        gender: "",
-        breed: "",
+        reason: "",
         ownerStatus: "",
-        hair: "",
-        hairColor: "",
-        animalSize: "",
         createdAt: new Date(),
     });
 
@@ -38,19 +30,10 @@ function NewRecords() {
     const handleSubmit = async () => {
         const newRecord = {
             petName: formData.petName,
-            petId: formData.petId,
-            species: formData.species,
             vetId: vet.id,
             ownerName: formData.ownerName,
-            ownerEmail: formData.ownerEmail,
-            condition: formData.condition,
-            age: Number(formData.age),
-            gender: formData.gender,
-            breed: formData.breed,
+            reason: formData.reason,
             ownerStatus: formData.ownerStatus,
-            hair: formData.hair,
-            hairColor: formData.hairColor,
-            animalSize: formData.animalSize,
             createdAt: formData.createdAt,
         };
 
@@ -77,8 +60,8 @@ function NewRecords() {
 
     return (
         <>
-            <h1 className=" text-[#303030] m-auto my-4 text-3xl ">Νεα καταχώρηση</h1>
-            <div className="bg-[#e9e9e990] w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
+            <h1 className=" text-[#303030] m-auto my-4 text-3xl ">Καταγραφή Επίσκεψης</h1>
+            <div className="bg-[#e5e5e5] w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
                 <div className="flex-1 flex flex-col items-center">
                     {/* Arrow */}
                     <div className="w-full text-left mx-4 px-4">
@@ -130,22 +113,6 @@ function NewRecords() {
                                     disabled={mode === "preview"}
                                 />
                             </label>
-                            <label className="flex flex-col">
-                                Ειδος κατοικίδιου
-                                <select
-                                    value={formData.species}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    name="mode"
-                                    id="species"
-                                    disabled={mode === "preview"}
-                                >
-                                    <option value={""}>Εμφάνιση Επιλογών --</option>
-                                    <option value={"Σκύλος"}>Σκύλος</option>
-                                    <option value={"Γάτα"}>Γάτα</option>
-                                    <option value={""}>Άλλο</option>
-                                </select>
-                            </label>
 
                             <label className="flex flex-col">
                                 Ονοματεπωνυμο Ιδιοκτήτη
@@ -160,25 +127,9 @@ function NewRecords() {
                                 />
                             </label>
                             <label className="flex flex-col">
-                                Κατασταση Κατοικίδιου
-                                <select
-                                    value={formData.condition}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    name="mode"
-                                    id="condition"
-                                    disabled={mode === "preview"}
-                                >
-                                    <option value={""}>Επιλογή Κατάστασης --</option>
-                                    <option value={"apwleia"}>Απωλεια</option>
-                                    <option value={"euresi"}>Ευρεση</option>
-                                    <option value={"keno"}>Κενο</option>
-                                </select>
-                            </label>
-                            <label className="flex flex-col">
                                 Αριθμός μικροτσίπ
                                 <input
-                                    value={formData.petId}
+                                    value={formData.microchip}
                                     onChange={handleChange}
                                     className={styles.profile_tag}
                                     id="petId"
@@ -187,87 +138,8 @@ function NewRecords() {
                                     disabled={mode === "preview"}
                                 />
                             </label>
-                            <label className="flex flex-col">
-                                Μικρό ζώο &lt;10kg
-                                <select
-                                    value={formData.animalSize}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    name="mode"
-                                    id="animalSize"
-                                    disabled={mode === "preview"}
-                                >
-                                    <option value={""}>Εμφάνιση Επιλογών --</option>
-                                    <option value={"nai"}>Ναι</option>
-                                    <option value={"oxi"}>Όχι</option>
-                                    <option value={"keno"}>Κενο</option>
-                                </select>
-                            </label>
                         </div>
                         <div className="flex-1 flex flex-col items-center justify-center text-left">
-                            <label className="flex flex-col">
-                                Ηλικία
-                                <input
-                                    value={formData.age}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    id="age"
-                                    type="number"
-                                    min="0"
-                                    placeholder="πχ. 7"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
-                            <label className="flex flex-col">
-                                Φυλή
-                                <input
-                                    value={formData.breed}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="breed"
-                                    type="text"
-                                    placeholder="πχ. Λαμπραντόρ"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
-                            <label className="flex flex-col">
-                                Τρίχωμα
-                                <input
-                                    value={formData.hair}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="hair"
-                                    type="text"
-                                    placeholder="πχ. κοντό"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
-                            <label className="flex flex-col">
-                                Χρωμα Τριχώματος
-                                <input
-                                    value={formData.hairColor}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="hairColor"
-                                    type="text"
-                                    placeholder="πχ. μαυρο"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
-                            <label className="flex flex-col">
-                                Φύλο
-                                <select
-                                    value={formData.gender}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    id="gender"
-                                    disabled={mode === "preview"}
-                                >
-                                    <option value={""}>Επιλογή Φυλου --</option>
-                                    <option value={"female"}>Θυλικό</option>
-                                    <option value={"male"}>Αρσενικό</option>
-                                </select>
-                            </label>
                             <label className="flex flex-col">
                                 Κατασταση Ιδιοκτήτη
                                 <select
@@ -282,6 +154,39 @@ function NewRecords() {
                                     <option value={"metavivasi"}>Μεταβίβαση</option>
                                     <option value={"uiothsia"}>Yιοθεσία</option>
                                     <option value={"anadoxh"}>Αναδοχή</option>
+                                </select>
+                            </label>
+                            <label className="flex flex-col">
+                                Ιατρική Πράξη
+                                <select
+                                    value={formData.reason}
+                                    className={styles.profile_tag}
+                                    onChange={handleChange}
+                                    name="mode"
+                                    id="reason"
+                                    disabled={mode === "preview"}
+                                >
+                                    <option value="">Εμφάνιση επιλογών --</option>
+                                    <optgroup label="Προληπτικός έλεγχος">
+                                        <option value="checkup">Γενικός έλεγχος</option>
+                                        <option value="vaccination">Εμβολιασμός</option>
+                                        <option value="deworming">Αποπαρασίτωση</option>
+                                        <option value="microchip">Τοποθέτηση microchip</option>
+                                        <option value="neutering">Στείρωση</option>
+                                    </optgroup>
+                                    <optgroup label="Εξετάσεις">
+                                        <option value="blood_tests">Αιματολογικές εξετάσεις</option>
+                                        <option value="urine_tests">Εξετάσεις ούρων</option>
+                                        <option value="imaging">Ακτινογραφία / Υπέρηχος</option>
+                                    </optgroup>
+                                    <optgroup label="Αλλο">
+                                        <option value="sick">Ασθένεια/Συμπτώματα Ιωσης</option>
+                                        <option value="injury">Τραυματισμός</option>
+                                        <option value="chronic_condition">Χρόνια πάθηση</option>
+                                        <option value="pregnancy">Κύηση</option>
+                                        <option value="emergency">Έκτακτο</option>
+                                        <option value="other">Άλλος λόγος</option>
+                                    </optgroup>
                                 </select>
                             </label>
                         </div>
