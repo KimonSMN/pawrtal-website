@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { User, Pets, Record } from "../models/Info";
+import { User, Pets, Record, PROCEDURE_OPTIONS } from "../models/Info";
 
 function Input({ info, onPreview }: { info: Record; onPreview: (record: Record) => void }) {
     const [pet, setPet] = useState<Pets | null>(null);
@@ -51,20 +51,26 @@ function Input({ info, onPreview }: { info: Record; onPreview: (record: Record) 
 function RecordPreview({ record, onBack }: { record: Record; onBack: () => void }) {
     const [owner, setOwner] = useState<User | null>(null);
     const [pet, setPet] = useState<Pets | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPet = async () => {
             try {
                 const response = await fetch(
-                    `http://localhost:3001/records?microchip=${record.microchip}`,
+                    `http://localhost:3001/pets?microchip=${record.microchip}`,
                 );
                 const data = await response.json();
 
                 if (data.length > 0) {
                     setPet(Pets.fromJSON(data[0]));
+                } else {
+                    setPet(null); // pet δεν υπάρχει
                 }
             } catch (error) {
                 console.error("Fetch failed:", error);
+                setPet(null);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -90,42 +96,67 @@ function RecordPreview({ record, onBack }: { record: Record; onBack: () => void 
         fetchOwner();
     }, [pet]);
 
+    if (loading) {
+        return <p className="text-center mt-6">Φόρτωση...</p>;
+    }
+
     return (
         <div className="bg-[#f9f9f9] rounded-2xl p-6 shadow-lg w-full max-w-xl mx-auto">
             <h2 className="text-2xl font-semibold mb-4">Στοιχεία Κατοικιδίου</h2>
 
-            <div className="space-y-3 text-sm text-gray-700">
-                <p>
-                    <b>Ονομα:</b> {pet.name}
-                </p>
-                <p>
-                    <b>Είδος:</b> {pet.species}
-                </p>
-                <p>
-                    <b>Ιδιοκτήτης:</b> {owner?.fullName}
-                </p>
-                <p>
-                    <b>Microchip:</b> {pet.microchip}
-                </p>
-                <p>
-                    <b>Φύλο:</b> {pet.gender}
-                </p>
-                <p>
-                    <b>Τρίχωμα:</b> {pet.coat}
-                </p>
-                <p>
-                    <b>Χρώμα:</b> {pet.color}
-                </p>
-                <p>
-                    <b>Φυλή:</b> {pet.breed}
-                </p>
-                <p>
-                    <b>Ηλιακία:</b> {pet.age}
-                </p>
-                <p>
-                    <b>Ημερομηνία:</b> {pet.createdAt.toLocaleDateString("el-GR")}
-                </p>
-            </div>
+            {pet ? (
+                <div className="space-y-3 text-sm text-gray-700">
+                    <p>
+                        <b>Όνομα:</b> {pet.name}
+                    </p>
+                    <p>
+                        <b>Είδος:</b> {pet.species}
+                    </p>
+                    <p>
+                        <b>Ιδιοκτήτης:</b> {owner?.fullName ?? "—"}
+                    </p>
+                    <p>
+                        <b>Microchip:</b> {pet.microchip}
+                    </p>
+                    <p>
+                        <b>Φύλο:</b> {pet.gender}
+                    </p>
+                    <p>
+                        <b>Τρίχωμα:</b> {pet.coat}
+                    </p>
+                    <p>
+                        <b>Χρώμα:</b> {pet.color}
+                    </p>
+                    <p>
+                        <b>Φυλή:</b> {pet.breed}
+                    </p>
+                    <p>
+                        <b>Ηλικία:</b> {pet.age}
+                    </p>
+                    <p>
+                        <b>Ημερομηνία:</b> {pet.createdAt.toLocaleDateString("el-GR")}
+                    </p>
+                </div>
+            ) : (
+                <div className="space-y-3 text-sm text-gray-700">
+                    <p className="text-red-500 font-semibold">
+                        Το κατοικίδιο με microchip <b>{record.microchip}</b> δεν είναι καταχωρημένο.
+                    </p>
+
+                    <p>
+                        <b>Microchip:</b> {record.microchip}
+                    </p>
+                    <p>
+                        <b>Ιδιοκτήτης:</b> {record.ownerName}
+                    </p>
+                    <p>
+                        <b>Λόγος επίσκεψης:</b> {PROCEDURE_OPTIONS[record.reason]}
+                    </p>
+                    <p>
+                        <b>Ημερομηνία:</b> {new Date(record.createdAt).toLocaleDateString("el-GR")}
+                    </p>
+                </div>
+            )}
 
             <button
                 onClick={onBack}

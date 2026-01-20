@@ -30,6 +30,7 @@ function NewRecords() {
     const handleSubmit = async () => {
         const newRecord = {
             petName: formData.petName,
+            microchip: formData.microchip,
             vetId: vet.id,
             ownerName: formData.ownerName,
             reason: formData.reason,
@@ -132,7 +133,7 @@ function NewRecords() {
                                     value={formData.microchip}
                                     onChange={handleChange}
                                     className={styles.profile_tag}
-                                    id="petId"
+                                    id="microchip"
                                     type="text"
                                     placeholder="πχ. 123456789"
                                     disabled={mode === "preview"}

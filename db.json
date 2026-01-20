@@ -219,7 +219,7 @@
       "ownerId": "2",
       "reason": "urine_tests",
       "date": "2025-12-25T18:00:00.000Z",
-      "status": "new"
+      "status": "approved"
     },
     {
       "id": "beff",
@@ -248,84 +248,24 @@
   ],
   "records": [
     {
-      "id": "0765",
-      "petId": "04782639",
-      "species": "Σκύλος ",
-      "vetId": "c389",
-      "ownerName": "Ναταλια Κρικελλη",
-      "condition": "keno",
-      "age": 2,
-      "gender": "female",
-      "ownerStatus": "uiothesia",
-      "createdAt": ""
-    },
-    {
-      "id": "d2bc",
-      "petId": "38917401",
-      "species": "Γατα",
-      "vetId": "c388",
-      "ownerName": "Ναταλια Κρικελλη",
-      "condition": "keno",
-      "age": 2,
-      "gender": "female",
+      "id": "b688",
+      "petName": "Stan",
+      "microchip": "12931039",
+      "vetId": "3",
+      "ownerName": "Στράτος Αντιπαριώτης",
+      "reason": "pregnancy",
       "ownerStatus": "metavivasi",
-      "createdAt": "2026-01-15T13:13:15.553Z"
+      "createdAt": "2026-01-20T16:21:59.110Z"
     },
     {
-      "id": "bd1a",
-      "petId": "9842947",
-      "species": "Σκυλος",
-      "vetId": "c388",
-      "ownerName": "Ναταλια",
-      "condition": "apwleia",
-      "age": 4,
-      "gender": "male",
+      "id": "6166",
+      "petName": "Λούνα",
+      "microchip": "009542945",
+      "vetId": "3",
+      "ownerName": "Κατερινα Γιαννάκου",
+      "reason": "deworming",
       "ownerStatus": "",
-      "createdAt": "2026-01-15T13:19:29.042Z"
-    },
-    {
-      "id": "bb7d",
-      "petId": "91074834",
-      "species": "Γατα",
-      "vetId": "c388",
-      "ownerName": "ναταα",
-      "ownerEmail": "",
-      "condition": "apwleia",
-      "age": 3,
-      "gender": "male",
-      "ownerStatus": "anadoxh",
-      "createdAt": "2026-01-16T02:47:24.491Z"
-    },
-    {
-      "id": "11be",
-      "petId": "740290141",
-      "species": "gadjadlaka",
-      "vetId": "c388",
-      "ownerName": "egw",
-      "ownerEmail": "",
-      "condition": "keno",
-      "age": 6,
-      "gender": "female",
-      "ownerStatus": "uiothsia",
-      "createdAt": "2026-01-18T11:14:39.159Z"
-    },
-    {
-      "id": "68b0",
-      "petName": "",
-      "petId": "",
-      "species": "",
-      "vetId": "c388",
-      "ownerName": "",
-      "ownerEmail": "",
-      "condition": "",
-      "age": 0,
-      "gender": "",
-      "race": "",
-      "ownerStatus": "",
-      "hair": "",
-      "hairColor": "",
-      "animalSize": "",
-      "createdAt": "2026-01-19T14:57:04.007Z"
+      "createdAt": "2026-01-20T16:32:59.243Z"
     }
   ],
   "reviews": [
