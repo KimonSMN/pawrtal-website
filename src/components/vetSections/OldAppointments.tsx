@@ -47,7 +47,7 @@ function Visit({ info }: { info: Appointments }) {
                     timeStyle: "short",
                 })}
             </div>
-            <div className="flex-1">"↓"</div>
+            <div className="flex-1">{info.petName}</div>
         </div>
     );
 }
@@ -93,6 +93,10 @@ function VisitCard({ info }: { info: Appointments }) {
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
                 <div>{PROCEDURE_OPTIONS[info.reason] ?? info.reason}</div>
             </div>
+            <div>
+                <span className="font-semibold text-sm text-gray-500">Κατοίκιδιο</span>
+                <div className="flex-1">{info.petName}</div>
+            </div>
 
             <div className="flex justify-between items-center">
                 <div>
@@ -104,8 +108,6 @@ function VisitCard({ info }: { info: Appointments }) {
                         })}
                     </div>
                 </div>
-
-                <div className="text-xl">"↓"</div>
             </div>
         </div>
     );
@@ -160,7 +162,7 @@ export default function OldAppointments() {
                     <div className="flex-1 pr-12">Ονομα Επισκεπτη</div>
                     <div className="flex-1 ">Ιατρικη Πραξη</div>
                     <div className="flex-1">Ημερομηνία</div>
-                    <div className="flex-1">Βιβλιάριο</div>
+                    <div className="flex-1">Όνομα Κατ/διου</div>
                 </div>
                 {appointments.map((info) => (
                     <Visit key={info.id} info={info} />
