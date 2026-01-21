@@ -67,7 +67,7 @@ function NewRecords() {
 
     return (
         <>
-            <h1 className=" text-[#303030] m-auto my-4 text-3xl ">Καταγραφή Επίσκεψης</h1>
+            <h1 className=" text-[#303030] m-auto my-6 text-3xl ">Καταγραφή Επίσκεψης</h1>
             <div className="flex flex-col sm:flex-row gap-2">
                 <div className="max-w-sm">
                     <p className=" text-[#505050] m-auto my-4 max-w-sm text-medium px-4 sm:max-w-xl sm:text-xl ">
@@ -78,7 +78,7 @@ function NewRecords() {
                     <div className="w-full text-left mx-4 px-4">
                         <button
                             onClick={() => setOpen((o) => !o)}
-                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center hover:bg-[#e2e2e2]"
+                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center hover:bg-[#e2e2e2] cursor-pointer border"
                         >
                             Χρησιμες Πληροφοριες
                             {open ? (
@@ -109,7 +109,7 @@ function NewRecords() {
                         </>
                     )}
                 </div>
-                <div className="bg-[#e5e5e5] w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
+                <div className="bg-[#ffffff] border w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
                     <div className="flex-1 flex flex-col items-center">
                         <div
                             className="
@@ -123,7 +123,7 @@ function NewRecords() {
                                     <input
                                         value={formData.petName}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="petName"
                                         type="text"
                                         placeholder="Ονομα"
@@ -136,7 +136,7 @@ function NewRecords() {
                                     <input
                                         value={formData.ownerName}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="ownerName"
                                         type="text"
                                         placeholder="Ονοματεπωνυμο"
@@ -148,7 +148,7 @@ function NewRecords() {
                                     <input
                                         value={formData.microchip}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="microchip"
                                         type="text"
                                         placeholder="πχ. 123456789"
@@ -161,7 +161,7 @@ function NewRecords() {
                                     Κατασταση Ιδιοκτήτη
                                     <select
                                         value={formData.ownerStatus}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm"
                                         onChange={handleChange}
                                         name="mode"
                                         id="ownerStatus"
@@ -177,7 +177,7 @@ function NewRecords() {
                                     Ιατρική Πράξη
                                     <select
                                         value={formData.reason}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm"
                                         onChange={handleChange}
                                         name="mode"
                                         id="reason"
@@ -214,7 +214,7 @@ function NewRecords() {
                             {mode === "preview" && (
                                 <button
                                     onClick={() => setMode("edit")}
-                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Επεξεργασία
                                 </button>
@@ -229,7 +229,7 @@ function NewRecords() {
                                         setMode("preview"); // κλειδώνουμε τα πεδία
                                         alert("Η καταχώρηση αποθηκεύτηκε προσωρινά 💾");
                                     }}
-                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff70] text-[#000000] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Προσωρινή Αποθήκευση
                                 </button>
@@ -240,7 +240,7 @@ function NewRecords() {
                                     navigate("/vet?view=records");
                                     localStorage.removeItem("record-draft");
                                 }}
-                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
+                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs cursor-pointer hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
                             >
                                 Οριστική Υποβολή
                             </button>

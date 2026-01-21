@@ -72,7 +72,7 @@ function VisitCard({ info }: { info: Appointments }) {
     }, [notify]);
 
     return (
-        <div className="bg-[#e1e1e188] rounded-2xl p-4 max-w-lg shadow-md flex flex-col gap-4 text-nowrap">
+        <div className="bg-[#ffffff88] rounded-2xl p-4 max-w-lg shadow-md flex flex-col gap-4 text-nowrap border hover:border-gray-900">
             <div className="flex flex-col items-center w-full gap-1">
                 {info.status === MeetingStatus.New ? (
                     <p className="text-[#005892] max-w-xs text-wrap text-center">Νεο Ραντεβου</p>
@@ -99,8 +99,8 @@ function VisitCard({ info }: { info: Appointments }) {
                 {info.status !== MeetingStatus.Canceled ? (
                     <>
                         <button
-                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border 
-                        bg-white hover:bg-[#eeeeee] whitespace-nowrap min-w-30"
+                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border cursor-pointer
+                        bg-white hover:bg-[#dfdfdf] whitespace-nowrap min-w-30"
                             onClick={() => setDecision(MeetingStatus.Accepted)}
                         >
                             <img src={Accept} alt="accept" className="w-6 h-6" />
@@ -108,8 +108,8 @@ function VisitCard({ info }: { info: Appointments }) {
                         </button>
 
                         <button
-                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border 
-                        bg-[#b4b4b4] hover:bg-[#a1a1a1] whitespace-nowrap min-w-30"
+                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border cursor-pointer
+                        bg-[#ff8f8f] hover:bg-[#a96666] whitespace-nowrap min-w-30"
                             onClick={() => setDecision(MeetingStatus.Canceled)}
                         >
                             <img src={Decline} alt="decline" className="w-4 h-4" />
@@ -119,8 +119,8 @@ function VisitCard({ info }: { info: Appointments }) {
                 ) : (
                     <>
                         <button
-                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border 
-                        bg-[#b4b4b4] hover:bg-[#a1a1a1] whitespace-nowrap min-w-30"
+                            className="flex items-center gap-2 px-4 py-2 rounded-2xl border cursor-pointer text-white
+                        bg-[#262626] hover:bg-[#151515] whitespace-nowrap min-w-30"
                             onClick={() => setNotify(true)}
                         >
                             <span>Διαγραφή Ειδοποίησης</span>

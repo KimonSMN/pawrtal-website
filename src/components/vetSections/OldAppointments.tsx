@@ -33,7 +33,7 @@ function Visit({ info }: { info: Appointments }) {
     return (
         <div
             className="
-                bg-[#f9f9f9] p-4 rounded-2xl shadow-xl
+                bg-[#ffffff] p-4 rounded-2xl shadow-xl border border-[#a4a4a4]
                 text-[#333]
                 w-full
                 grid grid-cols-[2fr_2fr_1fr_1fr] items-center gap-8
@@ -83,7 +83,7 @@ function VisitCard({ info }: { info: Appointments }) {
     }, [info.ownerId]);
 
     return (
-        <div className="bg-[#f9f9f9] rounded-2xl p-4 shadow-md flex flex-col gap-4">
+        <div className="bg-[#ffffff] rounded-2xl p-4 shadow-md flex flex-col gap-4 border">
             <div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
                 <div>{owner?.fullName}</div>

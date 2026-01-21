@@ -30,8 +30,9 @@ function Review({ info }: { info: Reviews }) {
             {/* Main row */}
             <div
                 className="
-                    bg-[#e5e5e5] p-4 rounded-2xl
-                    flex flex-row items-center gap-4
+                    bg-[#ffffff] p-4 
+                    flex flex-row justify-between items-center gap-4 border rounded-xl
+                    w-full text-[#333] 
                 "
             >
                 <div className="flex-1">{owner?.fullName}</div>
@@ -48,7 +49,7 @@ function Review({ info }: { info: Reviews }) {
                 {/* Arrow */}
                 <button
                     onClick={() => setOpen((o) => !o)}
-                    className="text-lg p-2 flex rounded justify-center hover:bg-[#cccccc]"
+                    className="text-lg p-2 flex rounded justify-center cursor-pointers hover:bg-[#e7e7e7] hover:border"
                 >
                     {open ? (
                         <img src={DownArrow} alt="free" className="w-4 h-4" />
@@ -179,11 +180,11 @@ function Profile() {
             <h1 className="text-[#303030] w-full mb-8 px-4 text-center text-3xl ">
                 Καλως ήρθες στον λογαριασμο σου.
             </h1>
-            <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-center">
-                <div className="flex flex-col items-center  ml-4">
+            <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-start">
+                <div className="flex-1 lex flex-col items-center max-w-lg border rounded-xl p-4 ml-4">
                     {/* Welcome message and profile pic */}
 
-                    <div className="h-fit w-fit max-w-40 mb-2 items-start">
+                    <div className="h-fit w-fit max-w-20 sm:max-w-40 mb-2 items-start">
                         <img
                             className="w-full h-full object-cover rounded-b-full"
                             src={user?.photo ?? "/images/no_pic.jpg"}
@@ -192,7 +193,7 @@ function Profile() {
                     </div>
                     {/* Account data container */}
                     <h1 className="text-[#266fa7] w-full m-auto text-left text-3xl mb-6 ">
-                        Στοιχεια Χρήστη
+                        Στοιχεία Χρήστη
                     </h1>
                     <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
                         <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4">
@@ -313,11 +314,11 @@ function Profile() {
                     </div>
                     {/* telos container */}
 
-                    <div className="flex flex-row items-start mx-auto mb-4 gap-1 w-full sm:gap-1 sm:m-2 sm:mb-8">
-                        <div className=" flex flex-row min-w-[280px]">
+                    <div className="flex flex-row items-center mx-auto gap-0.5 max-w-lg sm:gap-1 sm:m-2 ">
+                        <div className=" flex flex-row min-w-70">
                             {!isEditing ? (
                                 <button
-                                    className="m-2 p-4 bg-[#e5e5e5] font-semibold rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
+                                    className="m-2 p-4 w-full bg-[#e5e5e5] font-semibold rounded-2xl cursor-pointer hover:bg-[#d1d1d1] hover:transition-transform sm:text-sm"
                                     onClick={() => setIsEditing(true)}
                                 >
                                     Επεξεργασία Στοιχειων
@@ -325,13 +326,13 @@ function Profile() {
                             ) : (
                                 <>
                                     <button
-                                        className="m-2 p-4 bg-[#c5e1ff] font-bold text-[#3c3c3cb6] border  border-[#cdcdcd] rounded-2xl hover:bg-[#b1cae5] hover:transition-transform"
+                                        className="m-2 p-4 bg-[#c5e1ff] font-bold text-[#3c3c3cb6] cursor-pointer border  border-[#cdcdcd] rounded-2xl hover:bg-[#b1cae5] hover:transition-transform"
                                         onClick={handleSave}
                                     >
                                         Αποθήκευση
                                     </button>
                                     <button
-                                        className="m-2 p-4 bg-[#aaaaaa] font-semibold text-[#ffffff] border border-[#909090b0] rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
+                                        className="m-2 p-4 bg-[#aaaaaa] font-semibold text-[#ffffff] cursor-pointer border border-[#909090b0] rounded-2xl hover:bg-[#d1d1d1] hover:transition-transform"
                                         onClick={handleCancel}
                                     >
                                         Ακύρωση
@@ -340,42 +341,40 @@ function Profile() {
                             )}
                         </div>
                         <button
-                            className="m-2 p-4 text-[#ffffff] font-semibold bg-[#df0000a7] rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
+                            className="m-2 p-4 text-[#ffffff] font-semibold bg-[#df0000a7] cursor-pointer rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
                             onClick={handleLogout}
                         >
                             Αποσύνδεση
                         </button>
                     </div>
                 </div>
-                <div className="flex flex-col items-center sm:mt-10">
-                    <div className="flex flex-col items-center p-8 gap-5 w-full">
-                        {averageRating !== 0 && (
-                            <div className="flex flex-col gap-2 mb-4">
-                                <div className="text-lg text-[#005495] font-medium">
-                                    Μέση βαθμολογία: {averageRating} / 5
-                                </div>
+                <div className="flex-1 flex flex-col items-center p-8 gap-5 max-w-sm px-8 ">
+                    <h1 className=" text-[#266fa7] w-full m-auto mb-2 text-left text-3xl ">
+                        Αξιολογήσεις Χρήστη
+                    </h1>
+                    {averageRating !== 0 && (
+                        <div className="flex flex-col w-full text-left gap-2 mb-4 border-t">
+                            <div className="text-lg text-[#005495] font-medium">
+                                Μέση βαθμολογία: {averageRating} / 5
+                            </div>
 
-                                <div className="text-sm text-gray-500">
-                                    ({reviews.length} αξιολογήσεις)
-                                </div>
-                            </div>
-                        )}
-                        <h1 className=" text-[#266fa7] w-full m-auto mb-8 text-left text-3xl ">
-                            Αξιολογήσεις Χρήστη
-                        </h1>
-                        <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-[#007bd8]">
-                            <div className="flex-3 ">Χρήστης</div>
-                            <div className="flex-2 ">Αστέρια</div>
-                            <div className="flex-1">Ημερομηνία</div>
-                            <div className="flex-1 pr-4 ">
-                                <img src={Dots} alt="free" className="w-6 h-6" />
+                            <div className="text-sm text-gray-500">
+                                ({reviews.length} αξιολογήσεις)
                             </div>
                         </div>
-                        <div className="flex flex-col pr-4 gap-4 max-h-90 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
-                            {reviews.map((info) => (
-                                <Review key={info.id} info={info} />
-                            ))}
+                    )}
+                    <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-[#007bd8]">
+                        <div className="flex-3 ">Χρήστης</div>
+                        <div className="flex-2 ">Αστέρια</div>
+                        <div className="flex-1">Ημερομηνία</div>
+                        <div className="flex-1 pr-4 ">
+                            <img src={Dots} alt="free" className="w-6 h-6" />
                         </div>
+                    </div>
+                    <div className="flex flex-col pr-4 gap-4 max-h-90 overflow-y-auto [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full">
+                        {reviews.map((info) => (
+                            <Review key={info.id} info={info} />
+                        ))}
                     </div>
                 </div>
             </div>

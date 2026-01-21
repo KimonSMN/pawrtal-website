@@ -101,7 +101,7 @@ function NewRecords() {
                     <div className="w-full text-left mx-4 px-4">
                         <button
                             onClick={() => setOpen((o) => !o)}
-                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center hover:bg-[#e2e2e2]"
+                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 border border-[#909090] cursor-pointer rounded justify-center hover:bg-[#e2e2e2]"
                         >
                             Χρησιμες Πληροφοριες
                             {open ? (
@@ -136,7 +136,7 @@ function NewRecords() {
                         </>
                     )}
                 </div>
-                <div className="bg-[#e5e5e5] w-xs rounded-2xl p-auto py-2 m-auto border-none shadow shadow-gray-500 sm:w-lg">
+                <div className="bg-[#ffffff] w-xs rounded-2xl p-auto py-2 m-auto border-none shadow border shadow-gray-500 sm:w-lg">
                     <div className="flex-1 flex flex-col items-center">
                         <div
                             className="
@@ -150,7 +150,7 @@ function NewRecords() {
                                     <input
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="name"
                                         type="text"
                                         placeholder="Ονομα"
@@ -164,7 +164,7 @@ function NewRecords() {
                                         name="species"
                                         value={formData.species}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none"
                                         disabled={mode === "preview"}
                                     >
                                         <option value="">Εμφάνιση επιλογών --</option>
@@ -209,7 +209,7 @@ function NewRecords() {
                                     <input
                                         value={formData.ownerId}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="ownerId"
                                         type="text"
                                         placeholder="πχ 2794013"
@@ -220,8 +220,7 @@ function NewRecords() {
                                     Φύλο Κατοικίδιου
                                     <select
                                         value={formData.gender}
-                                        className={styles.profile_tag}
-                                        onChange={handleChange}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm"
                                         name="mode"
                                         id="gender"
                                         disabled={mode === "preview"}
@@ -236,7 +235,7 @@ function NewRecords() {
                                     <input
                                         value={formData.microchip}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="microchip"
                                         type="text"
                                         placeholder="πχ. 123456789"
@@ -248,7 +247,7 @@ function NewRecords() {
                                     <input
                                         value={formData.birthDate}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="birthDate"
                                         type="date"
                                         disabled={mode === "preview"}
@@ -260,7 +259,7 @@ function NewRecords() {
                                     Ηλικία
                                     <input
                                         value={formData.age}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         onChange={handleChange}
                                         id="age"
                                         type="number"
@@ -274,7 +273,7 @@ function NewRecords() {
                                     <input
                                         value={formData.breed}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="breed"
                                         type="text"
                                         placeholder="πχ. Λαμπραντόρ"
@@ -286,7 +285,7 @@ function NewRecords() {
                                     <input
                                         value={formData.coat}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="coat"
                                         type="text"
                                         placeholder="πχ. κοντό"
@@ -298,7 +297,7 @@ function NewRecords() {
                                     <input
                                         value={formData.color}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="color"
                                         type="text"
                                         placeholder="πχ. Μαυρο"
@@ -310,7 +309,7 @@ function NewRecords() {
                                     <input
                                         value={formData.location}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         id="location"
                                         type="text"
                                         placeholder="πχ. Αθήνα"
@@ -319,13 +318,12 @@ function NewRecords() {
                                 </label>
                                 <label className="flex flex-col">
                                     Μικρή Περιγραφή
-                                    <input
+                                    <textarea
+                                        rows={3}
+                                        id="description"
+                                        className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                                         value={formData.description}
                                         onChange={handleChange}
-                                        className={styles.profile_tag}
-                                        id="description"
-                                        type="text"
-                                        placeholder="πχ. Μεγαλο σκυλί, φιλικό"
                                         disabled={mode === "preview"}
                                     />
                                 </label>
@@ -335,7 +333,7 @@ function NewRecords() {
                             {mode === "preview" && (
                                 <button
                                     onClick={() => setMode("edit")}
-                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Επιστροφή σε επεξεργασία
                                 </button>
@@ -350,7 +348,7 @@ function NewRecords() {
                                         setMode("preview");
                                         alert("Η καταχώρηση αποθηκεύτηκε προσωρινά 💾");
                                     }}
-                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff70] text-[#000000] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Προσωρινή Αποθήκευση
                                 </button>
@@ -363,7 +361,7 @@ function NewRecords() {
                                     setMode("edit");
                                     navigate("/vet?view=records");
                                 }}
-                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
+                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs cursor-pointer hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
                             >
                                 Οριστική Υποβολή
                             </button>
