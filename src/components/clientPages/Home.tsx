@@ -114,14 +114,14 @@ export default function ClientHomeComponent({
 
     const Breadcrumbs = () => (
         // Αφαιρέθηκε το max-w-6xl για να πάει τέρμα αριστερά
-        <div className="w-full text-[#5d5d5d] text-xs font-light flex items-center gap-1.5 flex-wrap mb-4 cursor-pointer">
+        <div className="text-sm text-gray-500 flex items-start gap-2 pt-4">
             <Link to="/" className="hover:text-black hover:underline transition-all">
                 Αρχική
             </Link>
             <span>&gt;</span>
             <button
                 onClick={() => setView("dashboard")}
-                className={`hover:text-black hover:underline transition-all cursor-pointer ${view === "dashboard" ? "font-bold text-black" : ""}`}
+                className={`hover:text-black hover:underline transition-all cursor-pointer ${view === "dashboard" ? "font-medium text-black underline" : ""}`}
             >
                 Ιδιοκτήτης
             </button>
@@ -132,7 +132,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setDeclarationStep("list")}
-                                className={`hover:text-black hover:underline transition-all cursor-pointer ${declarationStep === "list" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${declarationStep === "list" ? "font-medium text-black underline" : ""}`}
                             >
                                 Δηλώσεις
                             </button>
@@ -149,7 +149,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setAppointmentStep("search")}
-                                className={`hover:text-black hover:underline transition-all cursor-pointer ${appointmentStep === "search" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${appointmentStep === "search" ? "font-medium text-black underline" : ""}`}
                             >
                                 Ραντεβού
                             </button>
@@ -185,7 +185,7 @@ export default function ClientHomeComponent({
 
                     <button
                         onClick={handleBack}
-                        className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm cursor-pointer"
+                        className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm cursor-pointer mt-4"
                     >
                         <span className="text-xl">←</span> Πίσω
                     </button>
@@ -194,7 +194,10 @@ export default function ClientHomeComponent({
                     <div className="max-w-6xl mx-auto w-full">
                         {view === "healthbook" && <HealthBook />}
                         {view === "appointments" && (
-                            <ClientAppointments step={appointmentStep} setStep={setAppointmentStep} />
+                            <ClientAppointments
+                                step={appointmentStep}
+                                setStep={setAppointmentStep}
+                            />
                         )}
                         {view === "declarations" && (
                             <Declarations step={declarationStep} setStep={setDeclarationStep} />

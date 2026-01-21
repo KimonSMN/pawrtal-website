@@ -37,7 +37,7 @@ const Stepper = ({ current }: { current: number }) => {
                     <div key={idx} className="flex flex-col items-center w-24">
                         <div
                             className={`w-10 h-10 rounded-full border-2 flex items-center justify-center bg-[#ebebeb] 
-                            ${isActive ? "border-black bg-gray-400" : "border-black"}`}
+                            ${isActive ? "border-black bg-blue-200" : "border-black"}`}
                         ></div>
                         <span className="text-xs text-center mt-2 font-medium text-gray-600 leading-tight">
                             {label}
@@ -63,7 +63,9 @@ const SearchAndHistory = ({
     vets, // Pass vets to get locations
 }: any) => {
     // Extract unique locations from vets
-    const uniqueLocations = Array.from(new Set(vets.map((vet: any) => vet.city || "Unknown"))).filter(loc => loc !== "Unknown");
+    const uniqueLocations = Array.from(
+        new Set(vets.map((vet: any) => vet.city || "Unknown")),
+    ).filter((loc) => loc !== "Unknown");
 
     return (
         <div className="w-full">
@@ -77,13 +79,13 @@ const SearchAndHistory = ({
             <div className="w-full shadow-md rounded-lg overflow-hidden mb-4 border border-gray-300">
                 <div className="grid grid-cols-[1fr_1.5fr_160px]">
                     {/* HEADER ROW */}
-                    <div className="bg-[#dcdcdc] py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
+                    <div className="bg-blue-100 py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
                         Ημερομηνία
                     </div>
-                    <div className="bg-[#dcdcdc] py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
+                    <div className="bg-blue-100 py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
                         Περιοχή
                     </div>
-                    <div className="bg-[#dcdcdc] border-b border-gray-300"></div>
+                    <div className="bg-blue-100 border-b border-gray-300"></div>
 
                     {/* INPUT ROW */}
                     <div className="bg-white flex items-center justify-center px-2 border-r border-gray-200 h-16">
@@ -98,25 +100,32 @@ const SearchAndHistory = ({
                     </div>
 
                     <div className="bg-white flex items-center px-4 border-r border-gray-200 h-16 relative">
-                         <select
+                        <select
                             className="w-full text-sm text-gray-600 focus:outline-none bg-transparent cursor-pointer"
                             value={searchFilters.location}
                             onChange={(e) =>
-                                setSearchFilters((prev: any) => ({ ...prev, location: e.target.value }))
+                                setSearchFilters((prev: any) => ({
+                                    ...prev,
+                                    location: e.target.value,
+                                }))
                             }
                         >
                             <option value="">Όλες οι περιοχές</option>
                             {uniqueLocations.map((loc: any) => (
-                                <option key={loc} value={loc}>{loc}</option>
+                                <option key={loc} value={loc}>
+                                    {loc}
+                                </option>
                             ))}
                         </select>
-                        <span className="text-gray-400 absolute right-8 pointer-events-none">📍</span>
+                        <span className="text-gray-400 absolute right-8 pointer-events-none">
+                            📍
+                        </span>
                     </div>
 
                     <div className="bg-white flex items-center justify-center px-2 h-16">
                         <button
                             onClick={handleSearch}
-                            className="bg-[#5c5c5c] text-white w-full py-2.5 rounded-lg font-bold hover:bg-[#666] transition-colors text-sm shadow-sm cursor-pointer"
+                            className="bg-zinc-800 text-white w-full py-2.5 rounded-lg font-bold hover:bg-zinc-700 transition-colors text-sm shadow-sm cursor-pointer"
                         >
                             Αναζήτηση
                         </button>
@@ -325,9 +334,7 @@ const VetList = ({ vets, searchFilters, setSearchFilters, setStep, setSelectedVe
         <div className="w-full">
             <Stepper current={1} />
             <h2 className="text-2xl font-bold mb-6 text-[#303030]">
-                {searchFilters.location
-                    ? "Αποτελέσματα Αναζήτησης"
-                    : "Όλοι οι Κτηνίατροι"}
+                {searchFilters.location ? "Αποτελέσματα Αναζήτησης" : "Όλοι οι Κτηνίατροι"}
             </h2>
 
             {searchFilters.location && (
@@ -336,9 +343,7 @@ const VetList = ({ vets, searchFilters, setSearchFilters, setStep, setSelectedVe
                         📍 {searchFilters.location}
                     </span>
                     <button
-                        onClick={() =>
-                            setSearchFilters({ ...searchFilters, location: "" })
-                        }
+                        onClick={() => setSearchFilters({ ...searchFilters, location: "" })}
                         className="text-red-500 text-sm underline ml-2 cursor-pointer"
                     >
                         Καθαρισμός
@@ -355,15 +360,21 @@ const VetList = ({ vets, searchFilters, setSearchFilters, setStep, setSelectedVe
                     filteredVets.map((vet: any) => (
                         <div
                             key={vet.id}
-                            className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row hover:shadow-md transition-shadow"
+                            className="bg-white rounded-3xl overflow-hidden shadow-sm flex flex-col md:flex-row
+             hover:shadow-md transition-shadow md:h-[220px]"
                         >
-                            <div className="h-64 md:h-auto md:w-2/5 bg-gray-200 overflow-hidden relative group">
-                                <img
-                                    src={vet.photo || vetProfileImg}
-                                    className="w-full h-full object-cover"
-                                    alt={vet.fullName}
-                                />
+                            <div className="md:w-2/5">
+                                {/* Fixed image box */}
+                                <div className="w-full h-64 md:h-full md:min-h-[220px] bg-gray-200 overflow-hidden">
+                                    <img
+                                        src={vet.photo || vetProfileImg}
+                                        alt={vet.fullName}
+                                        className="w-full h-full object-cover object-center block"
+                                        loading="lazy"
+                                    />
+                                </div>
                             </div>
+
                             <div className="p-6 flex flex-col justify-between flex-1">
                                 <div>
                                     <h3 className="font-bold text-xl text-[#303030] mb-1">
@@ -666,48 +677,74 @@ const CancelConfirmation = ({ selectedAppointment, handleCancelAppointment, setS
 const AppointmentDetails = ({ selectedAppointment, setStep }: any) => {
     if (!selectedAppointment) return null;
     const dateObj = new Date(selectedAppointment.date);
-    
+
     return (
         <div className="w-full">
-            <h2 className="text-3xl font-bold mb-6 text-[#303030] text-center">Λεπτομέρειες Ραντεβού</h2>
+            <h2 className="text-3xl font-bold mb-6 text-[#303030] text-center">
+                Λεπτομέρειες Ραντεβού
+            </h2>
             <div className="bg-white rounded-[2rem] p-10 shadow-lg max-w-3xl mx-auto relative overflow-hidden border border-gray-200">
                 <div className="absolute top-0 left-0 w-full h-3 bg-[#5c5c5c]"></div>
-                
+
                 <div className="flex justify-between items-start mb-6">
                     <div>
-                        <h3 className="text-2xl font-bold text-[#303030]">{selectedAppointment.vetName}</h3>
+                        <h3 className="text-2xl font-bold text-[#303030]">
+                            {selectedAppointment.vetName}
+                        </h3>
                         <p className="text-gray-500 font-medium">Κτηνίατρος</p>
                     </div>
-                    <span className={`px-4 py-2 rounded-full text-sm font-bold ${
-                        selectedAppointment.status === 'canceled' ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-                    }`}>
-                        {selectedAppointment.status === 'new' ? 'Εκκρεμές' : 
-                         selectedAppointment.status === 'approved' ? 'Εγκεκριμένο' :
-                         selectedAppointment.status === 'canceled' ? 'Ακυρωμένο' : 'Ολοκληρωμένο'}
+                    <span
+                        className={`px-4 py-2 rounded-full text-sm font-bold ${
+                            selectedAppointment.status === "canceled"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-green-100 text-green-800"
+                        }`}
+                    >
+                        {selectedAppointment.status === "new"
+                            ? "Εκκρεμές"
+                            : selectedAppointment.status === "approved"
+                              ? "Εγκεκριμένο"
+                              : selectedAppointment.status === "canceled"
+                                ? "Ακυρωμένο"
+                                : "Ολοκληρωμένο"}
                     </span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-6 mb-8">
                     <div className="bg-[#f9f9f9] p-4 rounded-xl border border-gray-300">
                         <p className="text-xs text-gray-500 font-bold uppercase mb-1">Κατοικιδιο</p>
-                        <p className="text-lg font-medium text-gray-800">{selectedAppointment.petName || selectedAppointment.pet}</p>
+                        <p className="text-lg font-medium text-gray-800">
+                            {selectedAppointment.petName || selectedAppointment.pet}
+                        </p>
                     </div>
                     <div className="bg-[#f9f9f9] p-4 rounded-xl border border-gray-300">
                         <p className="text-xs text-gray-500 font-bold uppercase mb-1">Αιτιολογια</p>
-                        <p className="text-lg font-medium text-gray-800">{selectedAppointment.reason}</p>
+                        <p className="text-lg font-medium text-gray-800">
+                            {selectedAppointment.reason}
+                        </p>
                     </div>
                     <div className="bg-[#f9f9f9] p-4 rounded-xl border border-gray-300">
                         <p className="text-xs text-gray-500 font-bold uppercase mb-1">Ημερομηνια</p>
-                        <p className="text-lg font-medium text-gray-800">{dateObj.toLocaleDateString("el-GR")}</p>
+                        <p className="text-lg font-medium text-gray-800">
+                            {dateObj.toLocaleDateString("el-GR")}
+                        </p>
                     </div>
                     <div className="bg-[#f9f9f9] p-4 rounded-xl border border-gray-300">
                         <p className="text-xs text-gray-500 font-bold uppercase mb-1">Ωρα</p>
-                        <p className="text-lg font-medium text-gray-800">{dateObj.toLocaleTimeString("el-GR", {hour: '2-digit', minute:'2-digit'})}</p>
+                        <p className="text-lg font-medium text-gray-800">
+                            {dateObj.toLocaleTimeString("el-GR", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                            })}
+                        </p>
                     </div>
                 </div>
 
                 <div className="flex justify-center">
-                    <button onClick={() => setStep("search")} className="bg-[#5c5c5c] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#4a4a4a] shadow-md transition-all cursor-pointer">
+                    <button
+                        onClick={() => setStep("search")}
+                        className="bg-[#5c5c5c] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#4a4a4a] shadow-md transition-all cursor-pointer"
+                    >
                         Επιστροφή
                     </button>
                 </div>
@@ -718,56 +755,75 @@ const AppointmentDetails = ({ selectedAppointment, setStep }: any) => {
 
 // 3. Edit Appointment Form
 const EditAppointmentForm = ({ selectedAppointment, setStep, handleUpdateAppointment }: any) => {
-    const [date, setDate] = useState(selectedAppointment?.date ? new Date(selectedAppointment.date).toISOString().split('T')[0] : "");
-    const [time, setTime] = useState(selectedAppointment?.date ? new Date(selectedAppointment.date).toLocaleTimeString("el-GR", {hour: '2-digit', minute:'2-digit'}) : "09:00");
+    const [date, setDate] = useState(
+        selectedAppointment?.date
+            ? new Date(selectedAppointment.date).toISOString().split("T")[0]
+            : "",
+    );
+    const [time, setTime] = useState(
+        selectedAppointment?.date
+            ? new Date(selectedAppointment.date).toLocaleTimeString("el-GR", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+              })
+            : "09:00",
+    );
     const [reason, setReason] = useState(selectedAppointment?.reason || "");
 
     const handleSave = () => {
-        if (!window.confirm("Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές στο ραντεβού;")) {
+        if (
+            !window.confirm("Είστε σίγουροι ότι θέλετε να αποθηκεύσετε τις αλλαγές στο ραντεβού;")
+        ) {
             return;
         }
 
         const newDateObj = new Date(date);
-        const [hours, minutes] = time.split(':');
+        const [hours, minutes] = time.split(":");
         newDateObj.setHours(parseInt(hours), parseInt(minutes));
 
         const updatedData = {
             date: newDateObj.toISOString(),
             reason: reason,
-            notify: "vet"
+            notify: "vet",
         };
         handleUpdateAppointment(selectedAppointment.id, updatedData);
     };
 
     return (
         <div className="w-full">
-            <h2 className="text-3xl font-bold mb-6 text-[#303030] text-center">Επεξεργασία Ραντεβού</h2>
+            <h2 className="text-3xl font-bold mb-6 text-[#303030] text-center">
+                Επεξεργασία Ραντεβού
+            </h2>
             <div className="bg-white rounded-3xl p-8 shadow-lg max-w-2xl mx-auto border border-gray-200">
                 <div className="mb-6">
                     <label className="block text-gray-600 font-bold mb-2">Κτηνίατρος</label>
-                    <div className="bg-[#f9f9f9] p-3 rounded-xl border border-gray-300 text-gray-500">{selectedAppointment?.vetName}</div>
+                    <div className="bg-[#f9f9f9] p-3 rounded-xl border border-gray-300 text-gray-500">
+                        {selectedAppointment?.vetName}
+                    </div>
                 </div>
-                
+
                 <div className="mb-6">
                     <label className="block text-gray-600 font-bold mb-2">Κατοικίδιο</label>
-                    <div className="bg-[#f9f9f9] p-3 rounded-xl border border-gray-300 text-gray-500">{selectedAppointment?.petName}</div>
+                    <div className="bg-[#f9f9f9] p-3 rounded-xl border border-gray-300 text-gray-500">
+                        {selectedAppointment?.petName}
+                    </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4 mb-6">
                     <div>
                         <label className="block text-gray-600 font-bold mb-2">Ημερομηνία</label>
-                        <input 
-                            type="date" 
-                            value={date} 
+                        <input
+                            type="date"
+                            value={date}
                             onChange={(e) => setDate(e.target.value)}
                             className="w-full bg-white border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                         />
                     </div>
                     <div>
                         <label className="block text-gray-600 font-bold mb-2">Ώρα</label>
-                        <input 
-                            type="time" 
-                            value={time} 
+                        <input
+                            type="time"
+                            value={time}
                             onChange={(e) => setTime(e.target.value)}
                             className="w-full bg-white border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                         />
@@ -776,8 +832,8 @@ const EditAppointmentForm = ({ selectedAppointment, setStep, handleUpdateAppoint
 
                 <div className="mb-8">
                     <label className="block text-gray-600 font-bold mb-2">Αιτιολογία</label>
-                    <select 
-                        value={reason} 
+                    <select
+                        value={reason}
                         onChange={(e) => setReason(e.target.value)}
                         className="w-full bg-white border border-gray-300 p-3 rounded-xl outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
                     >
@@ -789,17 +845,23 @@ const EditAppointmentForm = ({ selectedAppointment, setStep, handleUpdateAppoint
                 </div>
 
                 <div className="flex justify-end gap-4">
-                    <button onClick={() => setStep("search")} className="px-6 py-3 bg-gray-400 text-white font-bold rounded-xl hover:bg-gray-500 cursor-pointer">
+                    <button
+                        onClick={() => setStep("search")}
+                        className="px-6 py-3 bg-gray-400 text-white font-bold rounded-xl hover:bg-gray-500 cursor-pointer"
+                    >
                         Ακύρωση
                     </button>
-                    <button onClick={handleSave} className="px-6 py-3 bg-[#5c5c5c] text-white font-bold rounded-xl hover:bg-[#4a4a4a] shadow-md cursor-pointer">
+                    <button
+                        onClick={handleSave}
+                        className="px-6 py-3 bg-[#5c5c5c] text-white font-bold rounded-xl hover:bg-[#4a4a4a] shadow-md cursor-pointer"
+                    >
                         Αποθήκευση
                     </button>
                 </div>
             </div>
         </div>
     );
-}
+};
 
 // --- MAIN COMPONENT ---
 
@@ -812,7 +874,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
 
     const [selectedAppointment, setSelectedAppointment] = useState<any>(null);
     const [selectedVet, setSelectedVet] = useState<any>(null);
-    
+
     // Search Filters
     const [searchFilters, setSearchFilters] = useState({
         date: "",
@@ -837,7 +899,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
                     return;
                 }
                 const currentUser = JSON.parse(storedUser);
-                
+
                 // 1. User
                 const userRes = await fetch(`http://localhost:3001/users/${currentUser.id}`);
                 const userData = await userRes.json();
@@ -849,16 +911,19 @@ export default function ClientAppointments({ step, setStep }: Props) {
                 setPets(petsData);
 
                 // 3. Appointments
-                const appRes = await fetch(`http://localhost:3001/appointments?ownerId=${currentUser.id}`);
+                const appRes = await fetch(
+                    `http://localhost:3001/appointments?ownerId=${currentUser.id}`,
+                );
                 const appData = await appRes.json();
-                appData.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                appData.sort(
+                    (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+                );
                 setAppointments(appData);
 
                 // 4. Vets
                 const vetsRes = await fetch(`http://localhost:3001/users?role=vet`);
                 const vetsData = await vetsRes.json();
                 setVets(vetsData);
-
             } catch (error) {
                 console.error("Error loading data:", error);
             } finally {
@@ -866,12 +931,12 @@ export default function ClientAppointments({ step, setStep }: Props) {
             }
         };
         fetchData();
-    }, [step]); 
+    }, [step]);
 
     // --- HANDLERS ---
     const handleSearch = () => {
         if (searchFilters.date) {
-            setBookingData(prev => ({ ...prev, date: new Date(searchFilters.date) }));
+            setBookingData((prev) => ({ ...prev, date: new Date(searchFilters.date) }));
         }
         // Removed time handling
         setStep("vet-list");
@@ -883,7 +948,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
             await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: "canceled", notify: "vet" })
+                body: JSON.stringify({ status: "canceled", notify: "vet" }),
             });
             setStep("search");
         } catch (error) {
@@ -900,9 +965,9 @@ export default function ClientAppointments({ step, setStep }: Props) {
         const confirmMessage = `Είστε σίγουροι ότι θέλετε να κλείσετε ραντεβού με τον/την ${selectedVet.fullName || selectedVet.name} για τις ${new Date(bookingData.date).toLocaleDateString("el-GR")} στις ${bookingData.time};`;
         if (!window.confirm(confirmMessage)) return;
 
-        const selectedPet = pets.find(p => p.id === bookingData.petId);
+        const selectedPet = pets.find((p) => p.id === bookingData.petId);
         const appointmentDate = new Date(bookingData.date);
-        const [hours, minutes] = bookingData.time.split(':');
+        const [hours, minutes] = bookingData.time.split(":");
         appointmentDate.setHours(parseInt(hours), parseInt(minutes));
 
         const newAppointment = {
@@ -915,14 +980,14 @@ export default function ClientAppointments({ step, setStep }: Props) {
             reason: bookingData.reason,
             date: appointmentDate.toISOString(),
             notify: "vet",
-            status: "new"
+            status: "new",
         };
 
         try {
             await fetch("http://localhost:3001/appointments", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(newAppointment)
+                body: JSON.stringify(newAppointment),
             });
             setStep("success");
         } catch (error) {
@@ -935,7 +1000,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
             await fetch(`http://localhost:3001/appointments/${id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedData)
+                body: JSON.stringify(updatedData),
             });
             alert("Το ραντεβού ενημερώθηκε επιτυχώς!");
             setStep("search");
@@ -949,10 +1014,10 @@ export default function ClientAppointments({ step, setStep }: Props) {
     if (!user) return <div className="p-10 text-center text-red-600">Παρακαλώ συνδεθείτε.</div>;
 
     return (
-        <div className="w-full flex justify-center pb-24"> 
-            {step === "search" && 
-                <SearchAndHistory 
-                    searchFilters={searchFilters} 
+        <div className="w-full flex justify-center pb-24">
+            {step === "search" && (
+                <SearchAndHistory
+                    searchFilters={searchFilters}
                     setSearchFilters={setSearchFilters}
                     handleSearch={handleSearch}
                     setStep={setStep}
@@ -961,52 +1026,44 @@ export default function ClientAppointments({ step, setStep }: Props) {
                     setSelectedAppointment={setSelectedAppointment}
                     vets={vets} // Pass vets to SearchAndHistory for location dropdown
                 />
-            }
-            {step === "vet-list" && 
-                <VetList 
+            )}
+            {step === "vet-list" && (
+                <VetList
                     vets={vets}
                     searchFilters={searchFilters}
                     setSearchFilters={setSearchFilters}
                     setStep={setStep}
                     setSelectedVet={setSelectedVet}
                 />
-            }
-            {step === "vet-profile" && 
-                <VetProfile 
-                    selectedVet={selectedVet}
-                    setStep={setStep}
-                />
-            }
-            {step === "booking" && 
-                <BookingForm 
+            )}
+            {step === "vet-profile" && <VetProfile selectedVet={selectedVet} setStep={setStep} />}
+            {step === "booking" && (
+                <BookingForm
                     selectedVet={selectedVet}
                     pets={pets}
                     bookingData={bookingData}
                     setBookingData={setBookingData}
                     handleCreateAppointment={handleCreateAppointment}
                 />
-            }
+            )}
             {step === "success" && <SuccessPage setStep={setStep} />}
-            {step === "cancel-confirmation" && 
-                <CancelConfirmation 
+            {step === "cancel-confirmation" && (
+                <CancelConfirmation
                     selectedAppointment={selectedAppointment}
                     handleCancelAppointment={handleCancelAppointment}
                     setStep={setStep}
                 />
-            }
-            {step === "view-details" && 
-                <AppointmentDetails 
-                    selectedAppointment={selectedAppointment}
-                    setStep={setStep}
-                />
-            }
-            {step === "edit-booking" && 
-                <EditAppointmentForm 
+            )}
+            {step === "view-details" && (
+                <AppointmentDetails selectedAppointment={selectedAppointment} setStep={setStep} />
+            )}
+            {step === "edit-booking" && (
+                <EditAppointmentForm
                     selectedAppointment={selectedAppointment}
                     setStep={setStep}
                     handleUpdateAppointment={handleUpdateAppointment}
                 />
-            }
+            )}
         </div>
     );
 }
