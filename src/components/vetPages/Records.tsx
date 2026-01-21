@@ -48,7 +48,8 @@ function Records({ onChangeMessage }) {
             instructions: [
                 "Προβολη ιστορικού επισκέψεων",
                 "Δυνατότητα προβολής στοιχειων κατοικιδίου",
-                "Δυνατοτητα εκτύπωση του βιβλιαριου υγείας",
+                "Δυνατότητα εκτύπωση του βιβλιάριου υγείας",
+                "Αναζήτηση κατοικίδιων στο σύστημα",
             ],
         },
     ];
@@ -64,7 +65,7 @@ function Records({ onChangeMessage }) {
                             setView("dashboard");
                             onChangeMessage("appear");
                         }}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl  cursor-pointer hover:font-semibold "
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-xl  cursor-pointer hover:font-semibold "
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
                         Μενου Καταχωρήσεων
@@ -73,12 +74,10 @@ function Records({ onChangeMessage }) {
             )}
             {view === "dashboard" && (
                 <>
-                    <div className="flex flex-col items-center w-full  mb-8 text-left">
-                        <h1 className="text-[#303030] w-full mb-8 px-4 sm:px-16 text-left text-3xl ">
-                            Καλώς ήρθες,
-                            <br /> στις Καταχωρήσεις Κατοικίδιων
-                        </h1>
-                    </div>
+                    <h1 className="text-[#303030] w-full mb-8 px-4 sm:px-16 text-center text-3xl ">
+                        Καλώς ήρθες ,
+                        <br /> στις Καταχωρήσεις Κατοικίδιων
+                    </h1>
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
                         {cards.map((card) => (
                             <div

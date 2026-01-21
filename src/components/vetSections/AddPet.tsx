@@ -16,7 +16,7 @@ function NewRecords() {
 
     const [formData, setFormData] = useState({
         id: "",
-        ownerId: "",
+        ownerEmail: "",
         name: "",
         species: "",
         breed: "",
@@ -33,6 +33,11 @@ function NewRecords() {
         createdAt: new Date(),
     });
 
+    const isFormValid =
+        formData.ownerEmail.trim() !== "" &&
+        formData.microchip.trim() !== "" &&
+        formData.species.trim() !== "";
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { id, value } = e.target;
         setFormData((prev) => ({ ...prev, [id]: value }));
@@ -45,7 +50,7 @@ function NewRecords() {
 
         if (!confirmLogout) return;
         const newRecord = {
-            ownerId: formData.ownerId,
+            ownerEmail: formData.ownerEmail,
             vetId: vet.id,
             name: formData.name,
             species: vet.species,
@@ -144,7 +149,7 @@ function NewRecords() {
                         sm:flex-row sm:items-start sm:w-full sm:p-8 sm:gap-5
                     "
                         >
-                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                            <div className="flex-1 flex flex-col text-left gap-4 ">
                                 <label className="flex flex-col">
                                     Ονομα Κατοικίδιου
                                     <input
@@ -158,7 +163,7 @@ function NewRecords() {
                                     />
                                 </label>
                                 <label className="flex flex-col">
-                                    Είδος κατοικίδιου
+                                    Είδος κατοικίδιου *
                                     <select
                                         id="species"
                                         name="species"
@@ -175,14 +180,14 @@ function NewRecords() {
                                 </label>
 
                                 <label className="flex flex-col">
-                                    ID Ιδιοκτήτη
+                                    Email Ιδιοκτήτη *
                                     <input
-                                        value={formData.ownerId}
+                                        value={formData.ownerEmail}
                                         onChange={handleChange}
                                         className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
-                                        id="ownerId"
+                                        id="ownerEmail"
                                         type="text"
-                                        placeholder="πχ 2794013"
+                                        placeholder="πχ email@email.com"
                                         disabled={mode === "preview"}
                                     />
                                 </label>
@@ -201,7 +206,7 @@ function NewRecords() {
                                     </select>
                                 </label>
                                 <label className="flex flex-col">
-                                    Αριθμός μικροτσίπ
+                                    Αριθμός μικροτσίπ *
                                     <input
                                         value={formData.microchip}
                                         onChange={handleChange}
@@ -224,7 +229,7 @@ function NewRecords() {
                                     />
                                 </label>
                             </div>
-                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                            <div className="flex-1 flex flex-col items-center text-left gap-4 ">
                                 <label className="flex flex-col">
                                     Ηλικία
                                     <input
@@ -326,6 +331,12 @@ function NewRecords() {
 
                             <button
                                 onClick={async () => {
+                                    if (!isFormValid) {
+                                        alert(
+                                            "Συμπληρώστε όλα τα απαιτούμενα πεδία: Email, Microchip, Είδος κατοικίδιου.",
+                                        );
+                                        return;
+                                    }
                                     await handleSubmit();
                                     localStorage.removeItem("record-draft");
                                     setMode("edit");

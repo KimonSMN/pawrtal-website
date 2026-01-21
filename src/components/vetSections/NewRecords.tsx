@@ -39,6 +39,7 @@ function NewRecords() {
             petName: formData.petName,
             microchip: formData.microchip,
             vetId: vet.id,
+            vetName: vet.name,
             ownerName: formData.ownerName,
             reason: formData.reason,
             ownerStatus: formData.ownerStatus,
@@ -54,7 +55,6 @@ function NewRecords() {
         });
 
         const savedRecord = await response.json();
-        navigate("/vet", { state: { view: "records" } });
     };
 
     useEffect(() => {
@@ -78,7 +78,7 @@ function NewRecords() {
                     <div className="w-full text-left mx-4 px-4">
                         <button
                             onClick={() => setOpen((o) => !o)}
-                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center hover:bg-[#e2e2e2] cursor-pointer border"
+                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center rounded-xl hover:bg-[#e2e2e2] cursor-pointer border"
                         >
                             Χρησιμες Πληροφοριες
                             {open ? (
@@ -114,10 +114,10 @@ function NewRecords() {
                         <div
                             className="
                         flex flex-col items-center p-2 gap-2 w-2xs
-                        sm:flex-row sm:items-start sm:w-full sm:p-8 sm:gap-5
+                        sm:flex-row sm:items-start sm:w-full sm:p-8 sm:gap-6
                     "
                         >
-                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                            <div className="flex-1 flex flex-col items-center justify-center text-left gap-4">
                                 <label className="flex flex-col">
                                     Ονομα Κατοικίδιου
                                     <input
@@ -156,7 +156,7 @@ function NewRecords() {
                                     />
                                 </label>
                             </div>
-                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                            <div className="flex-1 flex flex-col text-left gap-4">
                                 <label className="flex flex-col">
                                     Κατασταση Ιδιοκτήτη
                                     <select
@@ -214,7 +214,7 @@ function NewRecords() {
                             {mode === "preview" && (
                                 <button
                                     onClick={() => setMode("edit")}
-                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Επεξεργασία
                                 </button>
@@ -229,7 +229,7 @@ function NewRecords() {
                                         setMode("preview"); // κλειδώνουμε τα πεδία
                                         alert("Η καταχώρηση αποθηκεύτηκε προσωρινά 💾");
                                     }}
-                                    className="bg-[#ffffff70] text-[#000000] m-2 px-6 py-4 rounded-2xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
+                                    className="bg-[#ffffff70] text-[#000000] m-2 px-6 py-4 rounded-xl shadow-2xs border cursor-pointer hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
                                 >
                                     Προσωρινή Αποθήκευση
                                 </button>
@@ -240,7 +240,7 @@ function NewRecords() {
                                     navigate("/vet?view=records");
                                     localStorage.removeItem("record-draft");
                                 }}
-                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs cursor-pointer hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
+                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-xl shadow-2xs cursor-pointer hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
                             >
                                 Οριστική Υποβολή
                             </button>
