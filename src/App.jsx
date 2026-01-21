@@ -14,6 +14,7 @@ import AuthPage from "./pages/AuthPage";
 import { AuthProvider } from "./components/auth/AuthProvider";
 import Profile from "./pages/Profile";
 import Notifications from "./pages/Notifications";
+import MyPetsPage from "./pages/MyPetsPage";
 
 function App() {
     return (
@@ -26,6 +27,8 @@ function App() {
                     <Route path="/auth" element={<AuthPage />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/notifications" element={<Notifications />} />
+                    <Route path="/mypets" element={<MyPetsPage />} />
+
                     {/* vet */}
                     <Route path="/vet" element={<VetHome />} />
                     <Route path="/client/home" element={<ClientHome />} />
