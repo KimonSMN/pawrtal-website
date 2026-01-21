@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Προσθήκη Link για την ανακατεύθυνση
 // Εικόνες
-import lostPetImg from "../../assets/lost-dog.jpg";
-import foundPetImg from "../../assets/found_dog.jpg";
+import lostPetImg from "../../assets/lost_a_pet.jpg";
+import foundPetImg from "../../assets/dog_1.jpg";
 
 export type DeclarationStep = "list" | "lost-form" | "found-form" | "preview";
 
@@ -182,9 +182,7 @@ const DeclarationForm = ({
     imagePreview,
 }: any) => {
     // Φιλτράρισμα λίστας για το dropdown
-    const availablePets = type === 'found' 
-        ? pets.filter((p:any) => p.status === 'lost') 
-        : pets;
+    const availablePets = type === "found" ? pets.filter((p: any) => p.status === "lost") : pets;
 
     return (
         <div className="bg-white rounded-3xl p-6 sm:p-12 shadow-lg max-w-5xl mx-auto w-full border border-gray-200">
@@ -202,14 +200,20 @@ const DeclarationForm = ({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div className="flex flex-col items-start w-full">
                     <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
-                        {type === 'found' ? "Βρέθηκε το δικό σας; (Επιλογή)" : "Όνομα Κατοικιδίου (Επιλογή)"}
+                        {type === "found"
+                            ? "Βρέθηκε το δικό σας; (Επιλογή)"
+                            : "Όνομα Κατοικιδίου (Επιλογή)"}
                     </label>
-                    
+
                     {/* Μήνυμα αν δεν υπάρχουν χαμένα ζώα στη Δήλωση Εύρεσης */}
-                    {type === 'found' && availablePets.length === 0 && (
+                    {type === "found" && availablePets.length === 0 && (
                         <div className="mb-2 p-3 bg-blue-50 border border-blue-200 rounded-xl text-sm text-blue-800 w-full">
-                            Δεν έχετε δηλώσει απώλεια κατοικιδίου. <br/>
-                            Αν βρήκατε κάποιο άλλο ζώο, <Link to="/" className="underline font-bold hover:text-blue-900">ελέγξτε τις αγγελίες στην Αρχική</Link>.
+                            Δεν έχετε δηλώσει απώλεια κατοικιδίου. <br />
+                            Αν βρήκατε κάποιο άλλο ζώο,{" "}
+                            <Link to="/" className="underline font-bold hover:text-blue-900">
+                                ελέγξτε τις αγγελίες στην Αρχική
+                            </Link>
+                            .
                         </div>
                     )}
 
@@ -221,19 +225,23 @@ const DeclarationForm = ({
                         <option value="" disabled>
                             Επιλέξτε...
                         </option>
-                        
+
                         {/* Εμφάνιση επιλογών ΜΟΝΟ αν υπάρχουν διαθέσιμα ζώα */}
-                        {availablePets.length > 0 ? (
-                            availablePets.map((p: any) => (
-                                <option key={p.id} value={p.id}>
-                                    {p.name}
-                                </option>
-                            ))
-                        ) : (
-                            /* Αν είναι 'lost' και δεν έχει καθόλου ζώα */
-                            type === 'lost' && <option value="" disabled>Δεν βρέθηκαν κατοικίδια</option>
-                        )}
-                        
+                        {availablePets.length > 0
+                            ? availablePets.map((p: any) => (
+                                  <option key={p.id} value={p.id}>
+                                      {p.name}
+                                  </option>
+                              ))
+                            : /* Αν είναι 'lost' και δεν έχει καθόλου ζώα */
+                              type === "lost" && (
+                                  <option value="" disabled>
+                                      Δεν βρέθηκαν κατοικίδια
+                                  </option>
+                              )}
+
+                        {/* Επιλογή για εύρεση ξένου ζώου - Πάντα διαθέσιμη στο Found */}
+                        {type === "found" && <option value="unknown">Βρήκα ξένο ζώο</option>}
                     </select>
                 </div>
 
@@ -601,18 +609,18 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
             description: "",
         });
         setErrors({});
-        
+
         // Reset Logic για την πρώτη φόρτωση
         // Αν είναι 'lost', προ-επιλέγουμε το πρώτο κατοικίδιο της λίστας
         if (type === "lost" && pets.length > 0) {
-             const firstPet = pets[0];
-             setImagePreview(firstPet.photo || null);
-             setFormData((prev: any) => ({
+            const firstPet = pets[0];
+            setImagePreview(firstPet.photo || null);
+            setFormData((prev: any) => ({
                 ...prev,
                 petName: firstPet.name,
                 microchip: firstPet.microchip || "",
             }));
-        } 
+        }
         // Αν είναι 'found', ΔΕΝ προ-επιλέγουμε τίποτα (γιατί μπορεί να βρήκε ξένο ζώο)
         else {
             setImagePreview(null);
@@ -647,12 +655,12 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
 
     const handlePetSelection = (petId: string) => {
         if (petId === "unknown") {
-             setFormData((prev: any) => ({ 
-                ...prev, 
-                petName: "", 
+            setFormData((prev: any) => ({
+                ...prev,
+                petName: "",
                 microchip: "",
                 species: "Σκύλος", // Reset to default
-                gender: "Αρσενικό" 
+                gender: "Αρσενικό",
             }));
             setImagePreview(null);
             return;
@@ -742,17 +750,29 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
             }
 
             const savedData = await res.json();
-            
-            // Αν είναι οριστική υποβολή και αφορά δικό μας ζώο (απώλεια), αλλάζουμε το status του pet σε lost
-            if (status === "submitted" && formData.type === 'lost' && formData.petName) {
-                 const matchedPet = pets.find((p) => p.name === formData.petName);
-                 if (matchedPet) {
-                     await fetch(`http://localhost:3001/pets/${matchedPet.id}`, {
-                        method: 'PATCH',
+
+            // 1. Logic for LOST -> FOUND
+            if (status === "submitted" && formData.type === "found" && formData.petName) {
+                const matchedPet = pets.find((p) => p.name === formData.petName);
+                if (matchedPet && matchedPet.status === "lost") {
+                    await fetch(`http://localhost:3001/pets/${matchedPet.id}`, {
+                        method: "PATCH",
                         headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ status: 'lost' })
-                     });
-                 }
+                        body: JSON.stringify({ status: "found" }), // Or 'normal'
+                    });
+                }
+            }
+
+            // 2. Logic for NORMAL -> LOST
+            if (status === "submitted" && formData.type === "lost" && formData.petName) {
+                const matchedPet = pets.find((p) => p.name === formData.petName);
+                if (matchedPet) {
+                    await fetch(`http://localhost:3001/pets/${matchedPet.id}`, {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: "lost" }),
+                    });
+                }
             }
 
             if (status === "submitted") {
