@@ -321,7 +321,7 @@
       "ownerId": "1bec",
       "reason": "deworming",
       "date": "2026-01-23T09:00:00.000Z",
-      "notify": "vet",
+      "notify": "none",
       "status": "new"
     }
   ],
