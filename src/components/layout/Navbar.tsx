@@ -392,12 +392,12 @@ function Navbar() {
                                                 sub="Στοιχεία λογαριασμού"
                                             />
 
-                                            <MenuLink
+                                            {/* <MenuLink
                                                 to="/mypets"
                                                 onSelect={() => setOpen(false)}
                                                 label="Διαχείριση Κατοικιδίων"
                                                 sub="Προσθήκη / Αφαίρεση"
-                                            />
+                                            /> */}
 
                                             <MenuLink
                                                 to="/notifications"
