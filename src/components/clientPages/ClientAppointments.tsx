@@ -37,7 +37,7 @@ const Stepper = ({ current }: { current: number }) => {
                     <div key={idx} className="flex flex-col items-center w-24">
                         <div
                             className={`w-10 h-10 rounded-full border-2 flex items-center justify-center bg-[#ebebeb] 
-                            ${isActive ? "border-black bg-gray-400" : "border-black"}`}
+                            ${isActive ? "border-black bg-blue-200" : "border-black"}`}
                         ></div>
                         <span className="text-xs text-center mt-2 font-medium text-gray-600 leading-tight">
                             {label}
@@ -79,13 +79,13 @@ const SearchAndHistory = ({
             <div className="w-full shadow-md rounded-lg overflow-hidden mb-4 border border-gray-300">
                 <div className="grid grid-cols-[1fr_1.5fr_160px]">
                     {/* HEADER ROW */}
-                    <div className="bg-[#dcdcdc] py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
+                    <div className="bg-blue-100 py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
                         Ημερομηνία
                     </div>
-                    <div className="bg-[#dcdcdc] py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
+                    <div className="bg-blue-100 py-3 text-center text-sm font-bold text-gray-700 border-r border-b border-gray-300">
                         Περιοχή
                     </div>
-                    <div className="bg-[#dcdcdc] border-b border-gray-300"></div>
+                    <div className="bg-blue-100 border-b border-gray-300"></div>
 
                     {/* INPUT ROW */}
                     <div className="bg-white flex items-center justify-center px-2 border-r border-gray-200 h-16">
@@ -125,7 +125,7 @@ const SearchAndHistory = ({
                     <div className="bg-white flex items-center justify-center px-2 h-16">
                         <button
                             onClick={handleSearch}
-                            className="bg-[#5c5c5c] text-white w-full py-2.5 rounded-lg font-bold hover:bg-[#666] transition-colors text-sm shadow-sm cursor-pointer"
+                            className="bg-zinc-800 text-white w-full py-2.5 rounded-lg font-bold hover:bg-zinc-700 transition-colors text-sm shadow-sm cursor-pointer"
                         >
                             Αναζήτηση
                         </button>
