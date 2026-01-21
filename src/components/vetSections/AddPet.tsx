@@ -168,39 +168,9 @@ function NewRecords() {
                                         disabled={mode === "preview"}
                                     >
                                         <option value="">Εμφάνιση επιλογών --</option>
-
-                                        <optgroup label="Συνηθισμένα">
-                                            <option value="dog">Σκύλος</option>
-                                            <option value="cat">Γάτα</option>
-                                            <option value="rabbit">Κουνέλι</option>
-                                            <option value="hamster">Χάμστερ</option>
-                                            <option value="guinea_pig">Ινδικό χοιρίδιο</option>
-                                        </optgroup>
-
-                                        <optgroup label="Πτηνά">
-                                            <option value="parrot">Παπαγάλος</option>
-                                            <option value="canary">Καναρίνι</option>
-                                            <option value="finch">Σπίνος</option>
-                                        </optgroup>
-
-                                        <optgroup label="Ερπετά">
-                                            <option value="turtle">Χελώνα</option>
-                                            <option value="lizard">Σαύρα</option>
-                                            <option value="gecko">Γκέκο</option>
-                                        </optgroup>
-
-                                        <optgroup label="Ψάρια">
-                                            <option value="fish_freshwater">
-                                                Ψάρι γλυκού νερού
-                                            </option>
-                                            <option value="fish_saltwater">
-                                                Ψάρι θαλασσινού νερού
-                                            </option>
-                                        </optgroup>
-
-                                        <optgroup label="Άλλα">
-                                            <option value="other">Άλλο</option>
-                                        </optgroup>
+                                        <option value="dog">Σκύλος</option>
+                                        <option value="cat">Γάτα</option>
+                                        <option value="other">Άλλο</option>
                                     </select>
                                 </label>
 
