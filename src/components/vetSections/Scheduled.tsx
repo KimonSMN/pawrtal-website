@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState, useEffect } from "react";
-import { Appointments, User } from "../models/Info";
+import { Appointments, User, PROCEDURE_OPTIONS, PET_OPTIONS } from "../models/Info";
 import Empty from "../../assets/empty.png";
 import Half from "../../assets/half.png";
 import Full from "../../assets/full.svg";
@@ -40,31 +40,30 @@ function Meeting({ info }: { info: Appointments }) {
             </div>
             <div>
                 <span className="font-semibold text-sm text-gray-500">Επισκέπτης</span>
-                <div>{owner?.name}</div>
+                <div>{owner?.fullName}</div>
             </div>
 
-            <div className="flex flex-row justify-evenly items-center">
-                <span className="font-semibold text-sm text-gray-500 text-nowrap">
-                    {info.pet} :
-                </span>
-                <div>{info.petId}</div>
+            <div>
+                <span className="font-semibold text-sm text-gray-500">Κατοικίδιο</span>
+                <div>{PET_OPTIONS[info.pet] ?? info.pet}</div>
             </div>
 
             <div>
                 <span className="font-semibold text-sm text-gray-500">Πράξη</span>
-                <div>{info.reason}</div>
+                <div>{PROCEDURE_OPTIONS[info.reason] ?? info.reason}</div>
             </div>
         </div>
     );
 }
 
 function Scheduled() {
-    const vet = JSON.parse(localStorage.getItem("user")!);
+    const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
     const [appointments, setAppointments] = useState<Appointments[]>([]);
 
     useEffect(() => {
+        let interval: NodeJS.Timer;
         const fetchVisits = async () => {
             try {
                 const response = await fetch(
@@ -81,6 +80,9 @@ function Scheduled() {
         };
 
         fetchVisits();
+        // fetch list every 10s
+        interval = setInterval(fetchVisits, 10000);
+        return () => clearInterval(interval);
     }, []);
 
     const visitsForDay = appointments.filter((appointments) => {
@@ -128,11 +130,13 @@ function Scheduled() {
             <div
                 className="
                     flex flex-col gap-4 max-w-xl p-4
-                    sm:max-h-[500px] sm:overflow-y-auto
+                    sm:max-h-125 sm:overflow-y-auto
                 "
             >
                 {visitsForDay.length === 0 && (
-                    <p className="text-gray-500">Δεν υπάρχουν επισκέψεις</p>
+                    <p className="text-gray-500 text-wrap max-w-sm">
+                        Δεν υπάρχουν προγραμματισμένες επισκέψεις για την επιλεγμένη ημέρα
+                    </p>
                 )}
 
                 {visitsForDay.map((visit) => (

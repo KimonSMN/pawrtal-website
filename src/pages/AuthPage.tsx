@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
-import Auth from "../components/credentials/Auth";
+import Auth from "../components/auth/Auth";
 
-function Vet() {
+export default function AuthPage() {
     return (
         <>
             <Navbar />
@@ -12,5 +12,3 @@ function Vet() {
         </>
     );
 }
-
-export default Vet;

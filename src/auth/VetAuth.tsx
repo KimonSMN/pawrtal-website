@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "./AuthContext";
+import { useAuth } from "../components/auth/AuthProvider";
 
 export const VetRoute = ({ children }: { children: JSX.Element }) => {
     const { user } = useAuth();

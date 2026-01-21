@@ -6,7 +6,7 @@
 /* USERS */
 export class User {
     id!: string;
-    name!: string;
+    fullName!: string;
     email!: string;
     role!: "vet" | "owner";
     phone_number?: string;
@@ -26,9 +26,10 @@ export enum MeetingStatus {
     New = "new",
     Accepted = "approved",
     Completed = "completed",
-    Cancelled = "cancelled",
+    Canceled = "canceled",
 }
 
+export type NotifyOptions = "vet" | "user" | "none";
 /**
  * @description Object to describe meetings
  * @param name Visitor name
@@ -41,30 +42,39 @@ export class Appointments {
     id: string;
     pet: string;
     petId: string;
+    petName: string;
     vetId: string;
+    vetName: string;
     ownerId: string;
     reason: string;
     date: Date;
     status: MeetingStatus;
+    notify: NotifyOptions;
 
     constructor(
         id: string,
         pet: string,
         petId: string,
+        petName: string,
         vetId: string,
+        vetName: string,
         ownerId: string,
         reason: string,
         date: Date,
         status: MeetingStatus,
+        notify: NotifyOptions,
     ) {
         this.id = id;
         this.pet = pet;
         this.petId = petId;
+        this.petName = petName;
         this.vetId = vetId;
+        this.vetName = vetName;
         this.ownerId = ownerId;
         this.reason = reason;
         this.date = date;
         this.status = status;
+        this.notify = notify;
     }
 
     static fromJSON(json: any): Appointments {
@@ -72,31 +82,122 @@ export class Appointments {
             json.id,
             json.pet,
             json.petId,
+            json.petName,
             json.vetId,
+            json.vetName,
             json.ownerId,
             json.reason,
-            new Date(json.date), // 🔑 critical
+            new Date(json.date),
             json.status,
+            json.notify,
+        );
+    }
+}
+
+/* PETS */
+
+export const PET_OPTIONS = {
+    dog: "Σκύλος",
+    cat: "Γάτα",
+    rabbit: "Κουνέλι",
+    hamster: "Χάμστερ",
+    guinea_pig: "Ινδικό χοιρίδιο",
+    parrot: "Παπαγάλος",
+    canary: "Καναρίνι",
+    finch: "Σπίνος",
+    turtle: "Χελώνα",
+    lizard: "Σαύρα",
+    gecko: "Γκέκο",
+    fish_freshwater: "Ψάρι γλυκού νερού",
+    fish_saltwater: "Ψάρι θαλασσινού νερού",
+    other: "Άλλο",
+};
+
+export type PetCondition = "apwleia" | "euresi" | "keno";
+export type Gender = "male" | "female";
+
+export class Pets {
+    constructor(
+        public name: string,
+        public ownerId: string,
+        public vetId: string,
+        public species: string,
+        public breed: string,
+        public age: number,
+        public gender: Gender,
+        public microchip: string,
+        public color: string,
+        public coat: string,
+        public birthDate: Date,
+        public lastSeenDate: string,
+        public location: string,
+        public description: string,
+        public createdAt: Date = new Date(),
+    ) {}
+
+    static fromJSON(json: any): Pets {
+        return new Pets(
+            json.name,
+            json.ownerId,
+            json.vetId,
+            json.species,
+            json.breed,
+            json.age,
+            json.gender,
+            json.microchip,
+            json.color,
+            json.coat,
+            json.birthDate,
+            json.lastSeenDate,
+            json.location,
+            json.description,
+            new Date(json.createdAt),
         );
     }
 }
 
 /* RECORDS */
-export type PetCondition = "apwleia" | "euresi" | "keno";
+export const PROCEDURE_OPTIONS = {
+    checkup: "Γενικός έλεγχος",
+    vaccination: "Εμβολιασμός",
+    deworming: "Αποπαρασίτωση",
+    microchip: "Τοποθέτηση microchip",
+    neutering: "Στείρωση",
+    blood_tests: "Αιματολογικές εξετάσεις",
+    urine_tests: "Εξετάσεις ούρων",
+    imaging: "Ακτινογραφία / Υπέρηχος",
+    sick: "Ασθένεια / Συμπτώματα ίωσης",
+    injury: "Τραυματισμός",
+    chronic_condition: "Χρόνια πάθηση",
+    pregnancy: "Κύηση",
+    emergency: "Έκτακτο",
+    other: "Άλλος λόγος",
+};
+
 export type OwnerStatus = "metavivasi" | "uiothesia" | "anadoxh";
-export type Gender = "male" | "female";
 
 export class Record {
     constructor(
-        public species: string,
+        public vetId: string,
+        public petName: string,
+        public microchip: string,
         public ownerName: string,
-        public condition: PetCondition,
-        public petId: string,
-        public age: number,
-        public gender: Gender,
+        public reason: string,
         public ownerStatus: OwnerStatus,
         public createdAt: Date = new Date(),
     ) {}
+
+    static fromJSON(json: any): Record {
+        return new Record(
+            json.vetId,
+            json.petName,
+            json.microchip,
+            json.ownerName,
+            json.reason,
+            json.ownerStatus,
+            new Date(json.createdAt),
+        );
+    }
 }
 
 /* REVIEW */
@@ -131,7 +232,7 @@ export class Reviews {
             json.ownerId,
             json.rating,
             json.text,
-            new Date(json.createdAt), // 🔑 critical
+            new Date(json.createdAt),
         );
     }
 }
