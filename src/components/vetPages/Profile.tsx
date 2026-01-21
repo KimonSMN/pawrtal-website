@@ -180,8 +180,8 @@ function Profile() {
             <h1 className="text-[#303030] w-full mb-8 px-4 text-center text-3xl ">
                 Καλως ήρθες στον λογαριασμο σου.
             </h1>
-            <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-start">
-                <div className="flex-1 lex flex-col items-center max-w-lg border rounded-xl p-4 ml-4">
+            <div className="flex flex-col items-baseline justify-center w-full lg:flex-row lg:gap-12 lg:items-start ">
+                <div className="flex-1 lex flex-col items-center max-w-lg border rounded-xl p-4 ml-4 rounded-2xl border border-black/10 bg-white p-6 shadow-md">
                     {/* Welcome message and profile pic */}
 
                     <div className="h-fit w-fit max-w-20 sm:max-w-40 mb-2 items-start">
@@ -196,13 +196,13 @@ function Profile() {
                         Στοιχεία Χρήστη
                     </h1>
                     <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
-                        <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4">
+                        <div className="flex flex-col align-center justify-center gap-2 px-0 sm:gap-4 ">
                             <div
                                 className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
+                            sm:gap-4 sm:justify-between sm:pl-4 rounded-lg "
                             >
-                                <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left">
+                                <span className="text-sm text-nowrap text-gray-500 max-w-30 text-left ">
                                     Ονοματεπώνυμο
                                 </span>
                                 <input
@@ -222,7 +222,7 @@ function Profile() {
                             <div
                                 className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
+                            sm:gap-4 sm:justify-between sm:pl-4 rounded-lg"
                             >
                                 <span className="text-sm text-nowrap text-gray-500 max-w-30">
                                     AΦΜ
@@ -244,7 +244,7 @@ function Profile() {
                             <div
                                 className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
+                            sm:gap-4 sm:justify-between sm:pl-4 rounded-lg"
                             >
                                 <span className="text-sm text-nowrap text-gray-500 max-w-30">
                                     Τηλέφωνο
@@ -269,7 +269,7 @@ function Profile() {
                             <div
                                 className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
+                            sm:gap-4 sm:justify-between sm:pl-4 rounded-lg"
                             >
                                 <span className="text-sm text-nowrap text-gray-500 max-w-30">
                                     Περιοχη
@@ -291,7 +291,7 @@ function Profile() {
                             <div
                                 className="
                             flex flex-row items-center justify-around text-sm gap-1 border border-[#c8c8c8a5]  
-                            sm:gap-4 sm:justify-between sm:pl-4"
+                            sm:gap-4 sm:justify-between sm:pl-4 rounded-lg"
                             >
                                 <span className="text-sm text-nowrap text-gray-500 max-w-30">
                                     Διευθυση

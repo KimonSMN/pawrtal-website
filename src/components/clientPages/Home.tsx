@@ -5,7 +5,7 @@ import ClientAppointments, { AppointmentStep } from "./ClientAppointments";
 import Declarations, { DeclarationStep } from "./Declarations";
 
 // Imports εικόνων
-import healthBookImg from "../../assets/dog_1.jpg";
+import healthBookImg from "../../assets/cat_holding_paper.jpg";
 import lostFoundImg from "../../assets/lost_a_pet.jpg";
 import vetImg from "../../assets/Vets.webp";
 import { HomeView } from "../../pages/ClientHome";
@@ -26,8 +26,7 @@ export default function ClientHomeComponent({
     // --- FETCH DATA ---
     useEffect(() => {
         const loadUserData = async () => {
-            // --- ΑΛΛΑΓΗ 1: Διάβασμα από το σωστό κλειδί ---
-            const storedUser = localStorage.getItem("pawrtal_user"); // <-- ΣΗΜΑΝΤΙΚΗ ΑΛΛΑΓΗ
+            const storedUser = localStorage.getItem("pawrtal_user");
             if (!storedUser) {
                 console.log("No user found in pawrtal_user storage");
                 return;
@@ -36,8 +35,6 @@ export default function ClientHomeComponent({
             const currentUser = JSON.parse(storedUser);
             console.log("Logged in user (Home):", currentUser);
 
-            // --- ΑΛΛΑΓΗ 2: Χρήση του πεδίου 'name' ---
-            // Το AuthProvider σώζει: { id, email, role, name }
             let firstName = currentUser.name ? currentUser.name.split(" ")[0] : "Χρήστη";
 
             // Κλητική πτώση
@@ -116,14 +113,15 @@ export default function ClientHomeComponent({
     };
 
     const Breadcrumbs = () => (
-        <div className="text-[#5d5d5d] text-sm sm:text-base mb-4 font-light flex items-center gap-2 flex-wrap">
+        // Αφαιρέθηκε το max-w-6xl για να πάει τέρμα αριστερά
+        <div className="w-full text-[#5d5d5d] text-xs font-light flex items-center gap-1.5 flex-wrap mb-4 cursor-pointer">
             <Link to="/" className="hover:text-black hover:underline transition-all">
                 Αρχική
             </Link>
             <span>&gt;</span>
             <button
                 onClick={() => setView("dashboard")}
-                className={`hover:text-black hover:underline transition-all ${view === "dashboard" ? "font-bold text-black" : ""}`}
+                className={`hover:text-black hover:underline transition-all cursor-pointer ${view === "dashboard" ? "font-bold text-black" : ""}`}
             >
                 Ιδιοκτήτης
             </button>
@@ -134,7 +132,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setDeclarationStep("list")}
-                                className={`hover:text-black hover:underline transition-all ${declarationStep === "list" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${declarationStep === "list" ? "font-medium text-black" : ""}`}
                             >
                                 Δηλώσεις
                             </button>
@@ -151,7 +149,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setAppointmentStep("search")}
-                                className={`hover:text-black hover:underline transition-all ${appointmentStep === "search" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${appointmentStep === "search" ? "font-medium text-black" : ""}`}
                             >
                                 Ραντεβού
                             </button>
@@ -180,64 +178,74 @@ export default function ClientHomeComponent({
     // --- Sub-Views ---
     if (view !== "dashboard") {
         return (
-            <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 py-4 pt-16">
-                <Breadcrumbs />
+            <div className="min-h-screen w-full bg-[#ffffff]">
+                <main className="px-4 md:px-8 lg:px-16 pb-8 pt-16">
+                    {/* Breadcrumbs τέρμα αριστερά */}
+                    <Breadcrumbs />
 
-                <button
-                    onClick={handleBack}
-                    className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm"
-                >
-                    <span className="text-xl">←</span> Πίσω
-                </button>
+                    <button
+                        onClick={handleBack}
+                        className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm cursor-pointer"
+                    >
+                        <span className="text-xl">←</span> Πίσω
+                    </button>
 
-                {view === "healthbook" && <HealthBook />}
-                {view === "appointments" && (
-                    <ClientAppointments step={appointmentStep} setStep={setAppointmentStep} />
-                )}
-                {view === "declarations" && (
-                    <Declarations step={declarationStep} setStep={setDeclarationStep} />
-                )}
+                    {/* Κεντραρισμένο περιεχόμενο (κάρτες/φόρμες) */}
+                    <div className="max-w-6xl mx-auto w-full">
+                        {view === "healthbook" && <HealthBook />}
+                        {view === "appointments" && (
+                            <ClientAppointments step={appointmentStep} setStep={setAppointmentStep} />
+                        )}
+                        {view === "declarations" && (
+                            <Declarations step={declarationStep} setStep={setDeclarationStep} />
+                        )}
+                    </div>
+                </main>
             </div>
         );
     }
 
     // --- Dashboard View ---
     return (
-        <div className="min-h-screen w-full bg-[#ebebeb]">
+        <div className="min-h-screen w-full bg-[#ffffff]">
             <main className="px-4 md:px-8 lg:px-16 pb-8 pt-16">
+                {/* Breadcrumbs τέρμα αριστερά */}
                 <Breadcrumbs />
 
-                <div className="text-center mb-6">
-                    <h1 className="text-3xl sm:text-4xl font-medium text-black mb-2">
-                        Καλώς ήρθες, {userName}!
-                    </h1>
-                    <p className="text-lg text-[#616161] font-light max-w-3xl mx-auto">
-                        Φρόντισε {petMessage} με λίγα μόνο κλικ.
-                    </p>
-                </div>
+                {/* Κεντραρισμένο περιεχόμενο (τίτλος και κάρτες) */}
+                <div className="max-w-6xl mx-auto w-full">
+                    <div className="text-center mb-6">
+                        <h1 className="text-3xl sm:text-4xl font-medium text-black mb-2">
+                            Καλώς ήρθες, {userName}!
+                        </h1>
+                        <p className="text-lg text-[#616161] font-light max-w-3xl mx-auto">
+                            Φρόντισε {petMessage} με λίγα μόνο κλικ.
+                        </p>
+                    </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
-                    {cards.map((card) => (
-                        <div
-                            key={card.id}
-                            onClick={card.action}
-                            className="bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
-                        >
-                            <div className="h-[200px] sm:h-[220px] overflow-hidden bg-gray-200 relative">
-                                <img
-                                    src={card.image}
-                                    alt={card.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                                />
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {cards.map((card) => (
+                            <div
+                                key={card.id}
+                                onClick={card.action}
+                                className="bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
+                            >
+                                <div className="h-[200px] sm:h-[220px] overflow-hidden bg-gray-200 relative">
+                                    <img
+                                        src={card.image}
+                                        alt={card.title}
+                                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                    />
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                                </div>
+                                <div className="p-4 h-[90px] flex items-center justify-center bg-white relative z-10">
+                                    <h2 className="text-xl sm:text-2xl font-medium text-black text-center leading-tight">
+                                        {card.title}
+                                    </h2>
+                                </div>
                             </div>
-                            <div className="p-4 h-[90px] flex items-center justify-center bg-white relative z-10">
-                                <h2 className="text-xl sm:text-2xl font-medium text-black text-center leading-tight">
-                                    {card.title}
-                                </h2>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </main>
         </div>

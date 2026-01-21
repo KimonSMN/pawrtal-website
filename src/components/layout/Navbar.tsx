@@ -32,7 +32,6 @@ function Navbar() {
     const userId = user?.id;
 
     const showNotifications = useMemo(() => {
-        // you can scope this to "user" role if you want
         return isAuthenticated && !!userId;
     }, [isAuthenticated, userId]);
 
@@ -40,8 +39,8 @@ function Navbar() {
         if (!showNotifications) return;
         setNotifLoading(true);
         setNotifError(null);
+
         try {
-            // json-server supports filtering via query params
             const data = await asJson(
                 await fetch(
                     `${API}/foundReports?ownerId=${encodeURIComponent(
@@ -90,6 +89,7 @@ function Navbar() {
 
         loadUnread(); // initial
         loadAppointmentNotifications();
+
         const t = window.setInterval(() => {
             loadUnread();
             loadAppointmentNotifications();
@@ -113,6 +113,7 @@ function Navbar() {
 
     async function markAllRead() {
         if (!showNotifications) return;
+
         try {
             setNotifLoading(true);
             setNotifError(null);
@@ -125,7 +126,6 @@ function Navbar() {
 
             const arr = Array.isArray(data) ? data : [];
 
-            // json-server: PATCH each item
             await Promise.all(
                 arr.map((r: any) =>
                     fetch(`${API}/foundReports/${encodeURIComponent(r.id)}`, {
@@ -135,6 +135,7 @@ function Navbar() {
                     }),
                 ),
             );
+
             setReadAllAppointments(true);
             setUnreadCount(0);
             setLatestUnread(null);
@@ -155,16 +156,14 @@ function Navbar() {
             if (!user?.role) return;
 
             try {
-                // ✅ Set notify to 'none' for each fetched appointment
                 const updatedArr = await Promise.all(
                     appointmentNotifications.map(async (appt) => {
-                        // PATCH each appointment to update notify
                         await fetch(`${API}/appointments/${encodeURIComponent(appt.id)}`, {
                             method: "PATCH",
                             headers: { "Content-Type": "application/json" },
                             body: JSON.stringify({ notify: "none" }),
                         });
-                        return { ...appt, notify: "none" }; // update locally too
+                        return { ...appt, notify: "none" };
                     }),
                 );
 
@@ -178,6 +177,7 @@ function Navbar() {
         }
 
         loadAppointments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [readAllAppointments]);
 
     async function loadAppointmentNotifications() {
@@ -208,13 +208,6 @@ function Navbar() {
 
                 {/* Navigation */}
                 <nav className="flex items-center space-x-6 font-medium">
-                    {/* <a href="#information" className="hover:text-gray-500 cursor-pointer">
-                        Πληροφορίες
-                    </a>
-                    <a href="#contact" className="hover:text-gray-500 cursor-pointer">
-                        Επικοινωνία
-                    </a> */}
-
                     {/* Profile dropdown */}
                     <div className="relative" ref={menuRef}>
                         <button
@@ -250,10 +243,10 @@ function Navbar() {
                         {open && (
                             <div
                                 role="menu"
-                                className="absolute right-0 mt-2 w-72 overflow-hidden rounded-xl border border-black/10 bg-white shadow-lg "
+                                className="absolute right-0 mt-2 w-72 overflow-hidden rounded-xl border border-black/10 bg-white shadow-lg"
                             >
                                 {/* Header */}
-                                <div className="border-b border-black/10 px-4 py-3 ">
+                                <div className="border-b border-black/10">
                                     {isAuthenticated ? (
                                         <button
                                             type="button"
@@ -266,13 +259,17 @@ function Navbar() {
                                                     navigate("/client/home");
                                                 }
                                             }}
-                                            className="w-full text-left hover:opacity-80 transition cursor-pointer"
+                                            className="w-full  px-4 py-2.5 text-left transition hover:bg-gray-100 cursor-pointer"
                                         >
-                                            <div className="text-sm font-semibold text-zinc-900">
-                                                {user?.email}
-                                            </div>
-                                            <div className="text-xs text-zinc-600">
-                                                {user?.role === "vet" ? "Κτηνίατρος" : "Χρήστης"}
+                                            <div className="min-w-0">
+                                                <div className="text-sm font-semibold text-zinc-900 truncate">
+                                                    {user?.email}
+                                                </div>
+                                                <div className="text-xs text-zinc-600">
+                                                    {user?.role === "vet"
+                                                        ? "Κτηνίατρος"
+                                                        : "Χρήστης"}
+                                                </div>
                                             </div>
                                         </button>
                                     ) : (
@@ -289,7 +286,7 @@ function Navbar() {
 
                                 {/* Notifications (MVP) */}
                                 {isAuthenticated && showNotifications && (
-                                    <div className="border-b border-black/10 px-4 py-3">
+                                    <div className="border-b border-black/10 px-4 py-3 ">
                                         <div className="flex items-center justify-between">
                                             <div className="text-xs font-semibold text-zinc-700">
                                                 Ειδοποιήσεις
@@ -299,7 +296,7 @@ function Navbar() {
                                                 <button
                                                     type="button"
                                                     onClick={markAllRead}
-                                                    className="text-xs font-medium text-zinc-600 hover:text-zinc-900"
+                                                    className="text-xs font-medium text-zinc-600 hover:text-zinc-900 cursor-pointer "
                                                     disabled={notifLoading}
                                                 >
                                                     Σήμανση ως διαβασμένα
@@ -308,15 +305,15 @@ function Navbar() {
                                         </div>
 
                                         {notifError ? (
-                                            <div className="mt-2 text-xs text-red-700">
+                                            <div className="mt-2 text-xs text-red-700 cursor-pointer">
                                                 {notifError}
                                             </div>
                                         ) : notifLoading ? (
-                                            <div className="mt-2 text-xs text-zinc-600">
+                                            <div className="mt-2 text-xs text-zinc-600 cursor-pointer">
                                                 Φόρτωση…
                                             </div>
                                         ) : unreadCount === 0 ? (
-                                            <div className="mt-2 text-xs text-zinc-600">
+                                            <div className="mt-2 text-xs text-zinc-600 cursor-pointer">
                                                 Δεν έχεις νέες ειδοποιήσεις.
                                             </div>
                                         ) : (
@@ -328,16 +325,14 @@ function Navbar() {
                                                             setOpen(false);
                                                             navigate("/notifications");
                                                         }}
-                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100"
+                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100 cursor-pointer"
                                                     >
                                                         <div className="text-sm font-medium text-zinc-900">
                                                             Νέα αναφορά εύρεσης
                                                         </div>
 
                                                         <div className="mt-0.5 text-xs text-zinc-600">
-                                                            {latestUnread?.petId
-                                                                ? `Για κατοικίδιο #${latestUnread.petId}`
-                                                                : "Άνοιξε για λεπτομέρειες"}
+                                                            Άνοιξε για λεπτομέρειες
                                                         </div>
 
                                                         <div className="mt-1 text-[11px] text-zinc-500">
@@ -359,9 +354,9 @@ function Navbar() {
                                                                 });
                                                             }
                                                         }}
-                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100"
+                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100  cursor-pointer"
                                                     >
-                                                        <div className="text-sm font-medium text-zinc-900">
+                                                        <div className="text-sm font-medium text-zinc-900 ">
                                                             Ενημέρωση ραντεβού
                                                         </div>
 
@@ -381,15 +376,13 @@ function Navbar() {
                                 )}
 
                                 {/* Items */}
-                                <div className="py-2">
+                                <div>
                                     {!isAuthenticated ? (
-                                        <>
-                                            <MenuLink
-                                                to="/auth"
-                                                onSelect={() => setOpen(false)}
-                                                label="Σύνδεση / Εγγραφή"
-                                            />
-                                        </>
+                                        <MenuLink
+                                            to="/auth"
+                                            onSelect={() => setOpen(false)}
+                                            label="Σύνδεση / Εγγραφή"
+                                        />
                                     ) : (
                                         <>
                                             <MenuLink
@@ -406,7 +399,6 @@ function Navbar() {
                                                 sub="Προσθήκη / Αφαίρεση"
                                             />
 
-                                            {/* Placeholder route for notification center */}
                                             <MenuLink
                                                 to="/notifications"
                                                 onSelect={() => setOpen(false)}
@@ -418,11 +410,11 @@ function Navbar() {
                                                 }
                                             />
 
-                                            <div className="my-2 border-t border-black/10" />
+                                            <div className="border-t border-black/10" />
 
                                             <button
                                                 type="button"
-                                                className="w-full px-4 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50 transition"
+                                                className="w-full px-4 py-2 text-left text-sm font-medium text-red-600 hover:bg-red-50 transition cursor-pointer"
                                                 onClick={handleLogout}
                                                 role="menuitem"
                                             >
@@ -456,7 +448,7 @@ function MenuLink({
             to={to}
             onClick={onSelect}
             role="menuitem"
-            className="block px-4 py-2 hover:bg-gray-50 transition"
+            className="block px-4 py-2 hover:bg-gray-100 transition"
         >
             <div className="text-sm font-medium text-zinc-900">{label}</div>
             {sub && <div className="text-xs text-zinc-600">{sub}</div>}
