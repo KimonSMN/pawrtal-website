@@ -44,7 +44,7 @@ export default function LostPetsSection() {
             setLoading(true);
             setError(null);
             try {
-                const data = await asJson(await fetch(`${API}/lostpets`)); // fetch lost pets
+                const data = await asJson(await fetch(`${API}/pets?status=lost`)); // fetch pets with status lost
                 if (!cancelled) setPets(Array.isArray(data) ? data : []); // set pets array
             } catch (e) {
                 if (!cancelled) setError(e?.message ?? "Αποτυχία φόρτωσης αγγελιών.");
