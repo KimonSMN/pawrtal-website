@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-// Εικόνες (Keep imports for fallbacks or static usage if needed, though mostly dynamic now)
-import lostPetImg from "../../assets/lost_a_pet.jpg";
-import foundPetImg from "../../assets/dog_1.jpg";
+import { Link } from "react-router-dom"; // Προσθήκη Link για την ανακατεύθυνση
+// Εικόνες
+import lostPetImg from "../../assets/lost-dog.jpg";
+import foundPetImg from "../../assets/found_dog.jpg";
 
 export type DeclarationStep = "list" | "lost-form" | "found-form" | "preview";
 
@@ -17,7 +18,7 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
         <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch">
             <div
                 onClick={() => handleNewDeclaration("lost")}
-                className="flex-1 bg-white rounded-3xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all group max-w-md mx-auto w-full border border-transparent hover:border-gray-200"
+                className="flex-1 bg-white rounded-3xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all group max-w-md mx-auto w-full border border-gray-200"
             >
                 <div className="h-48 overflow-hidden">
                     <img
@@ -33,7 +34,7 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
 
             <div
                 onClick={() => handleNewDeclaration("found")}
-                className="flex-1 bg-white rounded-3xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all group max-w-md mx-auto w-full border border-transparent hover:border-gray-200"
+                className="flex-1 bg-white rounded-3xl overflow-hidden shadow-md cursor-pointer hover:shadow-xl transition-all group max-w-md mx-auto w-full border border-gray-200"
             >
                 <div className="h-48 overflow-hidden">
                     <img
@@ -48,14 +49,14 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
             </div>
         </div>
 
-        <div className="bg-[#e5e5e5] rounded-3xl p-6 sm:p-10 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-gray-200">
             <h2 className="text-xl font-bold mb-8 text-[#303030] text-center sm:text-left">
                 Ιστορικό Δηλώσεων
             </h2>
             <div className="overflow-x-auto">
                 <table className="w-full min-w-[700px] border-collapse">
                     <thead>
-                        <tr className="text-gray-600 border-b border-gray-400">
+                        <tr className="text-gray-600 border-b border-gray-300">
                             <th className="pb-4 pl-4 text-left w-[25%]">Τύπος</th>
                             <th className="pb-4 text-center w-[15%]">Κατοικίδιο</th>
                             <th className="pb-4 text-center w-[20%]">Ημερομηνία</th>
@@ -87,7 +88,7 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
                                 return (
                                     <tr
                                         key={item.id || idx}
-                                        className="bg-[#f9f9f9] border-b-8 border-[#e5e5e5] last:border-0 rounded-xl"
+                                        className="bg-[#f9f9f9] border-b-8 border-white last:border-0 rounded-xl"
                                     >
                                         <td className="py-5 pl-4 rounded-l-xl font-medium text-gray-700 text-left">
                                             {typeLabel}
@@ -113,7 +114,7 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
                                                     className={`p-2 rounded-lg transition-colors ${
                                                         isFinal
                                                             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                                            : "bg-[#e0e0e0] hover:bg-[#d0d0d0] text-gray-700"
+                                                            : "bg-yellow-100 hover:bg-yellow-200 text-yellow-700 cursor-pointer"
                                                     }`}
                                                 >
                                                     <svg
@@ -133,7 +134,7 @@ const Dashboard = ({ handleNewDeclaration, declarations, handleEdit, handleView 
                                                 </button>
                                                 <button
                                                     onClick={() => handleView(item)}
-                                                    className="p-2 bg-[#e0e0e0] rounded-lg hover:bg-[#d0d0d0] text-gray-700 transition-colors"
+                                                    className="p-2 bg-blue-100 rounded-lg hover:bg-blue-200 text-blue-700 transition-colors cursor-pointer"
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -180,8 +181,13 @@ const DeclarationForm = ({
     errors,
     imagePreview,
 }: any) => {
+    // Φιλτράρισμα λίστας για το dropdown
+    const availablePets = type === 'found' 
+        ? pets.filter((p:any) => p.status === 'lost') 
+        : pets;
+
     return (
-        <div className="bg-[#e5e5e5] rounded-3xl p-6 sm:p-12 shadow-lg max-w-5xl mx-auto w-full">
+        <div className="bg-white rounded-3xl p-6 sm:p-12 shadow-lg max-w-5xl mx-auto w-full border border-gray-200">
             <h1 className="text-3xl font-bold mb-3 text-[#303030] text-left">
                 {formData.id
                     ? "Επεξεργασία Δήλωσης"
@@ -196,45 +202,47 @@ const DeclarationForm = ({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div className="flex flex-col items-start w-full">
                     <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
-                        Όνομα Κατοικιδίου {type === "lost" && "(επιλογή)"}
+                        {type === 'found' ? "Βρέθηκε το δικό σας; (Επιλογή)" : "Όνομα Κατοικιδίου (Επιλογή)"}
                     </label>
-                    {type === "lost" ? (
-                        <select
-                            className="w-full bg-white border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-                            onChange={(e) => handlePetSelection(e.target.value)}
-                            value={pets.find((p: any) => p.name === formData.petName)?.id || ""}
-                        >
-                            <option value="" disabled>
-                                Επιλέξτε...
-                            </option>
-                            {pets.length > 0 ? (
-                                pets.map((p: any) => (
-                                    <option key={p.id} value={p.id}>
-                                        {p.name}
-                                    </option>
-                                ))
-                            ) : (
-                                <option value="" disabled>
-                                    Δεν βρέθηκαν κατοικίδια
-                                </option>
-                            )}
-                        </select>
-                    ) : (
-                        <input
-                            type="text"
-                            placeholder="π.χ. -"
-                            value={formData.petName}
-                            onChange={(e) => handleInputChange("petName", e.target.value)}
-                            className="w-full bg-white border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
-                        />
+                    
+                    {/* Μήνυμα αν δεν υπάρχουν χαμένα ζώα στη Δήλωση Εύρεσης */}
+                    {type === 'found' && availablePets.length === 0 && (
+                        <div className="mb-2 p-3 bg-blue-50 border border-blue-200 rounded-xl text-sm text-blue-800 w-full">
+                            Δεν έχετε δηλώσει απώλεια κατοικιδίου. <br/>
+                            Αν βρήκατε κάποιο άλλο ζώο, <Link to="/" className="underline font-bold hover:text-blue-900">ελέγξτε τις αγγελίες στην Αρχική</Link>.
+                        </div>
                     )}
+
+                    <select
+                        className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer"
+                        onChange={(e) => handlePetSelection(e.target.value)}
+                        value={pets.find((p: any) => p.name === formData.petName)?.id || ""}
+                    >
+                        <option value="" disabled>
+                            Επιλέξτε...
+                        </option>
+                        
+                        {/* Εμφάνιση επιλογών ΜΟΝΟ αν υπάρχουν διαθέσιμα ζώα */}
+                        {availablePets.length > 0 ? (
+                            availablePets.map((p: any) => (
+                                <option key={p.id} value={p.id}>
+                                    {p.name}
+                                </option>
+                            ))
+                        ) : (
+                            /* Αν είναι 'lost' και δεν έχει καθόλου ζώα */
+                            type === 'lost' && <option value="" disabled>Δεν βρέθηκαν κατοικίδια</option>
+                        )}
+                        
+                    </select>
                 </div>
+
                 <div className="flex flex-col items-start w-full">
                     <label className="text-xs font-bold mb-2 ml-1 text-gray-600">Είδος *</label>
                     <select
                         value={formData.species}
                         onChange={(e) => handleInputChange("species", e.target.value)}
-                        className={`w-full bg-white border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 ${errors.species ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
+                        className={`w-full bg-[#f9f9f9] border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 cursor-pointer ${errors.species ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
                     >
                         <option value="" disabled>
                             Επιλέξτε
@@ -251,7 +259,7 @@ const DeclarationForm = ({
                     <select
                         value={formData.gender}
                         onChange={(e) => handleInputChange("gender", e.target.value)}
-                        className={`w-full bg-white border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 ${errors.gender ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
+                        className={`w-full bg-[#f9f9f9] border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 cursor-pointer ${errors.gender ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
                     >
                         <option value="" disabled>
                             Επιλέξτε
@@ -275,7 +283,7 @@ const DeclarationForm = ({
                         placeholder="123456789"
                         value={formData.microchip}
                         onChange={(e) => handleInputChange("microchip", e.target.value)}
-                        className="w-full bg-white border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                        className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                     />
                 </div>
             </div>
@@ -290,7 +298,7 @@ const DeclarationForm = ({
                         placeholder="π.χ. Αετιδέων 43, Χολαργός, Αθήνα"
                         value={formData.location}
                         onChange={(e) => handleInputChange("location", e.target.value)}
-                        className={`w-full bg-white border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 ${errors.location ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
+                        className={`w-full bg-[#f9f9f9] border rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 ${errors.location ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
                     />
                     {errors.location && (
                         <span className="text-red-500 text-xs ml-1 mt-1">{errors.location}</span>
@@ -307,7 +315,7 @@ const DeclarationForm = ({
                         type="date"
                         value={formData.date}
                         onChange={(e) => handleInputChange("date", e.target.value)}
-                        className={`w-full bg-white border rounded-xl p-3.5 text-sm text-gray-500 focus:outline-none focus:ring-2 ${errors.date ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
+                        className={`w-full bg-[#f9f9f9] border rounded-xl p-3.5 text-sm text-gray-500 focus:outline-none focus:ring-2 cursor-pointer ${errors.date ? "border-red-500 focus:ring-red-400" : "border-gray-300 focus:ring-gray-400"}`}
                     />
                     {errors.date && (
                         <span className="text-red-500 text-xs ml-1 mt-1">{errors.date}</span>
@@ -328,7 +336,7 @@ const DeclarationForm = ({
                             onChange={handleImageUpload}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                         />
-                        <div className="w-full bg-white border border-dashed border-gray-400 rounded-xl p-12 flex items-center justify-center text-gray-500 text-sm hover:bg-gray-50 transition-colors">
+                        <div className="w-full bg-[#f9f9f9] border border-dashed border-gray-400 rounded-xl p-12 flex items-center justify-center text-gray-500 text-sm hover:bg-gray-100 transition-colors cursor-pointer">
                             {imagePreview
                                 ? "Αλλαγή φωτογραφίας"
                                 : "Επιλέξτε αρχεία ή σύρετε τα εδώ"}
@@ -356,7 +364,7 @@ const DeclarationForm = ({
                     <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
                         Το Όνομα σας
                     </label>
-                    <div className="w-full bg-[#dcdcdc] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
+                    <div className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
                         {user ? (user.fullName || user.name || "").split(" ")[0] : "..."}
                     </div>
                 </div>
@@ -364,7 +372,7 @@ const DeclarationForm = ({
                     <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
                         Το Επίθετο σας
                     </label>
-                    <div className="w-full bg-[#dcdcdc] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
+                    <div className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
                         {user ? (user.fullName || user.name || "").split(" ")[1] || "-" : "..."}
                     </div>
                 </div>
@@ -374,7 +382,7 @@ const DeclarationForm = ({
                 <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
                     Το Email / Τηλέφωνο σας
                 </label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
+                <div className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm text-gray-700 text-left">
                     {user ? `${user.email} / ${user.phone_number}` : "..."}
                 </div>
             </div>
@@ -387,7 +395,7 @@ const DeclarationForm = ({
                     rows={4}
                     value={formData.description}
                     onChange={(e) => handleInputChange("description", e.target.value)}
-                    className="w-full bg-white border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+                    className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
                     placeholder="Οποιαδήποτε πρόσθετη πληροφορία που μπορεί να βοηθήσει..."
                 ></textarea>
             </div>
@@ -395,13 +403,13 @@ const DeclarationForm = ({
             <div className="flex flex-col-reverse sm:flex-row justify-end gap-4">
                 <button
                     onClick={() => handleSave("submitted")}
-                    className="px-8 py-3 bg-[#5c5c5c] text-white font-bold rounded-xl hover:bg-[#4a4a4a] transition-colors shadow-md"
+                    className="px-8 py-3 bg-[#5c5c5c] text-white font-bold rounded-xl hover:bg-[#4a4a4a] transition-colors shadow-md cursor-pointer"
                 >
                     {formData.id ? "Αποθήκευση Αλλαγών" : "Οριστική Υποβολή"}
                 </button>
                 <button
                     onClick={() => handleSave("saved")}
-                    className="px-8 py-3 bg-[#9ca3af] text-white font-bold rounded-xl hover:bg-[#888f9b] transition-colors shadow-md"
+                    className="px-8 py-3 bg-[#9ca3af] text-white font-bold rounded-xl hover:bg-[#888f9b] transition-colors shadow-md cursor-pointer"
                 >
                     Προσωρινή Αποθήκευση
                 </button>
@@ -411,7 +419,7 @@ const DeclarationForm = ({
 };
 
 const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
-    <div className="bg-[#e5e5e5] rounded-3xl p-6 sm:p-12 shadow-lg max-w-5xl mx-auto w-full">
+    <div className="bg-white rounded-3xl p-6 sm:p-12 shadow-lg max-w-5xl mx-auto w-full border border-gray-200">
         <h1 className="text-2xl font-bold mb-10 text-[#303030] text-center">
             Προεπισκόπηση Δήλωσης {previewData?.type === "lost" ? "Απώλειας" : "Εύρεσης"}
         </h1>
@@ -419,19 +427,19 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div className="flex flex-col items-center">
                 <label className="text-xs font-bold mb-2 text-gray-600">Όνομα Κατοικιδίου</label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {previewData?.petName || "-"}
                 </div>
             </div>
             <div className="flex flex-col items-center">
                 <label className="text-xs font-bold mb-2 text-gray-600">Είδος</label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {previewData?.species || "Σκύλος"}
                 </div>
             </div>
             <div className="flex flex-col items-center">
                 <label className="text-xs font-bold mb-2 text-gray-600">Φύλο</label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {previewData?.gender || "Αρσενικό"}
                 </div>
             </div>
@@ -442,7 +450,7 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
                 <label className="text-xs font-bold mb-2 ml-1 text-gray-600">
                     Κωδικός Μικροτσίπ
                 </label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {previewData?.microchip || "-"}
                 </div>
             </div>
@@ -450,14 +458,14 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
 
         <div className="mb-8 flex flex-col items-center">
             <label className="text-xs font-bold mb-2 text-gray-600">Τοποθεσία</label>
-            <div className="bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm w-full md:w-2/3 text-center">
+            <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm w-full md:w-2/3 text-center">
                 {previewData?.location || "-"}
             </div>
         </div>
 
         <div className="mb-8 flex flex-col items-center">
             <label className="text-xs font-bold mb-2 text-gray-600">Ημερομηνία</label>
-            <div className="bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm w-48 text-center">
+            <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm w-48 text-center">
                 {previewData?.date || "-"}
             </div>
         </div>
@@ -479,13 +487,13 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div className="flex flex-col items-center">
                 <label className="text-xs font-bold mb-2 text-gray-600">Το Όνομα σας</label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {(user?.fullName || user?.name || "").split(" ")[0]}
                 </div>
             </div>
             <div className="flex flex-col items-center">
                 <label className="text-xs font-bold mb-2 text-gray-600">Το Επίθετο σας</label>
-                <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+                <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                     {(user?.fullName || user?.name || "").split(" ")[1]}
                 </div>
             </div>
@@ -493,14 +501,14 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
 
         <div className="mb-8 flex flex-col items-center">
             <label className="text-xs font-bold mb-2 text-gray-600">Το Email / Τηλέφωνο σας</label>
-            <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
+            <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm text-center">
                 {user ? `${user.email} / ${user.phone_number}` : "-"}
             </div>
         </div>
 
         <div className="mb-12 flex flex-col items-center">
             <label className="text-xs font-bold mb-2 text-gray-600">Επιπλέον Πληροφορίες</label>
-            <div className="w-full bg-[#dcdcdc] border border-gray-400 rounded-xl p-3.5 text-sm h-24 text-center flex items-center justify-center px-4">
+            <div className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3.5 text-sm h-24 text-center flex items-center justify-center px-4">
                 {previewData?.description || "Καμία περιγραφή."}
             </div>
         </div>
@@ -508,7 +516,7 @@ const Preview = ({ previewData, user, setStep, imagePreview }: any) => (
         <div className="flex justify-center">
             <button
                 onClick={() => setStep("list")}
-                className="px-8 py-3 bg-[#7a7a7a] text-white font-bold rounded-xl hover:bg-[#666] transition-colors shadow-md"
+                className="px-8 py-3 bg-[#7a7a7a] text-white font-bold rounded-xl hover:bg-[#666] transition-colors shadow-md cursor-pointer"
             >
                 Επιστροφή στο Ιστορικό Δηλώσεων
             </button>
@@ -593,19 +601,20 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
             description: "",
         });
         setErrors({});
-
-        // Reset Image logic
+        
+        // Reset Logic για την πρώτη φόρτωση
+        // Αν είναι 'lost', προ-επιλέγουμε το πρώτο κατοικίδιο της λίστας
         if (type === "lost" && pets.length > 0) {
-            // Αν είναι lost, by default βάλε τη φώτο του πρώτου κατοικιδίου αν υπάρχει
-            setImagePreview(pets[0].photo || null);
-            setFormData((prev: any) => ({
+             const firstPet = pets[0];
+             setImagePreview(firstPet.photo || null);
+             setFormData((prev: any) => ({
                 ...prev,
-                petName: pets[0].name,
-                microchip: pets[0].microchip || "",
-                // ... fill other fields if needed from first pet
+                petName: firstPet.name,
+                microchip: firstPet.microchip || "",
             }));
-        } else {
-            // Found -> No image by default
+        } 
+        // Αν είναι 'found', ΔΕΝ προ-επιλέγουμε τίποτα (γιατί μπορεί να βρήκε ξένο ζώο)
+        else {
             setImagePreview(null);
         }
 
@@ -615,10 +624,8 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
     const handleEdit = (declaration: any) => {
         setFormData(declaration);
         setErrors({});
-        // For simple usage, we don't persist image upload to DB as files in this demo (json-server limitation).
-        // If 'photo' field existed in declaration we would load it.
-        // For now, if it's 'lost' and has a pet name, try to match pet photo.
-        if (declaration.type === "lost") {
+        // Logic to try and find the photo if it exists on a pet
+        if (declaration.petName) {
             const matchedPet = pets.find((p) => p.name === declaration.petName);
             setImagePreview(matchedPet?.photo || null);
         } else {
@@ -629,8 +636,7 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
 
     const handleView = (declaration: any) => {
         setPreviewData(declaration);
-        // Load image for preview
-        if (declaration.type === "lost") {
+        if (declaration.petName) {
             const matchedPet = pets.find((p) => p.name === declaration.petName);
             setImagePreview(matchedPet?.photo || null);
         } else {
@@ -640,6 +646,18 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
     };
 
     const handlePetSelection = (petId: string) => {
+        if (petId === "unknown") {
+             setFormData((prev: any) => ({ 
+                ...prev, 
+                petName: "", 
+                microchip: "",
+                species: "Σκύλος", // Reset to default
+                gender: "Αρσενικό" 
+            }));
+            setImagePreview(null);
+            return;
+        }
+
         const selectedPet = pets.find((p) => p.id === petId);
         if (selectedPet) {
             const mappedSpecies = selectedPet.species === "cat" ? "Γάτα" : "Σκύλος";
@@ -658,9 +676,6 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
                 gender: mappedGender,
                 microchip: selectedPet.microchip || "",
             }));
-        } else {
-            setFormData((prev: any) => ({ ...prev, petName: "", microchip: "" }));
-            setImagePreview(null);
         }
     };
 
@@ -708,8 +723,6 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
             ...formData,
             userId: user.id,
             status: status,
-            // In a real app we would upload the file and get a URL back.
-            // Here we just save the textual data.
         };
 
         const method = formData.id ? "PUT" : "POST";
@@ -729,6 +742,18 @@ export default function Declarations({ step, setStep }: DeclarationsProps) {
             }
 
             const savedData = await res.json();
+            
+            // Αν είναι οριστική υποβολή και αφορά δικό μας ζώο (απώλεια), αλλάζουμε το status του pet σε lost
+            if (status === "submitted" && formData.type === 'lost' && formData.petName) {
+                 const matchedPet = pets.find((p) => p.name === formData.petName);
+                 if (matchedPet) {
+                     await fetch(`http://localhost:3001/pets/${matchedPet.id}`, {
+                        method: 'PATCH',
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ status: 'lost' })
+                     });
+                 }
+            }
 
             if (status === "submitted") {
                 setPreviewData(savedData);

@@ -5,7 +5,7 @@ import ClientAppointments, { AppointmentStep } from "./ClientAppointments";
 import Declarations, { DeclarationStep } from "./Declarations";
 
 // Imports εικόνων
-import healthBookImg from "../../assets/dog_1.jpg";
+import healthBookImg from "../../assets/cat_holding_paper.jpg";
 import lostFoundImg from "../../assets/lost_a_pet.jpg";
 import vetImg from "../../assets/Vets.webp";
 import { HomeView } from "../../pages/ClientHome";
@@ -26,8 +26,7 @@ export default function ClientHomeComponent({
     // --- FETCH DATA ---
     useEffect(() => {
         const loadUserData = async () => {
-            // --- ΑΛΛΑΓΗ 1: Διάβασμα από το σωστό κλειδί ---
-            const storedUser = localStorage.getItem("pawrtal_user"); // <-- ΣΗΜΑΝΤΙΚΗ ΑΛΛΑΓΗ
+            const storedUser = localStorage.getItem("pawrtal_user");
             if (!storedUser) {
                 console.log("No user found in pawrtal_user storage");
                 return;
@@ -36,8 +35,6 @@ export default function ClientHomeComponent({
             const currentUser = JSON.parse(storedUser);
             console.log("Logged in user (Home):", currentUser);
 
-            // --- ΑΛΛΑΓΗ 2: Χρήση του πεδίου 'name' ---
-            // Το AuthProvider σώζει: { id, email, role, name }
             let firstName = currentUser.name ? currentUser.name.split(" ")[0] : "Χρήστη";
 
             // Κλητική πτώση
@@ -116,14 +113,15 @@ export default function ClientHomeComponent({
     };
 
     const Breadcrumbs = () => (
-        <div className="text-[#5d5d5d] text-sm sm:text-base mb-4 font-light flex items-center gap-2 flex-wrap">
-            <Link to="/" className="hover:text-black hover:underline transition-all">
+        // Added cursor-pointer to interactive elements
+        <div className="text-[#5d5d5d] text-xs font-light flex items-center gap-1.5 flex-wrap mb-4">
+            <Link to="/" className="hover:text-black hover:underline transition-all cursor-pointer">
                 Αρχική
             </Link>
             <span>&gt;</span>
             <button
                 onClick={() => setView("dashboard")}
-                className={`hover:text-black hover:underline transition-all ${view === "dashboard" ? "font-bold text-black" : ""}`}
+                className={`hover:text-black hover:underline transition-all cursor-pointer ${view === "dashboard" ? "font-bold text-black" : ""}`}
             >
                 Ιδιοκτήτης
             </button>
@@ -134,7 +132,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setDeclarationStep("list")}
-                                className={`hover:text-black hover:underline transition-all ${declarationStep === "list" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${declarationStep === "list" ? "font-medium text-black" : ""}`}
                             >
                                 Δηλώσεις
                             </button>
@@ -151,7 +149,7 @@ export default function ClientHomeComponent({
                         <>
                             <button
                                 onClick={() => setAppointmentStep("search")}
-                                className={`hover:text-black hover:underline transition-all ${appointmentStep === "search" ? "font-medium text-black" : ""}`}
+                                className={`hover:text-black hover:underline transition-all cursor-pointer ${appointmentStep === "search" ? "font-medium text-black" : ""}`}
                             >
                                 Ραντεβού
                             </button>
@@ -185,7 +183,7 @@ export default function ClientHomeComponent({
 
                 <button
                     onClick={handleBack}
-                    className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm"
+                    className="mb-4 flex items-center gap-2 text-gray-600 hover:text-black font-semibold transition-colors text-sm cursor-pointer"
                 >
                     <span className="text-xl">←</span> Πίσω
                 </button>
@@ -203,7 +201,7 @@ export default function ClientHomeComponent({
 
     // --- Dashboard View ---
     return (
-        <div className="min-h-screen w-full bg-[#ebebeb]">
+        <div className="min-h-screen w-full bg-[#ffffff]">
             <main className="px-4 md:px-8 lg:px-16 pb-8 pt-16">
                 <Breadcrumbs />
 
