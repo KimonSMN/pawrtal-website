@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Record } from "../models/Info";
 import styles from "./page.module.css";
 import DownArrow from "../../assets/down_arrow.png";
 import RightArrow from "../../assets/right_arrow.png";
 
 function NewRecords() {
+    const navigate = useNavigate();
     const vet = JSON.parse(localStorage.getItem("pawrtal_user")!);
     const [open, setOpen] = useState(false);
 
@@ -28,6 +30,11 @@ function NewRecords() {
     };
 
     const handleSubmit = async () => {
+        const confirmLogout = window.confirm(
+            "Είστε σίγουροι ότι θέλετε να κανετε οριστική υποβολή;",
+        );
+        if (!confirmLogout) return;
+
         const newRecord = {
             petName: formData.petName,
             microchip: formData.microchip,
@@ -47,8 +54,7 @@ function NewRecords() {
         });
 
         const savedRecord = await response.json();
-
-        alert("Τα στοιχεία καταχωρήθηκαν ✔");
+        navigate("/vet", { state: { view: "records" } });
     };
 
     useEffect(() => {
@@ -62,179 +68,183 @@ function NewRecords() {
     return (
         <>
             <h1 className=" text-[#303030] m-auto my-4 text-3xl ">Καταγραφή Επίσκεψης</h1>
-            <div className="bg-[#e5e5e5] w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
-                <div className="flex-1 flex flex-col items-center">
+            <div className="flex flex-col sm:flex-row gap-2">
+                <div className="max-w-sm">
+                    <p className=" text-[#505050] m-auto my-4 max-w-sm text-medium px-4 sm:max-w-xl sm:text-xl ">
+                        Μπορείτε να δηλώσετε στο σύστημα πληροφοριες σχετικά με Επισκεψη.
+                    </p>
+
                     {/* Arrow */}
                     <div className="w-full text-left mx-4 px-4">
                         <button
                             onClick={() => setOpen((o) => !o)}
-                            className="text-lg p-2 flex flex-row items-center gap-1 rounded justify-center hover:bg-[#cccccc]"
+                            className="text-lg text-[#003066] p-2 flex flex-row items-center gap-2 rounded justify-center hover:bg-[#e2e2e2]"
                         >
                             Χρησιμες Πληροφοριες
                             {open ? (
-                                <img src={DownArrow} alt="free" className="w-4 h-4" />
+                                <img src={DownArrow} alt="free" className="w-4 h-4 pt-0.5" />
                             ) : (
-                                <img src={RightArrow} alt="free" className="w-4 h-4" />
+                                <img src={RightArrow} alt="free" className="w-4 h-4 pt-0.5" />
                             )}
                         </button>
                     </div>
 
                     {/* Dropdown */}
                     {open && (
+                        <>
+                            <p className=" text-[#505050] m-auto my-4 max-w-sm text-medium px-4 sm:max-w-xl sm:text-xl ">
+                                Με βαση το{" "}
+                                <span className="text-[#006fd6]">
+                                    αναγνωριστικο αριθμό (Microchip)
+                                </span>
+                                , του κατοικιδίου δηλώνετε στο ψηφιακό βιβλιάριο υγείας ή
+                                συγκεκριμένη επίσκεψη.
+                            </p>
+
+                            <p className=" text-[#505050] m-auto my-4 max-w-sm text-medium px-4 sm:max-w-xl sm:text-xl ">
+                                Με την <span className="text-[#006fd6]">προσωρινή αποθήκευση</span>,
+                                τα στοιχεία που συμπληρώθηκαν θα αποθηκεύτουν προσωρινά στην μνημη
+                                και θα διαγραφούν με την αποσύνδεση σας.
+                            </p>
+                        </>
+                    )}
+                </div>
+                <div className="bg-[#e5e5e5] w-xs rounded-2xl p-auto py-2 m-auto sm:w-lg">
+                    <div className="flex-1 flex flex-col items-center">
                         <div
                             className="
-                        bg-gray-100 mt-2 ml-8 p-3 rounded-xl
-                        text-sm text-gray-700 text-left max-w-lg
+                        flex flex-col items-center p-2 gap-2 w-2xs
+                        sm:flex-row sm:items-start sm:w-full sm:p-8 sm:gap-5
                     "
                         >
-                            <p>
-                                Για να καταχωρηθει το κατοικιδιο στο σύστημα χρειάζεται να αποκτησει
-                                τον αναγνωριστικο αριθμό (Microchip). <br />
-                                Επιπλεον το αναγνωριστικο του Ιδιοκτήτη στην συγκεκριμενη εφαρμογη.
-                                (Βρισκεται στο προφιλ του)
-                            </p>
-                        </div>
-                    )}
-                    <div
-                        className="
-                    flex flex-col items-center p-2 gap-2 w-2xs
-                    sm:flex-row sm:items-start sm:w-full sm:p-8 sm:gap-5
-                "
-                    >
-                        <div className="flex-1 flex flex-col items-center justify-center text-left">
-                            <label className="flex flex-col">
-                                Ονομα Κατοικίδιου
-                                <input
-                                    value={formData.petName}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="petName"
-                                    type="text"
-                                    placeholder="Ονομα"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
+                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                                <label className="flex flex-col">
+                                    Ονομα Κατοικίδιου
+                                    <input
+                                        value={formData.petName}
+                                        onChange={handleChange}
+                                        className={styles.profile_tag}
+                                        id="petName"
+                                        type="text"
+                                        placeholder="Ονομα"
+                                        disabled={mode === "preview"}
+                                    />
+                                </label>
 
-                            <label className="flex flex-col">
-                                Ονοματεπωνυμο Ιδιοκτήτη
-                                <input
-                                    value={formData.ownerName}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="ownerName"
-                                    type="text"
-                                    placeholder="Ονοματεπωνυμο"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
-                            <label className="flex flex-col">
-                                Αριθμός μικροτσίπ
-                                <input
-                                    value={formData.microchip}
-                                    onChange={handleChange}
-                                    className={styles.profile_tag}
-                                    id="microchip"
-                                    type="text"
-                                    placeholder="πχ. 123456789"
-                                    disabled={mode === "preview"}
-                                />
-                            </label>
+                                <label className="flex flex-col">
+                                    Ονοματεπωνυμο Ιδιοκτήτη
+                                    <input
+                                        value={formData.ownerName}
+                                        onChange={handleChange}
+                                        className={styles.profile_tag}
+                                        id="ownerName"
+                                        type="text"
+                                        placeholder="Ονοματεπωνυμο"
+                                        disabled={mode === "preview"}
+                                    />
+                                </label>
+                                <label className="flex flex-col">
+                                    Αριθμός μικροτσίπ
+                                    <input
+                                        value={formData.microchip}
+                                        onChange={handleChange}
+                                        className={styles.profile_tag}
+                                        id="microchip"
+                                        type="text"
+                                        placeholder="πχ. 123456789"
+                                        disabled={mode === "preview"}
+                                    />
+                                </label>
+                            </div>
+                            <div className="flex-1 flex flex-col items-center justify-center text-left">
+                                <label className="flex flex-col">
+                                    Κατασταση Ιδιοκτήτη
+                                    <select
+                                        value={formData.ownerStatus}
+                                        className={styles.profile_tag}
+                                        onChange={handleChange}
+                                        name="mode"
+                                        id="ownerStatus"
+                                        disabled={mode === "preview"}
+                                    >
+                                        <option value={""}>Επιλογή Ενέργειας --</option>
+                                        <option value={"metavivasi"}>Μεταβίβαση</option>
+                                        <option value={"uiothsia"}>Yιοθεσία</option>
+                                        <option value={"anadoxh"}>Αναδοχή</option>
+                                    </select>
+                                </label>
+                                <label className="flex flex-col">
+                                    Ιατρική Πράξη
+                                    <select
+                                        value={formData.reason}
+                                        className={styles.profile_tag}
+                                        onChange={handleChange}
+                                        name="mode"
+                                        id="reason"
+                                        disabled={mode === "preview"}
+                                    >
+                                        <option value="">Εμφάνιση επιλογών --</option>
+                                        <optgroup label="Προληπτικός έλεγχος">
+                                            <option value="checkup">Γενικός έλεγχος</option>
+                                            <option value="vaccination">Εμβολιασμός</option>
+                                            <option value="deworming">Αποπαρασίτωση</option>
+                                            <option value="microchip">Τοποθέτηση microchip</option>
+                                            <option value="neutering">Στείρωση</option>
+                                        </optgroup>
+                                        <optgroup label="Εξετάσεις">
+                                            <option value="blood_tests">
+                                                Αιματολογικές εξετάσεις
+                                            </option>
+                                            <option value="urine_tests">Εξετάσεις ούρων</option>
+                                            <option value="imaging">Ακτινογραφία / Υπέρηχος</option>
+                                        </optgroup>
+                                        <optgroup label="Αλλο">
+                                            <option value="sick">Ασθένεια/Συμπτώματα Ιωσης</option>
+                                            <option value="injury">Τραυματισμός</option>
+                                            <option value="chronic_condition">Χρόνια πάθηση</option>
+                                            <option value="pregnancy">Κύηση</option>
+                                            <option value="emergency">Έκτακτο</option>
+                                            <option value="other">Άλλος λόγος</option>
+                                        </optgroup>
+                                    </select>
+                                </label>
+                            </div>
                         </div>
-                        <div className="flex-1 flex flex-col items-center justify-center text-left">
-                            <label className="flex flex-col">
-                                Κατασταση Ιδιοκτήτη
-                                <select
-                                    value={formData.ownerStatus}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    name="mode"
-                                    id="ownerStatus"
-                                    disabled={mode === "preview"}
+                        <div className="flex flex-col sm:flex-row items-center">
+                            {mode === "preview" && (
+                                <button
+                                    onClick={() => setMode("edit")}
+                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
                                 >
-                                    <option value={""}>Επιλογή Ενέργειας --</option>
-                                    <option value={"metavivasi"}>Μεταβίβαση</option>
-                                    <option value={"uiothsia"}>Yιοθεσία</option>
-                                    <option value={"anadoxh"}>Αναδοχή</option>
-                                </select>
-                            </label>
-                            <label className="flex flex-col">
-                                Ιατρική Πράξη
-                                <select
-                                    value={formData.reason}
-                                    className={styles.profile_tag}
-                                    onChange={handleChange}
-                                    name="mode"
-                                    id="reason"
-                                    disabled={mode === "preview"}
+                                    Επεξεργασία
+                                </button>
+                            )}
+                            {mode !== "preview" && (
+                                <button
+                                    onClick={() => {
+                                        localStorage.setItem(
+                                            "record-draft",
+                                            JSON.stringify(formData),
+                                        );
+                                        setMode("preview"); // κλειδώνουμε τα πεδία
+                                        alert("Η καταχώρηση αποθηκεύτηκε προσωρινά 💾");
+                                    }}
+                                    className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
                                 >
-                                    <option value="">Εμφάνιση επιλογών --</option>
-                                    <optgroup label="Προληπτικός έλεγχος">
-                                        <option value="checkup">Γενικός έλεγχος</option>
-                                        <option value="vaccination">Εμβολιασμός</option>
-                                        <option value="deworming">Αποπαρασίτωση</option>
-                                        <option value="microchip">Τοποθέτηση microchip</option>
-                                        <option value="neutering">Στείρωση</option>
-                                    </optgroup>
-                                    <optgroup label="Εξετάσεις">
-                                        <option value="blood_tests">Αιματολογικές εξετάσεις</option>
-                                        <option value="urine_tests">Εξετάσεις ούρων</option>
-                                        <option value="imaging">Ακτινογραφία / Υπέρηχος</option>
-                                    </optgroup>
-                                    <optgroup label="Αλλο">
-                                        <option value="sick">Ασθένεια/Συμπτώματα Ιωσης</option>
-                                        <option value="injury">Τραυματισμός</option>
-                                        <option value="chronic_condition">Χρόνια πάθηση</option>
-                                        <option value="pregnancy">Κύηση</option>
-                                        <option value="emergency">Έκτακτο</option>
-                                        <option value="other">Άλλος λόγος</option>
-                                    </optgroup>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row items-center">
-                        {mode !== "preview" && (
-                            <button
-                                onClick={() => setMode("preview")}
-                                className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#808080] hover:shadow-lg hover:shadow-gray-400"
-                            >
-                                Προεπισκόπηση
-                            </button>
-                        )}
-
-                        {mode !== "preview" && (
-                            <button
-                                onClick={() => {
-                                    localStorage.setItem("record-draft", JSON.stringify(formData));
-                                    setMode("draft");
-                                    alert("Η καταχώρηση αποθηκεύτηκε προσωρινά 💾");
-                                }}
-                                className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#e9e9e9] hover:shadow-lg hover:shadow-gray-300"
-                            >
-                                Προσωρινή Αποθήκευση
-                            </button>
-                        )}
-
-                        {mode === "preview" && (
+                                    Προσωρινή Αποθήκευση
+                                </button>
+                            )}
                             <button
                                 onClick={async () => {
                                     await handleSubmit();
+                                    navigate("/vet?view=records");
                                     localStorage.removeItem("record-draft");
-                                    setMode("edit");
                                 }}
                                 className="bg-[#252525] text-white m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#434343] hover:shadow-lg hover:shadow-gray-300"
                             >
                                 Οριστική Υποβολή
                             </button>
-                        )}
-                        {mode === "preview" && (
-                            <button
-                                onClick={() => setMode("edit")}
-                                className="bg-[#ffffff] text-[#414141] m-2 px-6 py-4 rounded-2xl shadow-2xs hover:duration-500 hover:bg-[#efefef] hover:shadow-lg hover:shadow-gray-300"
-                            >
-                                Επιστροφή σε επεξεργασία
-                            </button>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>

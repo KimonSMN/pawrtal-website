@@ -1,7 +1,7 @@
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { useState, useEffect } from "react";
-import { Appointments, User, PROCEDURE_OPTIONS } from "../models/Info";
+import { Appointments, User, PROCEDURE_OPTIONS, PET_OPTIONS } from "../models/Info";
 import Empty from "../../assets/empty.png";
 import Half from "../../assets/half.png";
 import Full from "../../assets/full.svg";
@@ -44,8 +44,8 @@ function Meeting({ info }: { info: Appointments }) {
             </div>
 
             <div>
-                <span className="font-semibold text-sm text-gray-500">Μικροτσίπ</span>
-                <div>{info.petId}</div>
+                <span className="font-semibold text-sm text-gray-500">Κατοικίδιο</span>
+                <div>{PET_OPTIONS[info.pet] ?? info.pet}</div>
             </div>
 
             <div>
@@ -63,6 +63,7 @@ function Scheduled() {
     const [appointments, setAppointments] = useState<Appointments[]>([]);
 
     useEffect(() => {
+        let interval: NodeJS.Timer;
         const fetchVisits = async () => {
             try {
                 const response = await fetch(
@@ -79,6 +80,9 @@ function Scheduled() {
         };
 
         fetchVisits();
+        // fetch list every 10s
+        interval = setInterval(fetchVisits, 10000);
+        return () => clearInterval(interval);
     }, []);
 
     const visitsForDay = appointments.filter((appointments) => {
@@ -130,7 +134,9 @@ function Scheduled() {
                 "
             >
                 {visitsForDay.length === 0 && (
-                    <p className="text-gray-500">Δεν υπάρχουν επισκέψεις</p>
+                    <p className="text-gray-500 text-wrap max-w-sm">
+                        Δεν υπάρχουν προγραμματισμένες επισκέψεις για την επιλεγμένη ημέρα
+                    </p>
                 )}
 
                 {visitsForDay.map((visit) => (

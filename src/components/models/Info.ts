@@ -26,9 +26,10 @@ export enum MeetingStatus {
     New = "new",
     Accepted = "approved",
     Completed = "completed",
-    Cancelled = "cancelled",
+    Canceled = "canceled",
 }
 
+export type NotifyOptions = "vet" | "user" | "none";
 /**
  * @description Object to describe meetings
  * @param name Visitor name
@@ -48,6 +49,7 @@ export class Appointments {
     reason: string;
     date: Date;
     status: MeetingStatus;
+    notify: NotifyOptions;
 
     constructor(
         id: string,
@@ -60,6 +62,7 @@ export class Appointments {
         reason: string,
         date: Date,
         status: MeetingStatus,
+        notify: NotifyOptions,
     ) {
         this.id = id;
         this.pet = pet;
@@ -71,6 +74,7 @@ export class Appointments {
         this.reason = reason;
         this.date = date;
         this.status = status;
+        this.notify = notify;
     }
 
     static fromJSON(json: any): Appointments {
@@ -85,10 +89,30 @@ export class Appointments {
             json.reason,
             new Date(json.date),
             json.status,
+            json.notify,
         );
     }
 }
+
 /* PETS */
+
+export const PET_OPTIONS = {
+    dog: "Σκύλος",
+    cat: "Γάτα",
+    rabbit: "Κουνέλι",
+    hamster: "Χάμστερ",
+    guinea_pig: "Ινδικό χοιρίδιο",
+    parrot: "Παπαγάλος",
+    canary: "Καναρίνι",
+    finch: "Σπίνος",
+    turtle: "Χελώνα",
+    lizard: "Σαύρα",
+    gecko: "Γκέκο",
+    fish_freshwater: "Ψάρι γλυκού νερού",
+    fish_saltwater: "Ψάρι θαλασσινού νερού",
+    other: "Άλλο",
+};
+
 export type PetCondition = "apwleia" | "euresi" | "keno";
 export type Gender = "male" | "female";
 
@@ -131,6 +155,7 @@ export class Pets {
         );
     }
 }
+
 /* RECORDS */
 export const PROCEDURE_OPTIONS = {
     checkup: "Γενικός έλεγχος",

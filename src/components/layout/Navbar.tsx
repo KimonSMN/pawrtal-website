@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/pawrtal_logo.png";
 import profileIcon from "../../assets/profile.png";
 import { useAuth } from "../auth/AuthProvider";
+import { Appointments } from "../models/Info";
 
 const API = "http://localhost:3001";
 
@@ -23,6 +24,10 @@ function Navbar() {
     const [notifError, setNotifError] = useState<string | null>(null);
     const [unreadCount, setUnreadCount] = useState(0);
     const [latestUnread, setLatestUnread] = useState<any | null>(null);
+    const [unreadReportsCount, setUnreadReportsCount] = useState(0);
+    const [appointmentNotifications, setAppointmentNotifications] = useState<Appointments[]>([]);
+    const [unreadAppointmentsCount, setUnreadAppointmentsCount] = useState(0);
+    const [readAllAppointments, setReadAllAppointments] = useState(false);
 
     const userId = user?.id;
 
@@ -46,7 +51,7 @@ function Navbar() {
             );
 
             const arr = Array.isArray(data) ? data : [];
-            setUnreadCount(arr.length);
+            setUnreadReportsCount(arr.length);
             setLatestUnread(arr[0] ?? null);
         } catch (e: any) {
             setNotifError(e?.message ?? "Αποτυχία φόρτωσης ειδοποιήσεων.");
@@ -84,8 +89,10 @@ function Navbar() {
         if (!showNotifications) return;
 
         loadUnread(); // initial
+        loadAppointmentNotifications();
         const t = window.setInterval(() => {
             loadUnread();
+            loadAppointmentNotifications();
         }, 20000);
 
         return () => window.clearInterval(t);
@@ -128,13 +135,65 @@ function Navbar() {
                     }),
                 ),
             );
-
+            setReadAllAppointments(true);
             setUnreadCount(0);
             setLatestUnread(null);
         } catch (e: any) {
             setNotifError(e?.message ?? "Αποτυχία ενημέρωσης ειδοποιήσεων.");
         } finally {
             setNotifLoading(false);
+        }
+    }
+
+    // appointment notifications
+    useEffect(() => {
+        setUnreadCount(unreadReportsCount + unreadAppointmentsCount);
+    }, [unreadReportsCount, unreadAppointmentsCount]);
+
+    useEffect(() => {
+        async function loadAppointments() {
+            if (!user?.role) return;
+
+            try {
+                // ✅ Set notify to 'none' for each fetched appointment
+                const updatedArr = await Promise.all(
+                    appointmentNotifications.map(async (appt) => {
+                        // PATCH each appointment to update notify
+                        await fetch(`${API}/appointments/${encodeURIComponent(appt.id)}`, {
+                            method: "PATCH",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ notify: "none" }),
+                        });
+                        return { ...appt, notify: "none" }; // update locally too
+                    }),
+                );
+
+                setAppointmentNotifications(updatedArr);
+                setUnreadAppointmentsCount(updatedArr.length);
+            } catch (e: any) {
+                console.error("Αποτυχία ενημέρωσης ειδοποιήσεων", e);
+            }
+
+            setUnreadCount(unreadReportsCount + unreadAppointmentsCount);
+        }
+
+        loadAppointments();
+    }, [readAllAppointments]);
+
+    async function loadAppointmentNotifications() {
+        if (!showNotifications || !user?.role) return;
+
+        try {
+            const response = await fetch(
+                `${API}/appointments?notify=${user.role}&_sort=date&_order=desc`,
+            );
+            const data = await response.json();
+            const arr = Array.isArray(data) ? data : [];
+
+            setAppointmentNotifications(arr);
+            setUnreadAppointmentsCount(arr.length);
+        } catch (e: any) {
+            console.error("Αποτυχία ενημέρωσης ειδοποιήσεων", e);
         }
     }
 
@@ -261,27 +320,62 @@ function Navbar() {
                                                 Δεν έχεις νέες ειδοποιήσεις.
                                             </div>
                                         ) : (
-                                            <button
-                                                type="button"
-                                                onClick={() => {
-                                                    // Later: go to full notification center
-                                                    setOpen(false);
-                                                    navigate("/notifications");
-                                                }}
-                                                className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100"
-                                            >
-                                                <div className="text-sm font-medium text-zinc-900">
-                                                    Νέα αναφορά εύρεσης
-                                                </div>
-                                                <div className="mt-0.5 text-xs text-zinc-600">
-                                                    {latestUnread?.petId
-                                                        ? `Για κατοικίδιο #${latestUnread.petId}`
-                                                        : "Άνοιξε για λεπτομέρειες"}
-                                                </div>
-                                                <div className="mt-1 text-[11px] text-zinc-500">
-                                                    {unreadCount} μη αναγνωσμένες
-                                                </div>
-                                            </button>
+                                            <>
+                                                {unreadReportsCount > 0 ? (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setOpen(false);
+                                                            navigate("/notifications");
+                                                        }}
+                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100"
+                                                    >
+                                                        <div className="text-sm font-medium text-zinc-900">
+                                                            Νέα αναφορά εύρεσης
+                                                        </div>
+
+                                                        <div className="mt-0.5 text-xs text-zinc-600">
+                                                            {latestUnread?.petId
+                                                                ? `Για κατοικίδιο #${latestUnread.petId}`
+                                                                : "Άνοιξε για λεπτομέρειες"}
+                                                        </div>
+
+                                                        <div className="mt-1 text-[11px] text-zinc-500">
+                                                            {unreadReportsCount} μη αναγνωσμένες
+                                                        </div>
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            setOpen(false);
+                                                            if (user?.role === "vet") {
+                                                                navigate("/vet", {
+                                                                    state: { view: "appointments" },
+                                                                });
+                                                            } else if (user?.role === "user") {
+                                                                navigate("/client/home", {
+                                                                    state: { view: "appointments" },
+                                                                });
+                                                            }
+                                                        }}
+                                                        className="mt-2 w-full rounded-lg border border-black/10 bg-zinc-50 px-3 py-2 text-left hover:bg-zinc-100"
+                                                    >
+                                                        <div className="text-sm font-medium text-zinc-900">
+                                                            Ενημέρωση ραντεβού
+                                                        </div>
+
+                                                        <div className="mt-0.5 text-xs text-zinc-600">
+                                                            Νεα αλλαγή στα ραντεβού σου
+                                                        </div>
+
+                                                        <div className="mt-1 text-[11px] text-zinc-500">
+                                                            {unreadAppointmentsCount} μη
+                                                            αναγνωσμένες
+                                                        </div>
+                                                    </button>
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 )}

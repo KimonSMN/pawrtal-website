@@ -48,13 +48,13 @@ function Records({ onChangeMessage }) {
             {/* page load */}
 
             {view !== "dashboard" && (
-                <div className="w-full p-12 items-left">
+                <div className="w-full px-12 py-4 items-left">
                     <button
                         onClick={() => {
                             setView("dashboard");
                             onChangeMessage("appear");
                         }}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm  p-2 px-4  border rounded-2xl"
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
                         Μενου Καταχωρήσεων

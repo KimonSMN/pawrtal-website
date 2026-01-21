@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Profile from "./Profile";
 import Appointments from "./Appointments";
@@ -8,14 +8,17 @@ import profileImg from "../../assets/account.png";
 import vetImg from "../../assets/Vets.webp";
 import healthBookImg from "../../assets/dog_1.jpg";
 import BackArrow from "../../assets/back_arrow.png";
+import { VetHomeView } from "../../pages/VetHome";
 
-function Home() {
+function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
     const storedUser = localStorage.getItem("pawrtal_user");
     const userName = storedUser ? JSON.parse(storedUser).name : null;
     const [message, setMessage] = useState("appear");
-    const [view, setView] = useState<"dashboard" | "profile" | "appointments" | "records">(
-        "dashboard",
-    );
+    const [view, setView] = useState<VetHomeView>(initialView);
+
+    useEffect(() => {
+        setView(initialView);
+    }, [initialView]);
 
     const cards = [
         {
@@ -23,6 +26,10 @@ function Home() {
             title: "Λογαριασμός",
             image: profileImg,
             action: () => setView("profile"),
+            instructions: [
+                "Προβολη και επεξεργ/σια των προσωπικών σας στοιχειών",
+                "Δείτε τις αξιολογήσεις σας",
+            ],
         },
         {
             id: 2,
@@ -31,6 +38,12 @@ function Home() {
             action: () => {
                 setView("appointments");
             },
+            instructions: [
+                "Δείτε τα προγραμματισμένα ραντεβού",
+                "Δειτε τα νέα αιτηματα για ραντεβού",
+                "Κάντε αποδοχή ή απόρριψη των νεων αιτημάτων",
+                "Δείτε το ιστορικό προγρ/μενων ραντεβού",
+            ],
         },
         {
             id: 3,
@@ -39,6 +52,11 @@ function Home() {
             action: () => {
                 setView("records");
             },
+            instructions: [
+                "Προσθήκη κατοικιδίου στο σύστημα",
+                "Καταγραφη επίσκεψης",
+                "Προβολή ιστορικού επισκέψεων",
+            ],
         },
     ];
 
@@ -82,10 +100,10 @@ function Home() {
                 <div className="w-full pl-12 p-4 items-left">
                     <button
                         onClick={() => setView("dashboard")}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm px-2 border rounded-2xl"
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl"
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
-                        Πίσω
+                        Aρχική Κτηνίατρου
                     </button>
                 </div>
             )}
@@ -96,7 +114,7 @@ function Home() {
                         <div className="flex flex-row items-center mb-4 gap-6 ">
                             <h2 className="text-4xl text-gray-600">{userName}</h2>
                         </div>
-                        <h2 className="text-xl text-gray-600 ">
+                        <h2 className="text-xl text-gray-600 max-w-sm px-2 ">
                             Διαλέξτε την επόμενη ενέργεια για να συνεχίσετε
                         </h2>
                     </div>
@@ -107,6 +125,7 @@ function Home() {
                                 onClick={card.action}
                                 className="bg-white rounded-[20px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group transform hover:-translate-y-1"
                             >
+                                {/* card image */}
                                 <div className="h-50 sm:h-55 overflow-hidden bg-gray-200 relative">
                                     <img
                                         src={card.image}
@@ -115,10 +134,17 @@ function Home() {
                                     />
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                                 </div>
-                                <div className="p-4 flex items-center justify-center bg-white relative z-10">
+                                <div className="p-4 flex flex-col gap-2 items-center justify-center bg-white relative z-10">
+                                    {/* card title */}
                                     <h2 className="text-xl sm:text-2xl font-medium text-black text-center leading-tight">
                                         {card.title}
                                     </h2>
+                                    {/* card instructions */}
+                                    <ul className="text-sm text-gray-500 list-disc list-inside">
+                                        {card.instructions?.map((instr, idx) => (
+                                            <li key={idx}>{instr}</li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
                         ))}

@@ -36,7 +36,9 @@ function Review({ info }: { info: Reviews }) {
             >
                 <div className="flex-1">{owner?.fullName}</div>
 
-                <div className="w-16 text-center font-semibold">{info.rating} / 5</div>
+                <div className="w-16 text-center text-[#007bd8] font-semibold">
+                    {info.rating} / 5
+                </div>
 
                 <div className="w-24 text-sm text-gray-600">
                     {info.createdAt.toLocaleString("el-GR", {
@@ -189,7 +191,7 @@ function Profile() {
                         />
                     </div>
                     {/* Account data container */}
-                    <h1 className="text-[#303030] w-full m-auto text-left text-3xl mb-6 ">
+                    <h1 className="text-[#266fa7] w-full m-auto text-left text-3xl mb-6 ">
                         Στοιχεια Χρήστη
                     </h1>
                     <div className="flex-1 flex flex-col items-center sm:flex-row sm:mb-2">
@@ -323,7 +325,7 @@ function Profile() {
                             ) : (
                                 <>
                                     <button
-                                        className="m-2 p-4 bg-[#fbfbfb] font-bold text-[#3c3c3cb6] border  border-[#cdcdcd] rounded-2xl hover:bg-[#ededed] hover:transition-transform"
+                                        className="m-2 p-4 bg-[#c5e1ff] font-bold text-[#3c3c3cb6] border  border-[#cdcdcd] rounded-2xl hover:bg-[#b1cae5] hover:transition-transform"
                                         onClick={handleSave}
                                     >
                                         Αποθήκευση
@@ -338,7 +340,7 @@ function Profile() {
                             )}
                         </div>
                         <button
-                            className="m-2 p-4 text-[#ffffff] font-semibold bg-[#727272] rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
+                            className="m-2 p-4 text-[#ffffff] font-semibold bg-[#df0000a7] rounded-2xl hover:bg-[#515151] hover:transition-transform hover:text-[#ff9898]"
                             onClick={handleLogout}
                         >
                             Αποσύνδεση
@@ -349,7 +351,7 @@ function Profile() {
                     <div className="flex flex-col items-center p-8 gap-5 w-full">
                         {averageRating !== 0 && (
                             <div className="flex flex-col gap-2 mb-4">
-                                <div className="text-lg font-semibold">
+                                <div className="text-lg text-[#005495] font-medium">
                                     Μέση βαθμολογία: {averageRating} / 5
                                 </div>
 
@@ -358,10 +360,10 @@ function Profile() {
                                 </div>
                             </div>
                         )}
-                        <h1 className=" text-[#303030] w-full m-auto mb-8 text-left text-3xl ">
+                        <h1 className=" text-[#266fa7] w-full m-auto mb-8 text-left text-3xl ">
                             Αξιολογήσεις Χρήστη
                         </h1>
-                        <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-black">
+                        <div className="flex flex-row justify-between items-center gap-4 w-full text-[#333] border-b-2 border-b-[#007bd8]">
                             <div className="flex-3 ">Χρήστης</div>
                             <div className="flex-2 ">Αστέρια</div>
                             <div className="flex-1">Ημερομηνία</div>

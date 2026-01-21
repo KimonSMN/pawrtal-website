@@ -450,6 +450,7 @@ const EditAppointmentForm = ({ selectedAppointment, setStep, handleUpdateAppoint
         const updatedData = {
             date: newDateObj.toISOString(),
             reason: reason,
+            notify: "vet",
         };
         handleUpdateAppointment(selectedAppointment.id, updatedData);
     };
@@ -893,7 +894,7 @@ const SuccessPage = ({ setStep }: any) => (
 // 8. Cancel Confirmation
 const CancelConfirmation = ({ selectedAppointment, handleCancelAppointment, setStep }: any) => (
     <div className="w-full text-center mt-8">
-        <div className="bg-[#e5e5e5] rounded-[2rem] p-10 shadow-lg max-w-2xl mx-auto relative overflow-hidden border-t-8 border-red-500">
+        <div className="bg-[#e5e5e5] rounded-4xl p-10 shadow-lg max-w-2xl mx-auto relative overflow-hidden border-t-8 border-red-500">
             <h2 className="text-3xl font-bold mb-6 text-[#303030]">Ακύρωση Ραντεβού</h2>
             <p className="text-gray-600 font-medium mb-8">
                 Είστε σίγουροι ότι θέλετε να ακυρώσετε το ραντεβού;
@@ -1014,7 +1015,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
             await fetch(`http://localhost:3001/appointments/${selectedAppointment.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: "canceled" }),
+                body: JSON.stringify({ status: "canceled", notify: "vet" }),
             });
             setStep("search");
         } catch (error) {
@@ -1045,6 +1046,7 @@ export default function ClientAppointments({ step, setStep }: Props) {
             ownerId: user.id,
             reason: bookingData.reason,
             date: appointmentDate.toISOString(),
+            notify: "vet",
             status: "new",
         };
 

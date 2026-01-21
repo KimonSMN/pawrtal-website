@@ -76,7 +76,7 @@ export default function OpenPet() {
 
             try {
                 const petData = await asJson<Pet>(
-                    await fetch(`${API}/pets/${encodeURIComponent(id)}`),
+                    await fetch(`${API}/lostpets/${encodeURIComponent(id)}`),
                 );
                 if (cancelled) return;
 

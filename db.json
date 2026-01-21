@@ -80,6 +80,18 @@
       "role": "user",
       "city": "Αθήνα",
       "createdAt": "2026-01-19T16:19:02.361Z"
+    },
+    {
+      "id": "1bec",
+      "fullName": "Λευτέρης Μιχαηλίδης",
+      "email": "lefteris@gmail.com",
+      "password": "123456",
+      "phone_number": "697123456",
+      "age": 33,
+      "role": "user",
+      "city": "Aθήνα",
+      "createdAt": "2026-01-20T16:55:13.726Z",
+      "address": "Εθνικής Αντιστασεως 187"
     }
   ],
   "appointments": [
@@ -91,7 +103,8 @@
       "ownerId": "c389",
       "reason": "check-up",
       "date": "2026-01-22T11:00:00",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "2",
@@ -101,7 +114,8 @@
       "ownerId": "c389",
       "reason": "vaccination",
       "date": "2026-01-22T14:00:00",
-      "status": "new"
+      "status": "new",
+      "notify": "none"
     },
     {
       "id": "3",
@@ -111,7 +125,8 @@
       "ownerId": "c389",
       "reason": "check-up",
       "date": "2026-01-19T10:00:00",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "4",
@@ -121,7 +136,8 @@
       "ownerId": "c389",
       "reason": "emergency",
       "date": "2026-01-19T11:00:00",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "5",
@@ -131,7 +147,8 @@
       "ownerId": "c389",
       "reason": "vaccination",
       "date": "2026-01-19T18:40:00",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "6",
@@ -141,7 +158,8 @@
       "ownerId": "c389",
       "reason": "check-up",
       "date": "2026-01-22T09:00:00",
-      "status": "completed"
+      "status": "completed",
+      "notify": "none"
     },
     {
       "id": "7",
@@ -151,7 +169,8 @@
       "ownerId": "c389",
       "reason": "vaccination",
       "date": "2026-01-22T20:00:00",
-      "status": "canceled"
+      "status": "canceled",
+      "notify": "none"
     },
     {
       "id": "8",
@@ -161,7 +180,8 @@
       "ownerId": "c389",
       "reason": "check-up",
       "date": "2026-01-23T14:00:00",
-      "status": "canceled"
+      "status": "canceled",
+      "notify": "none"
     },
     {
       "id": "9",
@@ -171,7 +191,8 @@
       "ownerId": "c389",
       "reason": "vaccination",
       "date": "2026-01-22T15:00:00",
-      "status": "completed"
+      "status": "completed",
+      "notify": "none"
     },
     {
       "id": "acc8",
@@ -183,7 +204,8 @@
       "ownerId": "2",
       "reason": "urine_tests",
       "date": "2026-01-21T06:19:00.000Z",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "0855",
@@ -195,7 +217,8 @@
       "ownerId": "2",
       "reason": "microchip",
       "date": "2026-01-22T03:00:00.000Z",
-      "status": "canceled"
+      "status": "canceled",
+      "notify": "none"
     },
     {
       "id": "9182",
@@ -207,7 +230,8 @@
       "ownerId": "2",
       "reason": "vaccination",
       "date": "2026-01-25T06:00:00.000Z",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "173e",
@@ -219,7 +243,8 @@
       "ownerId": "2",
       "reason": "urine_tests",
       "date": "2025-12-25T18:00:00.000Z",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "beff",
@@ -231,7 +256,8 @@
       "ownerId": "2",
       "reason": "checkup",
       "date": "2026-01-21T09:00:00.000Z",
-      "status": "approved"
+      "status": "approved",
+      "notify": "none"
     },
     {
       "id": "50dc",
@@ -243,6 +269,59 @@
       "ownerId": "2",
       "reason": "neutering",
       "date": "2025-12-31T08:00:00.000Z",
+      "status": "new",
+      "notify": "none"
+    },
+    {
+      "id": "39bf",
+      "pet": "pet",
+      "petId": "0d91",
+      "petName": "Μπελά ",
+      "vetId": "4",
+      "vetName": "Σοφία Μάρκου",
+      "ownerId": "1bec",
+      "reason": "checkup",
+      "date": "2026-01-22T15:00:00.000Z",
+      "status": "new",
+      "notify": "none"
+    },
+    {
+      "id": "b258",
+      "pet": "pet",
+      "petId": "090f",
+      "petName": "Μπουμπού ",
+      "vetId": "3",
+      "vetName": "Κώστας Βασίλης",
+      "ownerId": "1bec",
+      "reason": "checkup",
+      "date": "2026-01-22T05:00:00.000Z",
+      "status": "approved",
+      "notify": "none"
+    },
+    {
+      "id": "4577",
+      "pet": "pet",
+      "petId": "090f",
+      "petName": "Μπουμπού ",
+      "vetId": "3",
+      "vetName": "Κώστας Βασίλης",
+      "ownerId": "1bec",
+      "reason": "microchip",
+      "date": "2026-01-29T15:00:00.000Z",
+      "status": "canceled",
+      "notify": "none"
+    },
+    {
+      "id": "a377",
+      "pet": "pet",
+      "petId": "0d91",
+      "petName": "Μπελά ",
+      "vetId": "3",
+      "vetName": "Κώστας Βασίλης",
+      "ownerId": "1bec",
+      "reason": "deworming",
+      "date": "2026-01-23T09:00:00.000Z",
+      "notify": "vet",
       "status": "new"
     }
   ],
@@ -316,14 +395,6 @@
       "rating": 4.5,
       "text": "Γρηγορη Εξυπηρετηση και το ειχα αναγκη. Ευχαριστω !!",
       "createdAt": "2026-01-16T02:50:24.491Z"
-    },
-    {
-      "id": "7",
-      "vetId": "4",
-      "ownerId": "4",
-      "rating": 4,
-      "text": "",
-      "createdAt": "2026-01-17T02:50:24.491Z"
     }
   ],
   "pets": [
@@ -451,6 +522,149 @@
       "location": "Πειραιας",
       "description": "Μεγαλο σκυλί",
       "createdAt": "2026-01-20T14:15:27.469Z"
+    },
+    {
+      "id": "090f",
+      "ownerId": "1bec",
+      "vetId": "3",
+      "name": "Μπουμπού ",
+      "breed": "Ελληνικό Ποιμενικό ",
+      "age": 5,
+      "gender": "Θηλυκό",
+      "microchip": "910002745",
+      "color": "Καφέ ",
+      "coat": "κοντο",
+      "birthDate": "2020-11-13",
+      "location": "Αθήνα ",
+      "description": "Μεγάλο ",
+      "createdAt": "2026-01-20T14:40:24.074Z"
+    },
+    {
+      "id": "0d91",
+      "ownerId": "1bec",
+      "vetId": "3",
+      "name": "Μπελά ",
+      "breed": "Κανίς ",
+      "age": 2,
+      "gender": "Θηλυκό",
+      "microchip": "91200003824",
+      "color": "Άσπρο ",
+      "coat": "μεσαίο ",
+      "birthDate": "2024-09-18",
+      "lastSeenDate": "",
+      "location": "Αθήνα ",
+      "description": "Μικρό ",
+      "createdAt": "2026-01-20T16:59:47.614Z"
+    }
+  ],
+  "lostpets": [
+    {
+      "id": "p1",
+      "ownerId": "1",
+      "name": "Rex",
+      "species": "dog",
+      "breed": "German Shepherd",
+      "age": 5,
+      "gender": "Αρσενικό",
+      "microchip": "941000011111111",
+      "color": "Μαύρο-Καφέ",
+      "coat": "Μεσαίο",
+      "birthDate": "2021-01-15",
+      "lastSeenDate": "2026-01-18",
+      "location": "Athens",
+      "description": "Large dog, friendly",
+      "photo": "/images/dog_3.jpg",
+      "createdAt": "2026-01-19T15:03:00.000Z"
+    },
+    {
+      "id": "p2",
+      "ownerId": "1",
+      "name": "Luna",
+      "species": "cat",
+      "breed": "European Shorthair",
+      "age": 3,
+      "gender": "Θηλυκό",
+      "microchip": "941000022222222",
+      "color": "Γκρι",
+      "coat": "Κοντό",
+      "birthDate": "2023-05-20",
+      "lastSeenDate": "2026-01-17",
+      "location": "Piraeus",
+      "description": "Gray cat with green eyes",
+      "photo": "/images/cat_1.jpg",
+      "createdAt": "2026-01-19T15:03:10.000Z"
+    },
+    {
+      "id": "p3",
+      "ownerId": "1",
+      "name": "Pyke",
+      "species": "dog",
+      "breed": "Shiba Inu",
+      "age": 4,
+      "gender": "Αρσενικό",
+      "microchip": "941000033333333",
+      "color": "Καφέ-Λευκό",
+      "coat": "Πυκνό",
+      "birthDate": "2022-03-10",
+      "lastSeenDate": "2026-01-16",
+      "location": "Cholargos",
+      "description": "Very calm",
+      "photo": "/images/dog_1.jpg",
+      "createdAt": "2026-01-19T15:03:20.000Z"
+    },
+    {
+      "id": "p4",
+      "ownerId": "2",
+      "name": "Bella",
+      "species": "cat",
+      "breed": "Persian",
+      "age": 2,
+      "gender": "Θηλυκό",
+      "microchip": "941000044444444",
+      "color": "Λευκό",
+      "coat": "Μακρύ",
+      "birthDate": "2024-02-14",
+      "lastSeenDate": "2026-01-15",
+      "location": "Glyfada",
+      "description": "White fluffy cat",
+      "photo": "/images/cat_2.jpg",
+      "createdAt": "2026-01-19T15:03:30.000Z"
+    },
+    {
+      "id": "p5",
+      "ownerId": "2",
+      "name": "Rocky",
+      "species": "dog",
+      "breed": "Boxer",
+      "age": 6,
+      "gender": "Αρσενικό",
+      "microchip": "941000055555555",
+      "color": "Καφέ",
+      "coat": "Κοντό",
+      "birthDate": "2020-06-30",
+      "lastSeenDate": "2026-01-14",
+      "location": "Athens",
+      "description": "Brown boxer, energetic",
+      "photo": "/images/dog_2.jpg",
+      "createdAt": "2026-01-19T15:03:40.000Z"
+    },
+    {
+      "id": "p6",
+      "ownerId": "3",
+      "name": "Milo",
+      "species": "cat",
+      "breed": "Siamese",
+      "age": 1,
+      "gender": "Αρσενικό",
+      "microchip": "941000066666666",
+      "color": "Κρεμ",
+      "coat": "Κοντό",
+      "birthDate": "2025-01-01",
+      "lastSeenDate": "2026-01-13",
+      "location": "Chalandri",
+      "description": "Cream-colored kitten",
+      "photo": "/images/cat_3.jpg",
+      "createdAt": "2026-01-19T15:03:50.000Z"
     }
   ],
   "foundReports": [
@@ -487,7 +701,7 @@
     {
       "id": "fr3",
       "petId": "p3",
-      "ownerId": "1",
+      "ownerId": "1bec",
       "reporterUserId": "4",
       "foundLocation": "Peristeri Park",
       "foundDate": "2026-01-16T20:00:00.000Z",
@@ -496,7 +710,7 @@
       "reporterContact": "690000004",
       "extraInfo": "Dog was playing with other dogs",
       "status": "submitted",
-      "isRead": false,
+      "isRead": true,
       "createdAt": "2026-01-19T15:04:20.000Z"
     }
   ],
@@ -525,6 +739,19 @@
       "microchip": "12345667889",
       "description": "Πορτοκαλί τρίχωμα.",
       "userId": "2",
+      "status": "submitted"
+    },
+    {
+      "id": "9647",
+      "petName": "Μπουμπού ",
+      "type": "lost",
+      "species": "Σκύλος",
+      "gender": "Αρσενικό",
+      "location": "aetidwn",
+      "date": "2026-01-30",
+      "microchip": "910002745",
+      "description": "",
+      "userId": "1bec",
       "status": "submitted"
     }
   ]
