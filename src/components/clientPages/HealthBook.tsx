@@ -9,24 +9,24 @@ interface MedicalAct {
 
 function HealthBook() {
     // State
-    const [pets, setPets] = useState<any[]>([]); // Λίστα με όλα τα κατοικίδια
-    const [selectedPet, setSelectedPet] = useState<any>(null); // Το επιλεγμένο κατοικίδιο
+    const [pets, setPets] = useState<any[]>([]); // List of all pets
+    const [selectedPet, setSelectedPet] = useState<any>(null); // The selected pet
     const [user, setUser] = useState<any>(null);
     const [medicalActs, setMedicalActs] = useState<MedicalAct[]>([]);
     const [loading, setLoading] = useState(true);
 
-    // Helper για μορφοποίηση ημερομηνίας (YYYY-MM-DD -> DD/MM/YYYY)
+    // Helper for date formatting (YYYY-MM-DD -> DD/MM/YYYY)
     const formatDate = (dateString: string) => {
         if (!dateString) return "-";
         const date = new Date(dateString);
-        return date.toLocaleDateString("el-GR"); // π.χ. 15/01/2021
+        return date.toLocaleDateString("el-GR"); // e.g. 15/01/2021
     };
 
     // 1. Fetch User & Pets
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
-                // Χρήση του σωστού κλειδιού από το AuthProvider
+                // Use the correct key from AuthProvider
                 const storedUser = localStorage.getItem("pawrtal_user");
                 if (!storedUser) {
                     setLoading(false);
@@ -36,18 +36,18 @@ function HealthBook() {
                 const currentUser = JSON.parse(storedUser);
                 const userId = currentUser.id;
 
-                // Φέρνουμε τον User από DB
+                // Fetch User from DB
                 const userRes = await fetch(`http://localhost:3001/users/${userId}`);
                 const userData = await userRes.json();
                 setUser(userData);
 
-                // Φέρνουμε ΟΛΑ τα κατοικίδια του χρήστη
+                // Fetch ALL pets of the user
                 const petsRes = await fetch(`http://localhost:3001/pets?ownerId=${userId}`);
                 const petsData = await petsRes.json();
 
                 if (petsData.length > 0) {
                     setPets(petsData);
-                    setSelectedPet(petsData[0]); // Επιλέγουμε αυτόματα το πρώτο
+                    setSelectedPet(petsData[0]); // Automatically select the first one
                 }
             } catch (error) {
                 console.error("Error loading initial data:", error);
@@ -64,7 +64,7 @@ function HealthBook() {
         if (selectedPet) {
             const fetchActs = async () => {
                 try {
-                    // Χρησιμοποιούμε το petId αν υπάρχει, αλλιώς το id
+                    // Use petId if available, otherwise id
                     const targetId = selectedPet.id;
                     const actsRes = await fetch(`http://localhost:3001/medical_acts?petId=${targetId}`);
                     const actsData = await actsRes.json();
@@ -77,7 +77,7 @@ function HealthBook() {
         }
     }, [selectedPet]);
 
-    // Handler για αλλαγή κατοικιδίου
+    // Handler for changing pet
     const handlePetChange = (petId: string) => {
         const newPet = pets.find(p => p.id === petId);
         if (newPet) {
@@ -89,14 +89,14 @@ function HealthBook() {
     if (!user) return <div className="p-10 text-center text-xl text-red-600">Παρακαλώ συνδεθείτε.</div>;
     
     if (!selectedPet) return (
-        <div className="bg-[#e5e5e5] rounded-3xl p-8 w-full max-w-4xl shadow-lg text-[#303030] mb-20 mx-auto text-center">
+        <div className="bg-white rounded-3xl p-8 w-full max-w-4xl shadow-lg text-[#303030] mb-20 mx-auto text-center border border-gray-200">
             <h1 className="text-3xl font-bold mb-4">Βιβλιάριο Υγείας</h1>
             <p className="text-xl text-gray-600">Δεν βρέθηκαν κατοικίδια για τον λογαριασμό σας.</p>
         </div>
     );
 
     return (
-        <div className="bg-[#e5e5e5] rounded-3xl p-8 w-full max-w-4xl shadow-lg text-[#303030] mb-20">
+        <div className="bg-white rounded-3xl p-8 w-full max-w-4xl shadow-lg text-[#303030] mb-20 border border-gray-200">
             <h1 className="text-3xl font-bold mb-8 text-left">Βιβλιάριο Υγείας Κατοικιδίου</h1>
 
             {/* Top Form Section */}
@@ -104,13 +104,13 @@ function HealthBook() {
                 
                 {/* Pet Name - Dropdown */}
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Όνομα Κατοικιδίου</label>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Όνομα Κατοικιδίου</label>
                     {pets.length > 1 ? (
                         <div className="relative">
                             <select
                                 value={selectedPet.id}
                                 onChange={(e) => handlePetChange(e.target.value)}
-                                className="w-full bg-[#f9f9f9] border border-gray-400 rounded-xl p-3 appearance-none focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer font-medium"
+                                className="w-full bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 appearance-none focus:outline-none focus:ring-2 focus:ring-gray-400 cursor-pointer font-medium"
                             >
                                 {pets.map((p) => (
                                     <option key={p.id} value={p.id}>
@@ -123,38 +123,38 @@ function HealthBook() {
                             </div>
                         </div>
                     ) : (
-                        <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3 font-medium">
+                        <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 font-medium">
                             {selectedPet.name}
                         </div>
                     )}
                 </div>
 
                  <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Είδος</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3 capitalize">
-                        {/* Μετάφραση αν είναι στα αγγλικά στο DB */}
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Είδος</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 capitalize text-gray-800">
+                        {/* Translation if in English in DB */}
                         {selectedPet.species === "dog" ? "Σκύλος" : selectedPet.species === "cat" ? "Γάτα" : selectedPet.species}
                     </div>
                 </div>
                  <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Φύλο</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Φύλο</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">
                         {selectedPet.gender === "male" ? "Αρσενικό" : selectedPet.gender === "female" ? "Θηλυκό" : (selectedPet.gender || "-")}
                     </div>
                 </div>
             </div>
 
-            {/* Υπόλοιπα Στοιχεία */}
+            {/* Other Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                  <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Κωδικός Μικροτσίπ</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Κωδικός Μικροτσίπ</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">
                         {selectedPet.microchip || selectedPet.id}
                     </div>
                 </div>
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Ηλικία / Ημ. Γέννησης</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Ηλικία / Ημ. Γέννησης</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">
                         {selectedPet.birthDate 
                             ? `${formatDate(selectedPet.birthDate)} (${selectedPet.age} ετών)` 
                             : `${selectedPet.age} ετών`
@@ -165,48 +165,48 @@ function HealthBook() {
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Χρώμα</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">{selectedPet.color || "-"}</div>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Χρώμα</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">{selectedPet.color || "-"}</div>
                 </div>
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Τρίχωμα</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">{selectedPet.coat || "-"}</div>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Τρίχωμα</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">{selectedPet.coat || "-"}</div>
                 </div>
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Φυλή</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">{selectedPet.breed || "-"}</div>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Φυλή</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">{selectedPet.breed || "-"}</div>
                 </div>
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Περιοχή</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">{selectedPet.location || "-"}</div>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Περιοχή</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">{selectedPet.location || "-"}</div>
                 </div>
             </div>
 
-            {/* Στοιχεία Ιδιοκτήτη */}
+            {/* Owner Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                  <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Ονοματεπώνυμο</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Ονοματεπώνυμο</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">
                         {user.fullName || user.name}
                     </div>
                 </div>
                 <div className="flex flex-col text-left">
-                    <label className="text-sm font-semibold mb-1 ml-1">Πόλη</label>
-                    <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">{user.city || "-"}</div>
+                    <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Πόλη</label>
+                    <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">{user.city || "-"}</div>
                 </div>
             </div>
 
             <div className="flex flex-col text-left mb-10">
-                <label className="text-sm font-semibold mb-1 ml-1">Email / Τηλέφωνο</label>
-                <div className="bg-[#f9f9f9] border border-gray-400 rounded-xl p-3">
+                <label className="text-sm font-semibold mb-1 ml-1 text-gray-600">Email / Τηλέφωνο</label>
+                <div className="bg-[#f9f9f9] border border-gray-300 rounded-xl p-3 text-gray-800">
                     {user.email} / {user.phone_number}
                 </div>
             </div>
 
-            {/* Ιατρικές Πράξεις List */}
+            {/* Medical Acts List */}
             <h2 className="text-2xl font-bold mb-6 text-left">Ιατρικές Πράξεις: {selectedPet.name}</h2>
             <div className="w-full mb-8">
-                 <div className="flex justify-between font-semibold px-4 mb-2 border-b border-gray-400 pb-2">
+                 <div className="flex justify-between font-semibold px-4 mb-2 border-b border-gray-300 pb-2 text-gray-700">
                     <span className="flex-1 text-left">Τύπος</span>
                     <span className="flex-1 text-center">Κτηνίατρος</span>
                     <span className="flex-1 text-right">Ημερομηνία</span>
@@ -219,10 +219,10 @@ function HealthBook() {
                          </div>
                      ) : (
                          medicalActs.map((act) => (
-                             <div key={act.id} className="flex justify-between items-center text-gray-700 px-4 py-2 bg-[#f9f9f9] rounded-xl">
-                                 <span className="flex-1 text-left">{act.type}</span>
-                                 <span className="flex-1 text-center">{act.vetName}</span>
-                                 <span className="flex-1 text-right">{act.date}</span>
+                             <div key={act.id} className="flex justify-between items-center text-gray-800 px-4 py-3 bg-[#f9f9f9] border border-gray-200 rounded-xl">
+                                 <span className="flex-1 text-left font-medium">{act.type}</span>
+                                 <span className="flex-1 text-center text-gray-600">{act.vetName}</span>
+                                 <span className="flex-1 text-right text-gray-600">{act.date}</span>
                              </div>
                          ))
                      )}
@@ -233,7 +233,7 @@ function HealthBook() {
             <div className="flex justify-end">
                 <button 
                     onClick={() => window.print()}
-                    className="bg-[#5c5c5c] text-white font-bold py-3 px-8 rounded-xl hover:bg-[#4a4a4a] transition-colors"
+                    className="bg-[#5c5c5c] text-white font-bold py-3 px-8 rounded-xl hover:bg-[#4a4a4a] transition-colors shadow-md"
                 >
                     Εκτύπωση
                 </button>
