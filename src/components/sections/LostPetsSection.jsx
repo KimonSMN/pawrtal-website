@@ -73,68 +73,69 @@ export default function LostPetsSection() {
     return (
         <section className="h-screen pt-24">
             <div className="mx-auto flex h-full max-w-7xl flex-col px-8">
+                {/* Account CTA (hidden when logged in) */}
+                {!isAuthenticated && (
+                    <div className="mb-8 rounded-2xl border border-black/10 bg-white/85 p-5 shadow-sm backdrop-blur">
+                        <div className="text-base sm:text-lg font-semibold tracking-tight text-zinc-900">
+                            Συνδεθείτε για να αποκτήσετε πρόσβαση σε ένα ολοκληρωμένο οικοσύστημα
+                            υγείας κατοικιδίων.
+                        </div>
+
+                        <div className="mt-2 text-sm leading-relaxed text-zinc-600">
+                            {/* Owner block (full width) */}
+                            <div>
+                                <span className="font-semibold text-zinc-900">
+                                    Είσαι Ιδιοκτήτης;
+                                </span>{" "}
+                                Διαχειριστείτε το ηλεκτρονικό βιβλιάριο υγείας, κλείστε εύκολα
+                                ραντεβού, αναζητήστε κτηνιάτρους και δηλώστε άμεσα την απώλεια ή
+                                εύρεση κατοικιδίου.
+                            </div>
+
+                            {/* Vet block + buttons on the same row (sm+) */}
+                            <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                <div className="min-w-0 sm:flex-1">
+                                    <span className="font-semibold text-zinc-900">
+                                        Είσαι Kτηνίατρος;
+                                    </span>{" "}
+                                    Οργανώστε το ιατρείο σας ψηφιακά. Καταγράψτε ιατρικές πράξεις
+                                    και μικροτσίπ, διαχειριστείτε τη διαθεσιμότητά σας και
+                                    παρακολουθήστε τα ραντεβού σας σε πραγματικό χρόνο.
+                                </div>
+
+                                <div className="flex shrink-0 gap-2 sm:pt-0">
+                                    <Link
+                                        to="/auth"
+                                        className={[
+                                            "rounded-xl border border-black/15 bg-white px-4 py-2.5",
+                                            "text-sm font-medium text-zinc-900",
+                                            "transition-colors hover:bg-zinc-50",
+                                        ].join(" ")}
+                                    >
+                                        Σύνδεση
+                                    </Link>
+                                    <Link
+                                        to="/auth"
+                                        className={[
+                                            "rounded-xl bg-black px-4 py-2.5",
+                                            "text-sm font-medium text-white",
+                                            "transition-colors hover:bg-zinc-900",
+                                        ].join(" ")}
+                                    >
+                                        Εγγραφή
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {/* Title */}
                 <div className="text-start">
                     <h1 className="mb-8 text-3xl font-semibold tracking-tight text-zinc-900">
                         ΑΠΟΛΕΣΘΕΝΤΑ ΚΑΤΟΙΚΙΔΙΑ
                     </h1>
                 </div>
-
-                {/* Account CTA (hidden when logged in) */}
-                {!isAuthenticated && (
-                    <div className="mb-8 rounded-2xl border border-black/10 bg-white/85 p-5 shadow-sm backdrop-blur">
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div className="min-w-0">
-                                <div className="text-base sm:text-lg font-semibold tracking-tight text-zinc-900">
-                                    Συνδεθείτε για να αποκτήσετε πρόσβαση σε ένα ολοκληρωμένο
-                                    οικοσύστημα υγείας κατοικιδίων.
-                                </div>
-
-                                <div className="mt-2 text-sm leading-relaxed text-zinc-600">
-                                    <span className="mt-2 inline-block">
-                                        <span className="font-semibold text-zinc-900">
-                                            Είσαι Ιδιοκτήτης;
-                                        </span>{" "}
-                                        Διαχειριστείτε το ηλεκτρονικό βιβλιάριο υγείας , κλείστε
-                                        εύκολα ραντεβού , αναζητήστε κτηνιάτρους και δηλώστε άμεσα
-                                        την απώλεια ή εύρεση κατοικιδίου.
-                                    </span>
-                                    <span className="mt-2 inline-block">
-                                        <span className="font-semibold text-zinc-900">
-                                            Είσαι Kτηνίατρος;
-                                        </span>{" "}
-                                        Οργανώστε το ιατρείο σας ψηφιακά. Καταγράψτε ιατρικές
-                                        πράξεις και μικροτσίπ , διαχειριστείτε τη διαθεσιμότητά σας
-                                        και παρακολουθήστε τα ραντεβού σας σε πραγματικό χρόνο.
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div className="flex gap-2">
-                                <Link
-                                    to="/auth"
-                                    className={[
-                                        "rounded-xl border border-black/15 bg-white px-4 py-2.5",
-                                        "text-sm font-medium text-zinc-900",
-                                        "transition-colors hover:bg-zinc-50",
-                                    ].join(" ")}
-                                >
-                                    Σύνδεση
-                                </Link>
-                                <Link
-                                    to="/auth"
-                                    className={[
-                                        "rounded-xl bg-black px-4 py-2.5",
-                                        "text-sm font-medium text-white",
-                                        "transition-colors hover:bg-zinc-900",
-                                    ].join(" ")}
-                                >
-                                    Εγγραφή
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
                 {/* Searchbar / Filter */}
                 <div className="pb-4 flex flex-wrap items-center gap-4">
