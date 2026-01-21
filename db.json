@@ -415,7 +415,7 @@
       "description": "Large dog, friendly",
       "photo": "/images/dog_3.jpg",
       "createdAt": "2026-01-19T15:03:00.000Z",
-      "status": "found"
+      "status": "lost"
     },
     {
       "id": "p2",
@@ -648,6 +648,19 @@
       "location": "test",
       "date": "2026-01-21",
       "microchip": "941000022222222",
+      "description": "",
+      "userId": "1",
+      "status": "submitted"
+    },
+    {
+      "id": "0393",
+      "petName": "Rex",
+      "type": "lost",
+      "species": "Σκύλος",
+      "gender": "Αρσενικό",
+      "location": "test",
+      "date": "2026-01-21",
+      "microchip": "941000011111111",
       "description": "",
       "userId": "1",
       "status": "submitted"
