@@ -122,12 +122,22 @@ export default function OldAppointments() {
     useEffect(() => {
         const fetchVisits = async () => {
             try {
-                const response = await fetch(
-                    `http://localhost:3001/appointments?vetId=${vet.id}&status=completed&status=cancelled`,
-                );
+                const response = await fetch(`http://localhost:3001/appointments?vetId=${vet.id}`);
+
                 const data = await response.json();
                 const mapped = data.map(Appointments.fromJSON);
-                setAppointments(mapped);
+
+                const today = new Date();
+
+                const filtered = mapped.filter((appointment) => {
+                    const appointmentDate = new Date(appointment.date);
+
+                    const isPast = appointmentDate < today;
+
+                    return isPast;
+                });
+
+                setAppointments(filtered);
             } catch (error) {
                 console.error("Fetch failed:", error);
             } finally {

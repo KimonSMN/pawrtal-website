@@ -121,11 +121,10 @@ function RecordPreview({ microchip, onBack }: { microchip: string; onBack: () =>
 
         const fetchOwner = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/users?id=${pet.ownerId}`);
+                const res = await fetch(`http://localhost:3001/users?email=${pet.ownerEmail}`);
                 const data = await res.json();
-                if (data.length > 0) {
-                    setOwner(User.fromJSON(data[0]));
-                }
+                const ownerData = new User(data);
+                setOwner(ownerData);
             } catch (e) {
                 console.error(e);
             }

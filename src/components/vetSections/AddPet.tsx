@@ -195,14 +195,15 @@ function NewRecords() {
                                     Φύλο Κατοικίδιου
                                     <select
                                         value={formData.gender}
+                                        onChange={handleChange}
                                         className="w-full rounded-xl border border-black/15 bg-white px-4 py-3 text-sm"
                                         name="mode"
                                         id="gender"
                                         disabled={mode === "preview"}
                                     >
                                         <option value={""}>Επιλογή Φύλου --</option>
-                                        <option value={"Θηλυκό"}>Θηλυκό</option>
-                                        <option value={"Αρσενικό"}>Αρσενικό</option>
+                                        <option value={"female"}>Θηλυκό</option>
+                                        <option value={"male"}>Αρσενικό</option>
                                     </select>
                                 </label>
                                 <label className="flex flex-col">

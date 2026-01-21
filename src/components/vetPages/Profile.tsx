@@ -186,7 +186,7 @@ function Profile() {
 
                     <div className="h-fit w-fit max-w-20 sm:max-w-40 mb-2 items-start">
                         <img
-                            className="w-full h-full object-cover rounded-b-full"
+                            className="w-full h-full object-cover rounded-full"
                             src={user?.photo ?? "/images/no_pic.jpg"}
                             alt="profile-pic"
                         />

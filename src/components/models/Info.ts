@@ -108,7 +108,7 @@ export type Gender = "male" | "female";
 export class Pets {
     constructor(
         public name: string,
-        public owenerEmail: string,
+        public ownerEmail: string,
         public vetId: string,
         public species: string,
         public breed: string,
@@ -127,7 +127,7 @@ export class Pets {
     static fromJSON(json: any): Pets {
         return new Pets(
             json.name,
-            json.owenerEmail,
+            json.ownerEmail,
             json.vetId,
             json.species,
             json.breed,
