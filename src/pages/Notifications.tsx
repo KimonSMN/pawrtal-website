@@ -1,12 +1,13 @@
 // src/pages/Notifications.tsx
 import { useEffect, useMemo, useState } from "react";
-import { ArrowLeft, Check, Mail, MapPin, Calendar, Dog, Search, Trash2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Check, Mail, MapPin, Calendar, Dog, Search, Trash2, Stethoscope } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../components/auth/AuthProvider";
 import Navbar from "../components/layout/Navbar";
 
 const API = "http://localhost:3001";
 
+/** ===== Types ===== */
 type FoundReport = {
     id: string;
     petId: string;
@@ -26,6 +27,23 @@ type FoundReport = {
     createdAt: string; // ISO
 };
 
+type Appointment = {
+    id: string;
+    pet?: string; // "dog" | "cat" | "pet" etc
+    petId?: string;
+    petName?: string;
+
+    vetId?: string;
+    vetName?: string;
+
+    ownerId: string;
+
+    reason?: string;
+    date: string; // ISO
+    status?: "new" | "approved" | "completed" | "canceled";
+    notify?: "none" | "user" | "vet";
+};
+
 type Pet = {
     id: string;
     name?: string;
@@ -34,6 +52,33 @@ type Pet = {
     photo?: string;
 };
 
+type NotificationItem =
+    | {
+          kind: "foundReport";
+          id: string;
+          createdAt: string;
+          isRead: boolean;
+          petId: string;
+          title: string;
+          subtitle?: string;
+          meta?: string;
+          image?: string;
+          report: FoundReport;
+      }
+    | {
+          kind: "appointment";
+          id: string;
+          createdAt: string;
+          isRead: boolean; // stored locally unless you add isRead to appointments
+          petId?: string;
+          title: string;
+          subtitle?: string;
+          meta?: string;
+          image?: string;
+          appt: Appointment;
+      };
+
+/** ===== Helpers ===== */
 async function asJson<T>(res: Response): Promise<T> {
     if (!res.ok) throw new Error(`API error: ${res.status}`);
     return (await res.json()) as T;
@@ -72,6 +117,54 @@ function fmtDateOnly(iso: string) {
     });
 }
 
+function reasonLabel(reason?: string) {
+    const r = normalize(reason).toLowerCase();
+    if (!r) return "Ραντεβού";
+    const map: Record<string, string> = {
+        checkup: "Έλεγχος",
+        "check-up": "Έλεγχος",
+        vaccination: "Εμβολιασμός",
+        microchip: "Microchip",
+        neutering: "Στείρωση",
+        deworming: "Αποπαρασίτωση",
+        blood_tests: "Εξετάσεις αίματος",
+        urine_tests: "Εξετάσεις ούρων",
+        emergency: "Επείγον",
+        sick: "Αδιαθεσία",
+    };
+    return map[r] ?? reason!;
+}
+
+function statusLabel(status?: Appointment["status"]) {
+    switch (status) {
+        case "approved":
+            return "Εγκρίθηκε";
+        case "completed":
+            return "Ολοκληρώθηκε";
+        case "canceled":
+            return "Ακυρώθηκε";
+        case "new":
+            return "Νέο";
+        default:
+            return "Ραντεβού";
+    }
+}
+
+function statusBadgeClass(status?: Appointment["status"]) {
+    switch (status) {
+        case "approved":
+            return "bg-emerald-100 text-emerald-800";
+        case "completed":
+            return "bg-blue-100 text-blue-800";
+        case "canceled":
+            return "bg-red-100 text-red-800";
+        case "new":
+            return "bg-zinc-100 text-zinc-700";
+        default:
+            return "bg-zinc-100 text-zinc-700";
+    }
+}
+
 export default function Notifications() {
     const navigate = useNavigate();
     const { isAuthenticated, user } = useAuth();
@@ -81,8 +174,20 @@ export default function Notifications() {
     const [busy, setBusy] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const [reports, setReports] = useState<FoundReport[]>([]);
     const [petsById, setPetsById] = useState<Record<string, Pet>>({});
+
+    // unified items
+    const [items, setItems] = useState<NotificationItem[]>([]);
+
+    // local "read" for appointment notifications (since appointments don’t have isRead)
+    const [apptRead, setApptRead] = useState<Record<string, boolean>>(() => {
+        try {
+            const raw = localStorage.getItem("pawrtal_appt_read");
+            return raw ? JSON.parse(raw) : {};
+        } catch {
+            return {};
+        }
+    });
 
     const [query, setQuery] = useState("");
     const [filter, setFilter] = useState<"all" | "unread" | "read">("unread");
@@ -92,6 +197,15 @@ export default function Notifications() {
         if (!isAuthenticated) navigate("/auth", { replace: true });
     }, [isAuthenticated, navigate]);
 
+    // persist appt read map
+    useEffect(() => {
+        try {
+            localStorage.setItem("pawrtal_appt_read", JSON.stringify(apptRead));
+        } catch {
+            // ignore
+        }
+    }, [apptRead]);
+
     async function load() {
         if (!userId) return;
 
@@ -99,45 +213,130 @@ export default function Notifications() {
         setError(null);
 
         try {
-            const data = await asJson<FoundReport[]>(
-                await fetch(
-                    `${API}/foundReports?ownerId=${encodeURIComponent(
-                        userId,
-                    )}&_sort=createdAt&_order=desc`,
+            // Fetch both sources in parallel
+            const [foundReports, appointments] = await Promise.all([
+                asJson<FoundReport[]>(
+                    await fetch(
+                        `${API}/foundReports?ownerId=${encodeURIComponent(
+                            userId,
+                        )}&_sort=createdAt&_order=desc`,
+                    ),
                 ),
-            );
+                asJson<Appointment[]>(
+                    await fetch(
+                        `${API}/appointments?ownerId=${encodeURIComponent(
+                            userId,
+                        )}&_sort=date&_order=desc`,
+                    ),
+                ),
+            ]);
 
-            const arr = Array.isArray(data) ? data : [];
-            setReports(arr);
+            const foundArr = Array.isArray(foundReports) ? foundReports : [];
+            const apptArr = Array.isArray(appointments) ? appointments : [];
 
-            const uniquePetIds = Array.from(
-                new Set(arr.map((r) => normalize(r.petId)).filter(Boolean)),
-            );
-
-            if (uniquePetIds.length === 0) {
-                setPetsById({});
-                return;
-            }
-
-            const pets = await Promise.all(
-                uniquePetIds.map(async (pid) => {
-                    try {
-                        const p = await asJson<Pet>(
-                            await fetch(`${API}/pets/${encodeURIComponent(pid)}`),
-                        );
-                        return p;
-                    } catch {
-                        return null;
-                    }
-                }),
-            );
-
-            const map: Record<string, Pet> = {};
-            pets.filter(Boolean).forEach((p: any) => {
-                map[p.id] = p;
+            // Collect all petIds we need (from reports + appointments)
+            const petIds = new Set<string>();
+            foundArr.forEach((r) => {
+                const pid = normalize(r.petId);
+                if (pid) petIds.add(pid);
+            });
+            apptArr.forEach((a) => {
+                const pid = normalize(a.petId);
+                if (pid) petIds.add(pid);
             });
 
-            setPetsById(map);
+            // Fetch pets map once
+            const petMap: Record<string, Pet> = {};
+            if (petIds.size > 0) {
+                const pets = await Promise.all(
+                    Array.from(petIds).map(async (pid) => {
+                        try {
+                            return await asJson<Pet>(
+                                await fetch(`${API}/pets/${encodeURIComponent(pid)}`),
+                            );
+                        } catch {
+                            return null;
+                        }
+                    }),
+                );
+
+                pets.filter(Boolean).forEach((p: any) => {
+                    petMap[p.id] = p;
+                });
+            }
+            setPetsById(petMap);
+
+            // Build unified items
+            const nextItems: NotificationItem[] = [];
+
+            // Found reports
+            foundArr.forEach((r) => {
+                const pet = petMap[r.petId];
+                const petName = normalize(pet?.name) || `Pet #${r.petId}`;
+                const petMeta = [normalize(pet?.species), normalize(pet?.breed)]
+                    .filter(Boolean)
+                    .join(" • ");
+                const petImg = toPublicSrc(pet?.photo) || "/images/dog_1.jpg";
+
+                nextItems.push({
+                    kind: "foundReport",
+                    id: `fr:${r.id}`,
+                    createdAt: r.createdAt || r.foundDate,
+                    isRead: !!r.isRead,
+                    petId: r.petId,
+                    title: `Νέα αναφορά εύρεσης για ${petName}`,
+                    subtitle: `Βρέθηκε: ${r.foundLocation}`,
+                    meta: [petMeta, `Από: ${r.reporterFirstName} ${r.reporterLastName}`]
+                        .filter(Boolean)
+                        .join(" • "),
+                    image: petImg,
+                    report: r,
+                });
+            });
+
+            // Appointments (Owner side)
+            apptArr
+                // show only ones that matter (optional): notify=user OR status != new
+                .filter((a) => a.notify === "user" || a.status !== "new")
+                .forEach((a) => {
+                    const pid = normalize(a.petId);
+                    const pet = pid ? petMap[pid] : undefined;
+
+                    const petName =
+                        normalize(a.petName) ||
+                        normalize(pet?.name) ||
+                        (pid ? `Pet #${pid}` : "Κατοικίδιο");
+
+                    const vetName = normalize(a.vetName) || "Κτηνίατρος";
+                    const petMeta = [normalize(pet?.species), normalize(pet?.breed)]
+                        .filter(Boolean)
+                        .join(" • ");
+                    const petImg = toPublicSrc(pet?.photo) || "/images/dog_1.jpg";
+
+                    const localRead = !!apptRead[a.id];
+
+                    nextItems.push({
+                        kind: "appointment",
+                        id: `ap:${a.id}`,
+                        createdAt: a.date,
+                        isRead: localRead,
+                        petId: pid || undefined,
+                        title: `Ραντεβού: ${petName}`,
+                        subtitle: `${vetName} • ${fmtDateTime(a.date)}`,
+                        meta: [statusLabel(a.status), reasonLabel(a.reason), petMeta]
+                            .filter(Boolean)
+                            .join(" • "),
+                        image: petImg,
+                        appt: a,
+                    });
+                });
+
+            // Sort newest first
+            nextItems.sort(
+                (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+            );
+
+            setItems(nextItems);
         } catch (e: any) {
             setError(e?.message ?? "Αποτυχία φόρτωσης ειδοποιήσεων.");
         } finally {
@@ -150,51 +349,91 @@ export default function Notifications() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userId]);
 
-    const unreadCount = useMemo(() => reports.filter((r) => r.isRead === false).length, [reports]);
-    const readCount = useMemo(() => reports.filter((r) => r.isRead === true).length, [reports]);
+    const unreadCount = useMemo(() => items.filter((i) => i.isRead === false).length, [items]);
+    const readCount = useMemo(() => items.filter((i) => i.isRead === true).length, [items]);
 
     const q = useMemo(() => normalize(query).toLowerCase(), [query]);
 
     const filtered = useMemo(() => {
-        return reports
-            .filter((r) => {
-                if (filter === "unread") return r.isRead === false;
-                if (filter === "read") return r.isRead === true;
+        return items
+            .filter((i) => {
+                if (filter === "unread") return i.isRead === false;
+                if (filter === "read") return i.isRead === true;
                 return true;
             })
-            .filter((r) => {
+            .filter((i) => {
                 if (!q) return true;
-                const pet = petsById[r.petId];
-                const hay = [
-                    r.reporterFirstName,
-                    r.reporterLastName,
-                    r.reporterContact,
-                    r.foundLocation,
-                    r.extraInfo,
-                    pet?.name,
-                    pet?.breed,
-                    pet?.species,
-                    r.petId,
-                ]
+
+                const base = [i.title, i.subtitle, i.meta, i.petId]
                     .filter(Boolean)
                     .join(" ")
                     .toLowerCase();
-                return hay.includes(q);
-            });
-    }, [reports, petsById, filter, q]);
 
-    async function markOneRead(reportId: string, isRead: boolean) {
+                if (base.includes(q)) return true;
+
+                // deep search per kind
+                if (i.kind === "foundReport") {
+                    const r = i.report;
+                    const hay = [
+                        r.reporterFirstName,
+                        r.reporterLastName,
+                        r.reporterContact,
+                        r.foundLocation,
+                        r.extraInfo,
+                    ]
+                        .filter(Boolean)
+                        .join(" ")
+                        .toLowerCase();
+                    return hay.includes(q);
+                }
+
+                if (i.kind === "appointment") {
+                    const a = i.appt;
+                    const hay = [a.vetName, a.petName, a.reason, a.status]
+                        .filter(Boolean)
+                        .join(" ")
+                        .toLowerCase();
+                    return hay.includes(q);
+                }
+
+                return false;
+            });
+    }, [items, filter, q]);
+
+    /** ===== Actions ===== */
+
+    async function markOneRead(item: NotificationItem, isRead: boolean) {
         setBusy(true);
         setError(null);
-        try {
-            const res = await fetch(`${API}/foundReports/${encodeURIComponent(reportId)}`, {
-                method: "PATCH",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ isRead }),
-            });
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
 
-            setReports((prev) => prev.map((r) => (r.id === reportId ? { ...r, isRead } : r)));
+        try {
+            if (item.kind === "foundReport") {
+                const res = await fetch(
+                    `${API}/foundReports/${encodeURIComponent(item.report.id)}`,
+                    {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ isRead }),
+                    },
+                );
+                if (!res.ok) throw new Error(`API error: ${res.status}`);
+
+                setItems(
+                    (prev) =>
+                        prev.map((i) =>
+                            i.id === item.id ? { ...i, isRead } : i,
+                        ) as NotificationItem[],
+                );
+            } else if (item.kind === "appointment") {
+                // local only
+                setApptRead((prev) => ({ ...prev, [item.appt.id]: isRead }));
+                setItems(
+                    (prev) =>
+                        prev.map((i) =>
+                            i.id === item.id ? { ...i, isRead } : i,
+                        ) as NotificationItem[],
+                );
+            }
         } catch (e: any) {
             setError(e?.message ?? "Αποτυχία ενημέρωσης ειδοποίησης.");
         } finally {
@@ -203,15 +442,27 @@ export default function Notifications() {
     }
 
     async function markAllRead() {
-        const unread = reports.filter((r) => r.isRead === false);
+        const unread = items.filter((i) => i.isRead === false);
         if (unread.length === 0) return;
 
         setBusy(true);
         setError(null);
+
         try {
+            // PATCH foundReports, local for appointments
+            const fr = unread.filter((i) => i.kind === "foundReport") as Extract<
+                NotificationItem,
+                { kind: "foundReport" }
+            >[];
+
+            const ap = unread.filter((i) => i.kind === "appointment") as Extract<
+                NotificationItem,
+                { kind: "appointment" }
+            >[];
+
             await Promise.all(
-                unread.map((r) =>
-                    fetch(`${API}/foundReports/${encodeURIComponent(r.id)}`, {
+                fr.map((i) =>
+                    fetch(`${API}/foundReports/${encodeURIComponent(i.report.id)}`, {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ isRead: true }),
@@ -221,7 +472,15 @@ export default function Notifications() {
                 ),
             );
 
-            setReports((prev) => prev.map((r) => ({ ...r, isRead: true })));
+            if (ap.length > 0) {
+                setApptRead((prev) => {
+                    const next = { ...prev };
+                    ap.forEach((i) => (next[i.appt.id] = true));
+                    return next;
+                });
+            }
+
+            setItems((prev) => prev.map((i) => ({ ...i, isRead: true })));
         } catch (e: any) {
             setError(e?.message ?? "Αποτυχία ενημέρωσης ειδοποιήσεων.");
         } finally {
@@ -229,22 +488,34 @@ export default function Notifications() {
         }
     }
 
-    // ✅ Delete one notification
-    async function deleteOne(reportId: string) {
-        // optional confirm (remove if you hate confirmations)
+    async function deleteOne(item: NotificationItem) {
         const ok = window.confirm("Θέλεις σίγουρα να διαγράψεις αυτή την ειδοποίηση;");
         if (!ok) return;
 
         setBusy(true);
         setError(null);
+
         try {
-            const res = await fetch(`${API}/foundReports/${encodeURIComponent(reportId)}`, {
-                method: "DELETE",
-            });
+            if (item.kind === "foundReport") {
+                const res = await fetch(
+                    `${API}/foundReports/${encodeURIComponent(item.report.id)}`,
+                    { method: "DELETE" },
+                );
+                if (!res.ok) throw new Error(`API error: ${res.status}`);
+            } else if (item.kind === "appointment") {
+                // If you want hard delete from server, uncomment:
+                // const res = await fetch(`${API}/appointments/${encodeURIComponent(item.appt.id)}`, { method: "DELETE" });
+                // if (!res.ok) throw new Error(`API error: ${res.status}`);
 
-            if (!res.ok) throw new Error(`API error: ${res.status}`);
+                // Default: just hide locally
+                setApptRead((prev) => {
+                    const next = { ...prev };
+                    next[item.appt.id] = true; // mark read so it doesn't show as "new" if you keep it
+                    return next;
+                });
+            }
 
-            setReports((prev) => prev.filter((r) => r.id !== reportId));
+            setItems((prev) => prev.filter((i) => i.id !== item.id));
         } catch (e: any) {
             setError(e?.message ?? "Αποτυχία διαγραφής ειδοποίησης.");
         } finally {
@@ -252,9 +523,8 @@ export default function Notifications() {
         }
     }
 
-    // ✅ Delete all read notifications (optional convenience)
     async function deleteAllRead() {
-        const read = reports.filter((r) => r.isRead === true);
+        const read = items.filter((i) => i.isRead === true);
         if (read.length === 0) return;
 
         const ok = window.confirm(`Διαγραφή ${read.length} αναγνωσμένων ειδοποιήσεων;`);
@@ -262,10 +532,20 @@ export default function Notifications() {
 
         setBusy(true);
         setError(null);
+
         try {
+            const fr = read.filter((i) => i.kind === "foundReport") as Extract<
+                NotificationItem,
+                { kind: "foundReport" }
+            >[];
+            const ap = read.filter((i) => i.kind === "appointment") as Extract<
+                NotificationItem,
+                { kind: "appointment" }
+            >[];
+
             await Promise.all(
-                read.map((r) =>
-                    fetch(`${API}/foundReports/${encodeURIComponent(r.id)}`, {
+                fr.map((i) =>
+                    fetch(`${API}/foundReports/${encodeURIComponent(i.report.id)}`, {
                         method: "DELETE",
                     }).then((res) => {
                         if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -273,7 +553,16 @@ export default function Notifications() {
                 ),
             );
 
-            setReports((prev) => prev.filter((r) => r.isRead !== true));
+            // remove appointment read marks too (optional)
+            if (ap.length > 0) {
+                setApptRead((prev) => {
+                    const next = { ...prev };
+                    ap.forEach((i) => delete next[i.appt.id]);
+                    return next;
+                });
+            }
+
+            setItems((prev) => prev.filter((i) => i.isRead !== true));
         } catch (e: any) {
             setError(e?.message ?? "Αποτυχία διαγραφής αναγνωσμένων ειδοποιήσεων.");
         } finally {
@@ -326,7 +615,7 @@ export default function Notifications() {
                         Κέντρο Ειδοποιήσεων
                     </h1>
                     <p className="mt-1 text-sm text-zinc-600">
-                        Αναφορές εύρεσης κατοικιδίων που αφορούν τα δικά σου κατοικίδια.
+                        Αναφορές εύρεσης και ενημερώσεις ραντεβού που αφορούν τον λογαριασμό σου.
                     </p>
                 </div>
 
@@ -340,7 +629,7 @@ export default function Notifications() {
                         <input
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="Αναζήτηση (όνομα, τοποθεσία, επαφή...)"
+                            placeholder="Αναζήτηση (όνομα, τοποθεσία, κτηνίατρος...)"
                             className="w-full rounded-xl border border-black/15 bg-white py-2.5 pl-9 pr-3 text-sm outline-none focus:ring-2 focus:ring-black/10"
                         />
                     </div>
@@ -370,8 +659,8 @@ export default function Notifications() {
                     <div className="rounded-2xl border border-red-500/20 bg-red-500/10 p-6 text-sm text-red-700">
                         {error}
                         <div className="mt-2 text-xs text-red-700/80">
-                            Έλεγξε ότι τρέχει το JSON Server στο <b>{API}</b> και ότι υπάρχει
-                            collection <b>foundReports</b>.
+                            Έλεγξε ότι τρέχει το JSON Server στο <b>{API}</b> και ότι υπάρχουν
+                            collections <b>foundReports</b>, <b>appointments</b>, <b>pets</b>.
                         </div>
                     </div>
                 ) : filtered.length === 0 ? (
@@ -380,27 +669,31 @@ export default function Notifications() {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-                        {filtered.map((r) => {
-                            const pet = petsById[r.petId];
-                            const petName = normalize(pet?.name) || `Pet #${r.petId}`;
-                            const petMeta = [normalize(pet?.species), normalize(pet?.breed)]
-                                .filter(Boolean)
-                                .join(" • ");
-                            const petImg = toPublicSrc(pet?.photo) || "/images/dog_1.jpg";
+                        {filtered.map((item) => {
+                            const badge =
+                                item.kind === "foundReport"
+                                    ? item.isRead
+                                        ? "bg-zinc-100 text-zinc-700"
+                                        : "bg-amber-100 text-amber-800"
+                                    : item.isRead
+                                      ? "bg-zinc-100 text-zinc-700"
+                                      : "bg-amber-100 text-amber-800";
+
+                            const badgeText = item.isRead ? "Αναγνωσμένο" : "Νέο";
 
                             return (
                                 <div
-                                    key={r.id}
+                                    key={item.id}
                                     className={[
                                         "overflow-hidden rounded-2xl border bg-white shadow-sm",
-                                        r.isRead ? "border-black/10" : "border-black/20",
+                                        item.isRead ? "border-black/10" : "border-black/20",
                                     ].join(" ")}
                                 >
                                     <div className="flex flex-col sm:flex-row">
                                         <div className="h-44 w-full bg-zinc-200 sm:h-auto sm:w-40">
                                             <img
-                                                src={petImg}
-                                                alt={petName}
+                                                src={item.image || "/images/dog_1.jpg"}
+                                                alt={item.title}
                                                 className="h-full w-full object-cover"
                                                 onError={(e) => {
                                                     (e.currentTarget as HTMLImageElement).src =
@@ -413,11 +706,11 @@ export default function Notifications() {
                                             <div className="flex items-start justify-between gap-3">
                                                 <div className="min-w-0">
                                                     <div className="truncate text-base font-semibold text-zinc-900">
-                                                        {petName}
+                                                        {item.title}
                                                     </div>
-                                                    {petMeta ? (
+                                                    {item.subtitle ? (
                                                         <div className="mt-1 text-sm text-zinc-600">
-                                                            {petMeta}
+                                                            {item.subtitle}
                                                         </div>
                                                     ) : null}
                                                 </div>
@@ -425,91 +718,175 @@ export default function Notifications() {
                                                 <span
                                                     className={[
                                                         "shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold",
-                                                        r.isRead
-                                                            ? "bg-zinc-100 text-zinc-700"
-                                                            : "bg-amber-100 text-amber-800",
+                                                        badge,
                                                     ].join(" ")}
                                                 >
-                                                    {r.isRead ? "Αναγνωσμένο" : "Νέο"}
+                                                    {badgeText}
                                                 </span>
                                             </div>
 
                                             <div className="mt-4 space-y-2 text-sm text-zinc-700">
-                                                <div className="flex items-center gap-2">
-                                                    <MapPin size={16} className="text-zinc-500" />
-                                                    <span className="truncate">
-                                                        Βρέθηκε:{" "}
-                                                        <span className="font-medium">
-                                                            {r.foundLocation}
-                                                        </span>
-                                                    </span>
-                                                </div>
+                                                {item.kind === "foundReport" ? (
+                                                    <>
+                                                        <div className="flex items-center gap-2">
+                                                            <MapPin
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span className="truncate">
+                                                                Τοποθεσία:{" "}
+                                                                <span className="font-medium">
+                                                                    {item.report.foundLocation}
+                                                                </span>
+                                                            </span>
+                                                        </div>
 
-                                                <div className="flex items-center gap-2">
-                                                    <Calendar size={16} className="text-zinc-500" />
-                                                    <span>
-                                                        Ημερομηνία:{" "}
-                                                        <span className="font-medium">
-                                                            {fmtDateOnly(r.foundDate)}
-                                                        </span>
-                                                    </span>
-                                                </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Calendar
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span>
+                                                                Ημερομηνία:{" "}
+                                                                <span className="font-medium">
+                                                                    {fmtDateOnly(
+                                                                        item.report.foundDate,
+                                                                    )}
+                                                                </span>
+                                                            </span>
+                                                        </div>
 
-                                                <div className="flex items-center gap-2">
-                                                    <Mail size={16} className="text-zinc-500" />
-                                                    <span className="truncate">
-                                                        Επαφή:{" "}
-                                                        <span className="font-medium">
-                                                            {r.reporterContact}
-                                                        </span>
-                                                    </span>
-                                                </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Mail
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span className="truncate">
+                                                                Επαφή:{" "}
+                                                                <span className="font-medium">
+                                                                    {item.report.reporterContact}
+                                                                </span>
+                                                            </span>
+                                                        </div>
 
-                                                <div className="flex items-center gap-2">
-                                                    <Dog size={16} className="text-zinc-500" />
-                                                    <span className="truncate">
-                                                        Από:{" "}
-                                                        <span className="font-medium">
-                                                            {r.reporterFirstName}{" "}
-                                                            {r.reporterLastName}
-                                                        </span>
-                                                    </span>
-                                                </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <Dog
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span className="truncate">
+                                                                Από:{" "}
+                                                                <span className="font-medium">
+                                                                    {item.report.reporterFirstName}{" "}
+                                                                    {item.report.reporterLastName}
+                                                                </span>
+                                                            </span>
+                                                        </div>
 
-                                                {normalize(r.extraInfo) ? (
-                                                    <div className="mt-2 rounded-xl border border-black/10 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
-                                                        {r.extraInfo}
-                                                    </div>
-                                                ) : null}
+                                                        {normalize(item.report.extraInfo) ? (
+                                                            <div className="mt-2 rounded-xl border border-black/10 bg-zinc-50 px-3 py-2 text-sm text-zinc-700">
+                                                                {item.report.extraInfo}
+                                                            </div>
+                                                        ) : null}
 
-                                                <div className="text-xs text-zinc-500">
-                                                    Υποβλήθηκε: {fmtDateTime(r.createdAt)}
-                                                </div>
+                                                        <div className="text-xs text-zinc-500">
+                                                            Υποβλήθηκε:{" "}
+                                                            {fmtDateTime(item.report.createdAt)}
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <div className="flex items-center gap-2">
+                                                            <Stethoscope
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span className="truncate">
+                                                                Κατάσταση:{" "}
+                                                                <span
+                                                                    className={[
+                                                                        "ml-1 inline-flex rounded-full px-2 py-0.5 text-xs font-semibold",
+                                                                        statusBadgeClass(
+                                                                            item.appt.status,
+                                                                        ),
+                                                                    ].join(" ")}
+                                                                >
+                                                                    {statusLabel(item.appt.status)}
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="flex items-center gap-2">
+                                                            <Calendar
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span>
+                                                                Ημερομηνία/Ώρα:{" "}
+                                                                <span className="font-medium">
+                                                                    {fmtDateTime(item.appt.date)}
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+                                                        <div className="flex items-center gap-2">
+                                                            <Dog
+                                                                size={16}
+                                                                className="text-zinc-500"
+                                                            />
+                                                            <span className="truncate">
+                                                                Λόγος:{" "}
+                                                                <span className="font-medium">
+                                                                    {reasonLabel(item.appt.reason)}
+                                                                </span>
+                                                            </span>
+                                                        </div>
+
+                                                        {item.appt.vetName ? (
+                                                            <div className="flex items-center gap-2">
+                                                                <MapPin
+                                                                    size={16}
+                                                                    className="text-zinc-500"
+                                                                />
+                                                                <span className="truncate">
+                                                                    Κτηνίατρος:{" "}
+                                                                    <span className="font-medium">
+                                                                        {item.appt.vetName}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        ) : null}
+
+                                                        <div className="text-xs text-zinc-500">
+                                                            Προγραμματίστηκε:{" "}
+                                                            {fmtDateTime(item.appt.date)}
+                                                        </div>
+                                                    </>
+                                                )}
                                             </div>
 
                                             <div className="mt-4 flex flex-wrap items-center gap-2">
                                                 <button
                                                     type="button"
-                                                    onClick={() => markOneRead(r.id, !r.isRead)}
+                                                    onClick={() => markOneRead(item, !item.isRead)}
                                                     disabled={busy}
                                                     className={[
                                                         "inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium",
-                                                        r.isRead
+                                                        item.isRead
                                                             ? "border border-black/15 bg-white text-zinc-900 hover:bg-zinc-50"
                                                             : "bg-black text-white hover:bg-zinc-900",
                                                         busy ? "opacity-60" : "",
                                                     ].join(" ")}
                                                 >
                                                     <Check size={16} />
-                                                    {r.isRead
+                                                    {item.isRead
                                                         ? "Σήμανση ως μη αναγνωσμένο"
                                                         : "Σήμανση ως διαβασμένο"}
                                                 </button>
 
-                                                {/* ✅ Delete */}
                                                 <button
                                                     type="button"
-                                                    onClick={() => deleteOne(r.id)}
+                                                    onClick={() => deleteOne(item)}
                                                     disabled={busy}
                                                     className={[
                                                         "inline-flex items-center gap-2 rounded-xl border border-red-500/25 bg-red-50 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-100",
@@ -520,9 +897,10 @@ export default function Notifications() {
                                                     Διαγραφή
                                                 </button>
 
-                                                {r.photoName ? (
+                                                {item.kind === "foundReport" &&
+                                                item.report.photoName ? (
                                                     <span className="text-xs text-zinc-500">
-                                                        Συνημμένο: {r.photoName}
+                                                        Συνημμένο: {item.report.photoName}
                                                     </span>
                                                 ) : null}
                                             </div>
