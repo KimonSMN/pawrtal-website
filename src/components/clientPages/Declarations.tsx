@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // Προσθήκη Link για την ανακατεύθυνση
 // Εικόνες
-import lostPetImg from "../../assets/lost_a_pet.jpg";
-import foundPetImg from "../../assets/dog_1.jpg";
+import lostPetImg from "../../assets/lost-dog.jpg";
+import foundPetImg from "../../assets/found_dog.jpg";
 
 export type DeclarationStep = "list" | "lost-form" | "found-form" | "preview";
 
@@ -240,8 +240,6 @@ const DeclarationForm = ({
                                   </option>
                               )}
 
-                        {/* Επιλογή για εύρεση ξένου ζώου - Πάντα διαθέσιμη στο Found */}
-                        {type === "found" && <option value="unknown">Βρήκα ξένο ζώο</option>}
                     </select>
                 </div>
 
