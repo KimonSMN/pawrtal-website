@@ -38,7 +38,7 @@ function Input({ info, onPreview }: { info: Record; onPreview: (record: Record) 
                 <div className="flex-1 text-right">
                     <button
                         onClick={() => onPreview(info)}
-                        className="font-bold text-gray-600 hover:underline"
+                        className="font-bold text-gray-600 hover:underline cursor-pointer"
                     >
                         Προβολή
                     </button>
@@ -101,7 +101,7 @@ function RecordPreview({ record, onBack }: { record: Record; onBack: () => void 
     }
 
     return (
-        <div className="bg-[#f9f9f9] rounded-2xl p-6 shadow-lg w-full max-w-xl mx-auto">
+        <div className="bg-[#ffffff] rounded-2xl p-6 shadow-lg w-full max-w-xl mx-auto border">
             <h2 className="text-2xl font-semibold mb-4">Στοιχεία Κατοικιδίου</h2>
 
             {pet ? (
@@ -160,7 +160,7 @@ function RecordPreview({ record, onBack }: { record: Record; onBack: () => void 
 
             <button
                 onClick={onBack}
-                className="mt-6 px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition"
+                className="mt-6 px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition cursor-pointer border"
             >
                 ← Πίσω στο Ιστορικό
             </button>
@@ -237,7 +237,7 @@ function OldRecords() {
                             Δεν υπάρχουν καταγραφες περιστατικών
                         </p>
                     )}
-                    <div className="flex flex-col items-center  bg-[#f9f9f9]  rounded-xl p-8 gap-5 max-w-sm mx-auto sm:max-w-xl  ">
+                    <div className="flex flex-col items-center  bg-[#ffffff]  rounded-xl p-8 gap-5 max-w-sm mx-auto sm:max-w-xl  border">
                         <h1 className=" text-[#303030] m-auto text-3xl ">Ιστορικό</h1>
 
                         <div className="flex flex-wrap gap-4 items-center mb-6 w-full">
@@ -245,7 +245,7 @@ function OldRecords() {
                             <select
                                 value={reasonFilter}
                                 onChange={(e) => setReasonFilter(e.target.value as any)}
-                                className="border rounded-lg px-3 py-2 text-sm"
+                                className="border rounded-lg px-3 py-2 text-sm cursor-pointer"
                             >
                                 <option value="all">Όλα</option>
 
@@ -277,7 +277,7 @@ function OldRecords() {
                             <select
                                 value={sortOrder}
                                 onChange={(e) => setSortOrder(e.target.value as any)}
-                                className="border rounded-lg px-3 py-2 text-sm"
+                                className="border rounded-lg px-3 py-2 text-sm cursor-pointer"
                             >
                                 <option value="newest">Νεότερα πρώτα</option>
                                 <option value="oldest">Παλαιότερα πρώτα</option>

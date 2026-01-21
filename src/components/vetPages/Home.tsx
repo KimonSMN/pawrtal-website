@@ -76,16 +76,20 @@ function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
                     <span>&gt;</span>
                     <button
                         onClick={() => setView("dashboard")}
-                        className="hover:text-black  hover:underline transition"
+                        className="hover:text-black  hover:underline hover:cursor-pointer transition"
                     >
-                        Κτηνίατρος
+                        {view === "dashboard" ? (
+                            <span className="text-black underline ">Κτηνίατρος</span>
+                        ) : (
+                            <span>Κτηνίατρος</span>
+                        )}
                     </button>
                     {view !== "dashboard" && (
                         <>
                             <span>&gt;</span>
                             <button
                                 onClick={() => setView(view)}
-                                className="text-gray-800 font-medium hover:underline"
+                                className="font-medium text-black underline cursor-pointer"
                             >
                                 {breadcrumbMap[view]}
                             </button>
@@ -100,7 +104,7 @@ function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
                 <div className="w-full pl-12 p-4 items-left">
                     <button
                         onClick={() => setView("dashboard")}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl"
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl  cursor-pointer hover:font-semibold "
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
                         Aρχική Κτηνίατρου
@@ -109,8 +113,8 @@ function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
             )}
             {view === "dashboard" && (
                 <>
-                    <div className="flex flex-col items-center w-full  mb-8 text-left">
-                        <h1 className="text-[#303030] mb-4 text-3xl ">Καλως ήρθες</h1>
+                    <div className="flex flex-col ml-16 w-full  mb-8 text-left">
+                        <h1 className="text-[#303030] mb-4 text-3xl ">Καλώς ήρθες</h1>
                         <div className="flex flex-row items-center mb-4 gap-6 ">
                             <h2 className="text-4xl text-gray-600">{userName}</h2>
                         </div>

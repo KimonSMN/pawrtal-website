@@ -28,7 +28,7 @@ function Meeting({ info }: { info: Appointments }) {
     }, [info.ownerId]);
 
     return (
-        <div className="bg-[#f9f9f9] rounded-2xl p-4 w-auto shadow-md flex flex-col gap-4">
+        <div className="bg-[#ffffff] rounded-2xl p-4 w-auto shadow-md flex flex-col gap-4 border">
             <div>
                 <span className="font-semibold text-sm text-gray-600 border-b-2">Ημερομηνία</span>
                 <div>

@@ -22,6 +22,7 @@ function Records({ onChangeMessage }) {
                 setView("add_pet");
                 onChangeMessage("disapear");
             },
+            instructions: ["Προσθήκη κατοικιδίου στο σύστημα", "Δυνατοτητα Προσωρινής αποθήκευσης"],
         },
         {
             id: 2,
@@ -31,6 +32,10 @@ function Records({ onChangeMessage }) {
                 setView("new_record");
                 onChangeMessage("disapear");
             },
+            instructions: [
+                "Καταγραφη λογου επίσκεψης ενος κατοικιδίου",
+                "Προσθηκη της καταγραφης στο βιβλιαριο υγείας",
+            ],
         },
         {
             id: 3,
@@ -40,6 +45,11 @@ function Records({ onChangeMessage }) {
                 setView("old_records");
                 onChangeMessage("disapear");
             },
+            instructions: [
+                "Προβολη ιστορικού επισκέψεων",
+                "Δυνατότητα προβολής στοιχειων κατοικιδίου",
+                "Δυνατοτητα εκτύπωση του βιβλιαριου υγείας",
+            ],
         },
     ];
 
@@ -54,7 +64,7 @@ function Records({ onChangeMessage }) {
                             setView("dashboard");
                             onChangeMessage("appear");
                         }}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm  p-2 px-4  border rounded-2xl"
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl  cursor-pointer hover:font-semibold "
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
                         Μενου Καταχωρήσεων
@@ -64,15 +74,12 @@ function Records({ onChangeMessage }) {
             {view === "dashboard" && (
                 <>
                     <div className="flex flex-col items-center w-full  mb-8 text-left">
-                        <h1 className="text-[#303030] w-full mb-8 px-4 text-center text-3xl ">
-                            Καλως Ηρθες στις Καταχωρήσεις Κατοικίδιων
+                        <h1 className="text-[#303030] w-full mb-8 px-4 sm:px-16 text-left text-3xl ">
+                            Καλώς ήρθες,
+                            <br /> στις Καταχωρήσεις Κατοικίδιων
                         </h1>
-                        <p>Για καινουργια καταχωρηση πατα πανω στο κουμπί Νεα καταχωρηση</p>
-                        <p>
-                            Για την προβολη του Ιστορικου καταχωρησεων πατα πανω στο κουμπί Ιστορικό
-                        </p>
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 max-w-6xl mx-auto">
                         {cards.map((card) => (
                             <div
                                 key={card.id}
@@ -87,10 +94,16 @@ function Records({ onChangeMessage }) {
                                     />
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                                 </div>
-                                <div className="p-4 flex items-center justify-center bg-white relative z-10">
+                                <div className="p-4 flex flex-col gap-2 items-center justify-center bg-white relative z-10">
                                     <h2 className="text-xl sm:text-2xl font-medium text-black text-center leading-tight">
                                         {card.title}
                                     </h2>
+                                    {/* card instructions */}
+                                    <ul className="text-sm text-gray-500 list-disc list-inside">
+                                        {card.instructions?.map((instr, idx) => (
+                                            <li key={idx}>{instr}</li>
+                                        ))}
+                                    </ul>
                                 </div>
                             </div>
                         ))}
