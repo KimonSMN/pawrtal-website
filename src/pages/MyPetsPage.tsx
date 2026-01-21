@@ -68,7 +68,7 @@ export default function MyPetsPage() {
                 <div className="mx-auto max-w-5xl px-6 pb-16">
                     <header className="mb-6">
                         <h1 className="text-3xl font-semibold tracking-tight text-zinc-900">
-                            Τα Κατοικίδιά μου
+                            Τα Κατοικίδια μου
                         </h1>
                         <p className="mt-1 text-sm text-zinc-600">
                             Προβολή των κατοικιδίων που ανήκουν στον λογαριασμό σου.
