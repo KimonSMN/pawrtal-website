@@ -99,17 +99,6 @@ export class Appointments {
 export const PET_OPTIONS = {
     dog: "Σκύλος",
     cat: "Γάτα",
-    rabbit: "Κουνέλι",
-    hamster: "Χάμστερ",
-    guinea_pig: "Ινδικό χοιρίδιο",
-    parrot: "Παπαγάλος",
-    canary: "Καναρίνι",
-    finch: "Σπίνος",
-    turtle: "Χελώνα",
-    lizard: "Σαύρα",
-    gecko: "Γκέκο",
-    fish_freshwater: "Ψάρι γλυκού νερού",
-    fish_saltwater: "Ψάρι θαλασσινού νερού",
     other: "Άλλο",
 };
 
@@ -119,7 +108,7 @@ export type Gender = "male" | "female";
 export class Pets {
     constructor(
         public name: string,
-        public ownerId: string,
+        public owenerEmail: string,
         public vetId: string,
         public species: string,
         public breed: string,
@@ -138,7 +127,7 @@ export class Pets {
     static fromJSON(json: any): Pets {
         return new Pets(
             json.name,
-            json.ownerId,
+            json.owenerEmail,
             json.vetId,
             json.species,
             json.breed,
@@ -178,7 +167,9 @@ export type OwnerStatus = "metavivasi" | "uiothesia" | "anadoxh";
 
 export class Record {
     constructor(
+        public id: string,
         public vetId: string,
+        public vetName: string,
         public petName: string,
         public microchip: string,
         public ownerName: string,
@@ -189,7 +180,9 @@ export class Record {
 
     static fromJSON(json: any): Record {
         return new Record(
+            json.id,
             json.vetId,
+            json.vetName,
             json.petName,
             json.microchip,
             json.ownerName,

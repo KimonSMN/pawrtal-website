@@ -104,7 +104,7 @@ function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
                 <div className="w-full pl-12 p-4 items-left">
                     <button
                         onClick={() => setView("dashboard")}
-                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-2xl  cursor-pointer hover:font-semibold "
+                        className="flex flex-row items-center gap-0.5 text-gray-800 font-sm p-2 px-4 border rounded-xl  cursor-pointer hover:font-semibold "
                     >
                         <img src={BackArrow} alt={"<-"} className="w-4 h-4" />
                         Aρχική Κτηνίατρου
@@ -113,12 +113,10 @@ function Home({ view: initialView = "dashboard" }: { view?: VetHomeView }) {
             )}
             {view === "dashboard" && (
                 <>
-                    <div className="flex flex-col ml-16 w-full  mb-8 text-left">
+                    <div className="flex flex-col ml-16 sm:ml-18 px-2 w-full  mb-8 text-left">
                         <h1 className="text-[#303030] mb-4 text-3xl ">Καλώς ήρθες</h1>
-                        <div className="flex flex-row items-center mb-4 gap-6 ">
-                            <h2 className="text-4xl text-gray-600">{userName}</h2>
-                        </div>
-                        <h2 className="text-xl text-gray-600 max-w-sm px-2 ">
+                        <h2 className="text-4xl text-gray-600 mb-4">{userName}</h2>
+                        <h2 className="text-xl text-gray-600 max-w-sm">
                             Διαλέξτε την επόμενη ενέργεια για να συνεχίσετε
                         </h2>
                     </div>
