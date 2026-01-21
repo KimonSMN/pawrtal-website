@@ -86,20 +86,26 @@ export default function LostPetsSection() {
                         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div className="min-w-0">
                                 <div className="text-base sm:text-lg font-semibold tracking-tight text-zinc-900">
-                                    Θες να βοηθήσεις να γυρίσει ένα κατοικίδιο στο σπίτι του;
+                                    Συνδεθείτε για να αποκτήσετε πρόσβαση σε ένα ολοκληρωμένο
+                                    οικοσύστημα υγείας κατοικιδίων.
                                 </div>
 
                                 <div className="mt-2 text-sm leading-relaxed text-zinc-600">
-                                    Συνδέσου ή δημιούργησε λογαριασμό για να δημοσιεύεις αγγελίες,
-                                    να σχολιάζεις όταν έχεις πληροφορίες και να δηλώνεις απολεσθέντα
-                                    κατοικίδια.
-                                    <br />
                                     <span className="mt-2 inline-block">
                                         <span className="font-semibold text-zinc-900">
-                                            Είσαι κτηνίατρος;
+                                            Είσαι Ιδιοκτήτης;
                                         </span>{" "}
-                                        Δημιούργησε λογαριασμό για να επικοινωνείς με ιδιοκτήτες, να
-                                        διαχειρίζεσαι ραντεβού και να βοηθάς σε περιστατικά.
+                                        Διαχειριστείτε το ηλεκτρονικό βιβλιάριο υγείας , κλείστε
+                                        εύκολα ραντεβού , αναζητήστε κτηνιάτρους και δηλώστε άμεσα
+                                        την απώλεια ή εύρεση κατοικιδίου.
+                                    </span>
+                                    <span className="mt-2 inline-block">
+                                        <span className="font-semibold text-zinc-900">
+                                            Είσαι Kτηνίατρος;
+                                        </span>{" "}
+                                        Οργανώστε το ιατρείο σας ψηφιακά. Καταγράψτε ιατρικές
+                                        πράξεις και μικροτσίπ , διαχειριστείτε τη διαθεσιμότητά σας
+                                        και παρακολουθήστε τα ραντεβού σας σε πραγματικό χρόνο.
                                     </span>
                                 </div>
                             </div>
